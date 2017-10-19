@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BKNews.NewsPage">
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <Button Text="GET!"  FontSize="Large" Command="{Binding ScrapeCommand}"/>
+
+            <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="true">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Padding="5, 5, 0, 5"
+                                             Orientation="Horizontal"
+                                             Spacing="15">
+                                 <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="60" WidthRequest="120" />
+                                    <StackLayout Padding="5, 5, 0, 5"
+                                             VerticalOptions="Center">
+                                        <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium" Style="{DynamicResource TitleStyle}"/>
+                                        <Label Text="{Binding NewsUrl}" FontAttributes="Italic" FontSize="Micro" Style="{DynamicResource SubtitleStyle}" />
+                                        <Label Text="{Binding Author}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
+                                        <Label Text="{Binding CreatedAt}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
+                                        <Label Text="{Binding Desc}" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
