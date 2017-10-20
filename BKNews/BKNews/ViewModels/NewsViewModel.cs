@@ -23,18 +23,20 @@ namespace BKNews
             Scrapers.Add(new AAOScraper());
             Scrapers.Add(new OISPScraper());
             NewsCollection = new ObservableCollection<News>();
-            ScrapeCommand = new Command(() =>
+            // command for button
+            ScrapeCommand = new Command(async () =>
             {
                 foreach (var scraper in Scrapers)
                 {
                     try
                     {
-                        var list = scraper.Scrape();
+                        var list = await scraper.Scrape();
                         // individually add each item to the list (because we have to use ObservableCollection)
                         foreach (var item in list)
                         {
                             NewsCollection.Add(item);
                         }
+                        
                     } catch(Exception e)
                     {
                         // do nothing
