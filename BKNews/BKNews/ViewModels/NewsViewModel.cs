@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -12,6 +13,10 @@ namespace BKNews
         public ICommand ScrapeCommand { get; set; }
         // list for storing scrapers
         public List<IScrape> Scrapers;
+        void onItemTapped()
+        {
+
+        }
         public NewsViewModel()
         {
             Scrapers = new List<IScrape>();
@@ -22,12 +27,19 @@ namespace BKNews
             {
                 foreach (var scraper in Scrapers)
                 {
-                    var list = scraper.Scrape();
-                    // individually add each item to the list (because we have to use ObservableCollection)
-                    foreach (var item in list)
+                    try
                     {
-                        NewsCollection.Add(item);
+                        var list = scraper.Scrape();
+                        // individually add each item to the list (because we have to use ObservableCollection)
+                        foreach (var item in list)
+                        {
+                            NewsCollection.Add(item);
+                        }
+                    } catch(Exception e)
+                    {
+                        // do nothing
                     }
+
                 }
             });
         }

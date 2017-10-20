@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Xamarin.Forms;
 
 namespace BKNews
@@ -13,7 +12,7 @@ namespace BKNews
 		{
 			InitializeComponent();
 
-			MainPage = new BKNews.NewsPage();
+            MainPage = new NavigationPage(new BKNews.NewsPage());
 		}
 
 		protected override void OnStart ()

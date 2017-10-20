@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BKNews.NewsPage">
+             x:Class="BKNews.NewsPage"
+             Title="Tin tức">
     <ContentPage.Content>
         <StackLayout Margin="20">
             <Button Text="GET!"  FontSize="Large" Command="{Binding ScrapeCommand}"/>
-
-            <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="true">
+            <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="true" ItemTapped="OnListViewItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -14,7 +14,7 @@
                                 <StackLayout Padding="5, 5, 0, 5"
                                              Orientation="Horizontal"
                                              Spacing="15">
-                                 <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="60" WidthRequest="120" />
+                                 <Image Source="{Binding ImageUrl}" Aspect="AspectFit"  HeightRequest="60" WidthRequest="120" />
                                     <StackLayout Padding="5, 5, 0, 5"
                                              VerticalOptions="Center">
                                         <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium" Style="{DynamicResource TitleStyle}"/>

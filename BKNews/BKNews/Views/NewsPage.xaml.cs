@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace BKNews
@@ -17,5 +11,8 @@ namespace BKNews
 			InitializeComponent ();
             BindingContext = new NewsViewModel();
 		}
-	}
+        void OnListViewItemTapped(object sender, ItemTappedEventArgs args)
+        {
+        }
+    }
 }
