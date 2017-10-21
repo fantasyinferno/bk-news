@@ -2,18 +2,18 @@
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using System.Globalization;
+using System.Threading.Tasks;
 
 namespace BKNews
 {
 
     class AAOScraper: IScrape
     {
-        public List<News> Scrape()
+        public async Task<List<News>> Scrape()
         {
             var url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao";
             var web = new HtmlWeb();
-            var doc = web.Load(url);
+            var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class=\"slider-items slider-line-1\"]/li");
 
             List<News> list = new List<News>();
@@ -35,11 +35,11 @@ namespace BKNews
 
     class OISPScraper : IScrape
     {
-        public List<News> Scrape()
+        public async Task<List<News>> Scrape()
         {
             var url = @"http://oisp.hcmut.edu.vn/tin-tuc.html";
             var web = new HtmlWeb();
-            var doc = web.Load(url);
+            var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@id=\"itemListPrimary\"]//div[@class=\"catItemBody\"]");
 
             List<News> list = new List<News>();
