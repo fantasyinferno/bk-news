@@ -22,6 +22,7 @@ namespace BKNews
             Scrapers = new List<IScrape>();
             Scrapers.Add(new AAOScraper());
             Scrapers.Add(new OISPScraper());
+            Scrapers.Add(new HCMUTScraper());
             NewsCollection = new ObservableCollection<News>();
             ScrapeCommand = new Command(() =>
             {
