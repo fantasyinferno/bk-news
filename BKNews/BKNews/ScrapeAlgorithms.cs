@@ -45,6 +45,7 @@ namespace BKNews
             {
                 // get title, url and createdAt
                 var title = node.SelectSingleNode(".//div[@class=\"catItemTitle\"]//a").InnerText;
+//                title = title.TrimStart(char(10));
                 var desc = node.SelectSingleNode(".//div[@class=\"catItemIntroText\"]").InnerText;
                 // prepend rootUrl to the scraped urls (because the website uses relative urls)
                 string rootUrl = "http://oisp.hcmut.edu.vn/";
