@@ -20,7 +20,7 @@
                                         <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium" Style="{DynamicResource TitleStyle}"/>
                                         <Label Text="{Binding NewsUrl}" FontAttributes="Italic" FontSize="Micro" Style="{DynamicResource SubtitleStyle}" />
                                         <Label Text="{Binding Author}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
-                                        <Label Text="{Binding CreatedAt}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
+                                        <Label Text="{Binding NewsDate}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
                                         <Label Text="{Binding Desc}" />
                                     </StackLayout>
                                 </StackLayout>

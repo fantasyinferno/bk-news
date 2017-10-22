@@ -1,26 +1,43 @@
 ﻿using System;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json;
 
 namespace BKNews
 {
     // News class for abstracting news (obviously)
-    class News
+    public class News
     {
-        public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime createdAt, DateTime updatedAt)
+        string id;
+        string title;
+        string desc;
+        string author;
+        string imageUrl;
+        string newsUrl;
+        DateTime newsDate;
+        // Construct JSON properties for sending to Azure Mobile Services
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get => id; set => id = value; }
+        [JsonProperty(PropertyName = "title")]
+        public string Title { get => title; set => title = value; }
+        [JsonProperty(PropertyName = "desc")]
+        public string Desc { get => desc; set => desc = value; }
+        [JsonProperty(PropertyName = "author")]
+        public string Author { get => author; set => author = value; }
+        [JsonProperty(PropertyName = "imageUrl")]
+        public string ImageUrl { get => imageUrl; set => imageUrl = value; }
+        [JsonProperty(PropertyName = "newsUrl")]
+        public string NewsUrl { get => newsUrl; set => newsUrl = value; }
+        [JsonProperty(PropertyName = "newsDate")]
+        public DateTime NewsDate { get => newsDate; set => newsDate = value; }
+
+        public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime newsDate)
         {
             Title = title;
             Desc = desc;
             Author = author;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
             NewsUrl = newsUrl;
             ImageUrl = imageUrl;
+            NewsDate = newsDate;
         }
-        public string Title { get; set; }
-        public string Desc { get; set; }
-        public string Author { get; set; }
-        public string ImageUrl { get; set; }
-        public string NewsUrl { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace BKNews
                 // delete parenthesises at the beginning and end of date
                 var createdAtString = node.SelectSingleNode(".//span").InnerHtml.Trim(new char[]{'(', ')'});
                 var imageUrl = node.SelectSingleNode(".//div[@class=\"img-box-item\"]//img").Attributes["src"].Value;
-                DateTime createdAt = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
-                News news = new News(title, "Click to see more details", "Phòng đào tạo", newsUrl, imageUrl, createdAt, createdAt);
+                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
+                News news = new News(title, "Click to see more details", "Phòng đào tạo", newsUrl, imageUrl, newsDate);
                 list.Add(news);
             }
             return list;
@@ -64,9 +64,9 @@ namespace BKNews
                 var timenode = node.SelectSingleNode("//div[@class=\"catItemDateCreated\"]").InnerText;
                 string createdAtString = timenode.Remove(0, timenode.IndexOf(',') + 2).Trim(new char[] {(char) 9, (char) 10, (char) 11, (char) 32});
                 createdAtString = createdAtString.Remove(createdAtString.IndexOf("Th"), 6);
-                DateTime createdAt = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
+                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
 
-                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, createdAt, createdAt);
+                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, newsDate);
                 list.Add(news);
             }
             return list;
@@ -143,9 +143,9 @@ namespace BKNews
                 var docNode = webNode.Load(newsUrl);
                 var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
                 string createdAtString = timenode.Remove(timenode.IndexOf(',')-6).Remove(0, timenode.IndexOf(':') + 2);
-                DateTime createdAt = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
+                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, createdAt, createdAt);
+                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, newsDate);
                 list.Add(news);
             }
             return list;
