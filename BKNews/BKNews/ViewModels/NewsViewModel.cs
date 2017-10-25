@@ -13,16 +13,14 @@ namespace BKNews
         public ICommand ScrapeCommand { get; set; }
         // list for storing scrapers
         public List<IScrape> Scrapers;
-        void onItemTapped()
-        {
-
-        }
         public NewsViewModel()
         {
-            Scrapers = new List<IScrape>();
-            Scrapers.Add(new AAOScraper());
-            Scrapers.Add(new OISPScraper());
-            Scrapers.Add(new HCMUTScraper());
+            Scrapers = new List<IScrape>
+            {
+                new AAOScraper(),
+                new OISPScraper(),
+                new HCMUTScraper()
+            };
             NewsCollection = new ObservableCollection<News>();
             // command for button
             ScrapeCommand = new Command(async () =>
