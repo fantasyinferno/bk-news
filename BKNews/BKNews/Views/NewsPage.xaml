@@ -12,7 +12,7 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True"  ItemTapped="OnListViewItemTapped" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
+        <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
