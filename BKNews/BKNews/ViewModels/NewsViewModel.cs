@@ -7,6 +7,8 @@ namespace BKNews
 {
     class NewsViewModel
     {
+        // collection of news' title
+        public ObservableCollection<String> NewsTitle { get; private set; }
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
         // command to bind with button
@@ -24,6 +26,7 @@ namespace BKNews
             Scrapers.Add(new OISPScraper());
             Scrapers.Add(new HCMUTScraper());
             NewsCollection = new ObservableCollection<News>();
+            NewsTitle = new ObservableCollection<String>();
             // command for button
             ScrapeCommand = new Command(async () =>
             {
@@ -32,11 +35,20 @@ namespace BKNews
                     try
                     {
                         var list = await scraper.Scrape();
+
                         // individually add each item to the list (because we have to use ObservableCollection)
                         foreach (var item in list)
                         {
+                         
                             await NewsManager.DefaultManager.SaveTaskAsync(item);
-                            NewsCollection.Add(item);
+
+                            
+                            if (NewsTitle.IndexOf(item.Title)<0)
+                            {
+                                NewsTitle.Add(item.Title);
+                                NewsCollection.Add(item);
+                            }
+                            
                         }
                         
                     } catch(Exception e)
