@@ -16,7 +16,6 @@ namespace BKNews
             {
                 BarBackgroundColor = Color.Blue
             };
-
         }
 
         protected override void OnStart ()
