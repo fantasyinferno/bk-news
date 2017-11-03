@@ -12,8 +12,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml.cs">
+      <DependentUpon>InAppBrowser.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -34,7 +40,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
