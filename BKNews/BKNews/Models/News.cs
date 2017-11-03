@@ -16,19 +16,19 @@ namespace BKNews
         DateTime newsDate;
         // Construct JSON properties for sending to Azure Mobile Services
         [JsonProperty(PropertyName = "id")]
-        public string Id { get => id; set => id = value; }
+        public string Id { get { return id; } set { id = value; } }
         [JsonProperty(PropertyName = "title")]
-        public string Title { get => title; set => title = value; }
+        public string Title { get { return title; } set { title = value; } }
         [JsonProperty(PropertyName = "desc")]
-        public string Desc { get => desc; set => desc = value; }
+        public string Desc { get { return desc; } set { desc = value; } }
         [JsonProperty(PropertyName = "author")]
-        public string Author { get => author; set => author = value; }
+        public string Author { get { return author; }  set { author = value; } }
         [JsonProperty(PropertyName = "imageUrl")]
-        public string ImageUrl { get => imageUrl; set => imageUrl = value; }
+        public string ImageUrl { get { return imageUrl; } set { imageUrl = value; } }
         [JsonProperty(PropertyName = "newsUrl")]
-        public string NewsUrl { get => newsUrl; set => newsUrl = value; }
+        public string NewsUrl { get { return newsUrl; } set { newsUrl = value; } }
         [JsonProperty(PropertyName = "newsDate")]
-        public DateTime NewsDate { get => newsDate; set => newsDate = value; }
+        public DateTime NewsDate { get { return newsDate; } set { newsDate = value; } }
 
         public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime newsDate)
         {

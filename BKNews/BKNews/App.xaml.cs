@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
 namespace BKNews
 {
 	public partial class App : Application
@@ -10,9 +12,10 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-            MainPage = new NavigationPage(new BKNews.NewsPage());
-
-
+            MainPage = new NavigationPage(new NewsPage())
+            {
+                BarBackgroundColor = Color.Blue
+            };
         }
 
         protected override void OnStart ()

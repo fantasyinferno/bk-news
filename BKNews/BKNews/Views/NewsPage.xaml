@@ -2,33 +2,48 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BKNews.NewsPage"
-             Title="Tin tức">
+             Title="Tin tức"
+             BackgroundColor="#eee" >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Reload" Command="{Binding ScrapeCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_black_24dp.png" />
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Margin="20">
-            <Button Text="GET!"  FontSize="Large" Command="{Binding ScrapeCommand}"/>
-            <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="true" ItemTapped="OnListViewItemTapped">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Padding="5, 5, 0, 5"
-                                             Orientation="Horizontal"
-                                             Spacing="15">
-                                 <Image Source="{Binding ImageUrl}" Aspect="AspectFit"  HeightRequest="60" WidthRequest="120" />
-                                    <StackLayout Padding="5, 5, 0, 5"
-                                             VerticalOptions="Center">
-                                        <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium" Style="{DynamicResource TitleStyle}"/>
-                                        <Label Text="{Binding NewsUrl}" FontAttributes="Italic" FontSize="Micro" Style="{DynamicResource SubtitleStyle}" />
-                                        <Label Text="{Binding Author}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
-                                        <Label Text="{Binding NewsDate}" FontAttributes="Italic" Style="{DynamicResource SubtitleStyle}" />
-                                        <Label Text="{Binding Desc}" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+        <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Margin="20">
+                                <Frame Padding="0"  HasShadow="True" BackgroundColor="#fff">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="240" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImageUrl}" Aspect="AspectFill"  HeightRequest="240" WidthRequest="426"/>
+                                        <Label  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding NewsUrl}" FontAttributes="Italic" TextColor="#222" FontSize="Micro"/>
+                                        <Label  Grid.Row="2" Grid.Column="0" Text="{Binding Author}" Margin="5, 0" HorizontalTextAlignment="Start" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
+                                        <Label  Grid.Row="2" Grid.Column="1" Text="{Binding NewsDate}" Margin="5, 0" HorizontalTextAlignment="End" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
+                                        <Label  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Title}" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#0036f9" FontSize="Medium" />
+                                        <Label  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Desc}" FontSize="Small" HorizontalTextAlignment="Center" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>

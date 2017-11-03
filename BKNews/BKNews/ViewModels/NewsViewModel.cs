@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Diagnostics;
 using Xamarin.Forms;
+using System.ComponentModel;
+
 namespace BKNews
 {
-    class NewsViewModel
+    class NewsViewModel: INotifyPropertyChanged
     {
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
@@ -13,20 +16,45 @@ namespace BKNews
         public ICommand ScrapeCommand { get; set; }
         // list for storing scrapers
         public List<IScrape> Scrapers;
-        void onItemTapped()
+        // IsRefreshing property of ListView
+        private bool _isBusy = false;
+        public bool IsBusy
         {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                if (_isBusy != value)
+                {
+                    _isBusy = value;
+                    OnPropertyChanged("IsBusy");
+                }
 
+            }
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var changed = PropertyChanged;
+            if (changed != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public NewsViewModel()
         {
-            Scrapers = new List<IScrape>();
-            Scrapers.Add(new AAOScraper());
-            Scrapers.Add(new OISPScraper());
-            Scrapers.Add(new HCMUTScraper());
+            Scrapers = new List<IScrape>
+            {
+                new OISPScraper()
+            };
             NewsCollection = new ObservableCollection<News>();
             // command for button
             ScrapeCommand = new Command(async () =>
             {
+                IsBusy = true;
                 foreach (var scraper in Scrapers)
                 {
                     try
@@ -42,7 +70,10 @@ namespace BKNews
                     } catch(Exception e)
                     {
                         // do nothing
-
+                        Debug.WriteLine(e);
+                    } finally
+                    {
+                        IsBusy = false;
                     }
                 }
             });
