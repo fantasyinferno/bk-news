@@ -89,6 +89,7 @@ namespace BKNews
                 var title = node.SelectSingleNode(".//h3").InnerText;
                 title = title.Remove(title.IndexOf(" &nbsp"));
                 // get desc
+
                 var desc = node.SelectSingleNode(".//p").InnerText;
                 // get url
                 var imageUrl = node.SelectSingleNode(".//a//img").Attributes["src"].Value;
