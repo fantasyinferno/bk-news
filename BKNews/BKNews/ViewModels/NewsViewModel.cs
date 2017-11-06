@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using Xamarin.Forms;
 using System.ComponentModel;
+//adb connect 169.254.138.177 
 
 namespace BKNews
 {
@@ -14,6 +15,7 @@ namespace BKNews
         public ObservableCollection<News> NewsCollection { get; private set; }
         // command to bind with button
         public ICommand ScrapeCommand { get; set; }
+        public ICommand LoadMore { get; set; }
         // list for storing scrapers
         public List<IScrape> Scrapers;
         // IsRefreshing property of ListView
@@ -74,6 +76,30 @@ namespace BKNews
                     } finally
                     {
                         IsBusy = false;
+                    }
+                }
+            });
+
+            LoadMore = new Command(async () =>
+            {
+                IsBusy = true;
+                foreach (var scraper in Scrapers)
+                {
+                    try
+                    {
+                        var list = await scraper.Scrape();
+                        // individually add each item to the list (because we have to use ObservableCollection)
+                        foreach (var item in list)
+                        {
+                            await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            NewsCollection.Add(item);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        // do nothing
+                        Debug.WriteLine(e);
                     }
                 }
             });
