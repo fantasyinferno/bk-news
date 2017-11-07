@@ -24,7 +24,7 @@ namespace BKNews.iOS
         //
         private MobileServiceUser user;
 
-        public async Task<bool> Authenticate()
+        public async Task<bool> AuthenticateAsync()
         {
             var success = false;
             var message = string.Empty;
@@ -35,7 +35,7 @@ namespace BKNews.iOS
                 {
                     user = await NewsManager.DefaultManager.CurrentClient
                         .LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController,
-                        MobileServiceAuthenticationProvider.Facebook, "bkexpress");
+                        MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
                     if (user != null)
                     {
                         message = string.Format("You are now signed-in as {0}.", user.UserId);
@@ -53,6 +53,16 @@ namespace BKNews.iOS
             avAlert.Show();
 
             return success;
+        }
+        public async Task<bool> LogoutAsync()
+        {
+            foreach (var cookie in NSHttpCookieStorage.SharedStorage.Cookies)
+            {
+                NSHttpCookieStorage.SharedStorage.DeleteCookie(cookie);
+            }
+            await NewsManager.DefaultManager.CurrentClient.LogoutAsync();
+            user = null;
+            return true;
         }
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {

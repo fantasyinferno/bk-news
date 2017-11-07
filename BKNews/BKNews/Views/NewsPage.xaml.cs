@@ -8,6 +8,7 @@ namespace BKNews
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsPage : ContentPage
 	{
+        // is the user logged in?
         bool authenticated = false;
         protected override async void OnAppearing()
         {
@@ -19,10 +20,15 @@ namespace BKNews
                 Debug.WriteLine("Authenticated");
             }
         }
-        async void loginButton_Clicked(object sender, EventArgs e)
+        async void LoginButton_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                authenticated = await App.Authenticator.Authenticate();
+                authenticated = await App.Authenticator.AuthenticateAsync();
+        }
+        async void LogoutButton_Clicked(object sender, EventArgs e)
+        {
+            if (App.Authenticator != null)
+                authenticated = await App.Authenticator.LogoutAsync();
         }
         public NewsPage ()
 		{

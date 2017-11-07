@@ -10,7 +10,8 @@ namespace BKNews
 {
     public interface IAuthenticate
     {
-        Task<bool> Authenticate();
+        Task<bool> AuthenticateAsync();
+        Task<bool> LogoutAsync();
     }
 	public partial class App : Application
 	{

@@ -23,18 +23,18 @@ namespace BKNews.UWP
         // Define a authenticated user.
         private MobileServiceUser user;
 
-        public async Task<bool> Authenticate()
+        public async Task<bool> AuthenticateAsync()
         {
             string message = string.Empty;
             var success = false;
 
             try
             {
-                // Sign in with Facebook login using a server-managed flow.
+                // Sign in with Google login using a server-managed flow.
                 if (user == null)
                 {
                     user = await NewsManager.DefaultManager.CurrentClient
-                        .LoginAsync(MobileServiceAuthenticationProvider.Facebook, "bkexpress");
+                        .LoginAsync(MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
                     if (user != null)
                     {
                         success = true;
@@ -52,6 +52,12 @@ namespace BKNews.UWP
             await new MessageDialog(message, "Sign-in result").ShowAsync();
 
             return success;
+        }
+        public async Task<bool> LogoutAsync()
+        {
+            await NewsManager.DefaultManager.CurrentClient.LogoutAsync();
+            user = null;
+            return true;
         }
         public MainPage()
         {

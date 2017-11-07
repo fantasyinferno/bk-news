@@ -10,8 +10,11 @@
                 <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_black_24dp.png" />
             </ToolbarItem.Icon>
         </ToolbarItem>
-        <ToolbarItem Text="Login" Clicked="loginButton_Clicked">
-            
+        <ToolbarItem Text="Login" Clicked="LoginButton_Clicked">
+
+        </ToolbarItem>
+        <ToolbarItem Text="Logout" Clicked="LogoutButton_Clicked">
+
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

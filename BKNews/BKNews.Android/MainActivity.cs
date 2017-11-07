@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
+using Android.Webkit;
 
 namespace BKNews.Droid
 {
@@ -19,7 +20,7 @@ namespace BKNews.Droid
     {
         // Define a authenticated user.
         private MobileServiceUser user;
-        public async Task<bool> Authenticate()
+        public async Task<bool> AuthenticateAsync()
         {
             var success = false;
             var message = string.Empty;
@@ -27,7 +28,7 @@ namespace BKNews.Droid
             {
                 // Sign in with Facebook login using a server-managed flow.
                 user = await NewsManager.DefaultManager.CurrentClient.LoginAsync(this,
-                    MobileServiceAuthenticationProvider.Facebook, "bkexpress");
+                    MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
                 if (user != null)
                 {
                     message = string.Format("you are now signed-in as {0}.",
@@ -41,12 +42,20 @@ namespace BKNews.Droid
             }
 
             // Display the success or failure message.
+            System.Diagnostics.Debug.WriteLine(message);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.SetMessage(message);
             builder.SetTitle("Sign-in result");
             builder.Create().Show();
 
             return success;
+        }
+        public async Task<bool> LogoutAsync()
+        {
+            CookieManager.Instance.RemoveAllCookie();
+            await NewsManager.DefaultManager.CurrentClient.LogoutAsync();
+            user = null;
+            return true;
         }
         protected override void OnCreate (Bundle bundle)
 		{
