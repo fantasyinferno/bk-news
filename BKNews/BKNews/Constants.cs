@@ -2,6 +2,6 @@
 {
     class Constants
     {
-        public static string ApplicationURL = @"http://bknews.azurewebsites.net";
+        public static string ApplicationURL = @"https://bknews.azurewebsites.net";
     }
 }

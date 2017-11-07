@@ -10,6 +10,9 @@
                 <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_black_24dp.png" />
             </ToolbarItem.Icon>
         </ToolbarItem>
+        <ToolbarItem Text="Login" Clicked="loginButton_Clicked">
+            
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">

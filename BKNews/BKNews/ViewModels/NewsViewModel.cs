@@ -48,7 +48,9 @@ namespace BKNews
         {
             Scrapers = new List<IScrape>
             {
-                new OISPScraper()
+                new OISPScraper(),
+                new AAOScraper(),
+                new HCMUTScraper()
             };
             NewsCollection = new ObservableCollection<News>();
             // command for button
