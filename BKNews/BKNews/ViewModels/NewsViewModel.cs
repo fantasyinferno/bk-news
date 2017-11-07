@@ -50,7 +50,9 @@ namespace BKNews
         {
             Scrapers = new List<IScrape>
             {
-                new OISPScraper()
+                new OISPScraper(),
+                new HCMUTScraper(),
+                new AAOScraper()
             };
             NewsCollection = new ObservableCollection<News>();
             // command for button
@@ -65,7 +67,6 @@ namespace BKNews
                         // individually add each item to the list (because we have to use ObservableCollection)
                         foreach (var item in list)
                         {
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
                             NewsCollection.Add(item);
                         }
                         
@@ -91,15 +92,17 @@ namespace BKNews
                         // individually add each item to the list (because we have to use ObservableCollection)
                         foreach (var item in list)
                         {
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
                             NewsCollection.Add(item);
                         }
-
                     }
                     catch (Exception e)
                     {
                         // do nothing
                         Debug.WriteLine(e);
+                    }
+                    finally
+                    {
+                        IsBusy = false;
                     }
                 }
             });
