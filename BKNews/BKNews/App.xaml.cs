@@ -8,11 +8,7 @@ using Xamarin.Forms.Xaml;
 
 namespace BKNews
 {
-    public interface IAuthenticate
-    {
-        Task<bool> AuthenticateAsync();
-        Task<bool> LogoutAsync();
-    }
+    
 	public partial class App : Application
 	{
         public static IAuthenticate Authenticator { get; private set; }

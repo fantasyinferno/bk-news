@@ -24,7 +24,7 @@ namespace BKNews.iOS
         //
         private MobileServiceUser user;
 
-        public async Task<bool> AuthenticateAsync()
+        public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
         {
             var success = false;
             var message = string.Empty;
@@ -35,7 +35,7 @@ namespace BKNews.iOS
                 {
                     user = await NewsManager.DefaultManager.CurrentClient
                         .LoginAsync(UIApplication.SharedApplication.KeyWindow.RootViewController,
-                        MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
+                        provider, Constants.URLScheme);
                     if (user != null)
                     {
                         message = string.Format("You are now signed-in as {0}.", user.UserId);

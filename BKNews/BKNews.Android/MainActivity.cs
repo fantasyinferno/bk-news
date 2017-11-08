@@ -12,15 +12,12 @@ using Android.Webkit;
 
 namespace BKNews.Droid
 {
-	[Activity (Label = "BKNews", Icon = "@drawable/icon", Theme="@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)
-    , IntentFilter(new[] { Android.Content.Intent.ActionView },
-        DataScheme = "bkexpress",
-        Categories = new[] { Android.Content.Intent.CategoryDefault, Android.Content.Intent.CategoryBrowsable })]
+	[Activity (Label = "BKNews", Icon = "@drawable/icon", Theme="@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation) ]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
     {
-        // Define a authenticated user.
+        // Define an authenticated user.
         private MobileServiceUser user;
-        public async Task<bool> AuthenticateAsync()
+        public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
         {
             var success = false;
             var message = string.Empty;
@@ -28,10 +25,10 @@ namespace BKNews.Droid
             {
                 // Sign in with Facebook login using a server-managed flow.
                 user = await NewsManager.DefaultManager.CurrentClient.LoginAsync(this,
-                    MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
+                    provider, Constants.URLScheme);
                 if (user != null)
                 {
-                    message = string.Format("you are now signed-in as {0}.",
+                    message = string.Format("You are now signed-in as {0}.",
                         user.UserId);
                     success = true;
                 }
@@ -52,8 +49,11 @@ namespace BKNews.Droid
         }
         public async Task<bool> LogoutAsync()
         {
+            // delete cookies
             CookieManager.Instance.RemoveAllCookie();
             await NewsManager.DefaultManager.CurrentClient.LogoutAsync();
+
+            // user has logged out so set this to null
             user = null;
             return true;
         }

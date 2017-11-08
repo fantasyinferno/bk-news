@@ -23,7 +23,7 @@ namespace BKNews.UWP
         // Define a authenticated user.
         private MobileServiceUser user;
 
-        public async Task<bool> AuthenticateAsync()
+        public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
         {
             string message = string.Empty;
             var success = false;
@@ -34,7 +34,7 @@ namespace BKNews.UWP
                 if (user == null)
                 {
                     user = await NewsManager.DefaultManager.CurrentClient
-                        .LoginAsync(MobileServiceAuthenticationProvider.Google, Constants.URLScheme);
+                        .LoginAsync(provider, Constants.URLScheme);
                     if (user != null)
                     {
                         success = true;

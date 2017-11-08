@@ -1,6 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Diagnostics;
+using Microsoft.WindowsAzure.MobileServices;
 using System;
 
 namespace BKNews
@@ -20,10 +21,15 @@ namespace BKNews
                 Debug.WriteLine("Authenticated");
             }
         }
-        async void LoginButton_Clicked(object sender, EventArgs e)
+        async void FacebookLoginButton_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                authenticated = await App.Authenticator.AuthenticateAsync();
+                authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
+        }
+        async void GoogleLoginButton_Clicked(object sender, EventArgs e)
+        {
+            if (App.Authenticator != null)
+                authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Google);
         }
         async void LogoutButton_Clicked(object sender, EventArgs e)
         {
