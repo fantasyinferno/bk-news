@@ -5,21 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Plugin.Connectivity;
 
 namespace BKNews
 {
     
 	public partial class App : Application
 	{
+        NewsPage NewsPage;
+        // Initialize authenticator
         public static IAuthenticate Authenticator { get; private set; }
         public static void Init(IAuthenticate authenticator)
         {
             Authenticator = authenticator;
         }
+        // Property to check if there is connectivity
+        public static bool IsConnected
+        {
+            get
+            {
+                if (!CrossConnectivity.IsSupported)
+                {
+                    return true;
+                }
+                return CrossConnectivity.Current.IsConnected;
+            }
+        }
 		public App ()
 		{
 			InitializeComponent();
-            MainPage = new NavigationPage(new NewsPage())
+            NewsPage = new NewsPage();
+            MainPage = new NavigationPage(NewsPage)
             {
                 BarBackgroundColor = Color.Blue
             };
@@ -27,8 +43,7 @@ namespace BKNews
 
         protected override void OnStart ()
 		{
-			// Handle when your app starts
-
+            // Handle when your app starts
 		}
 
 		protected override void OnSleep ()

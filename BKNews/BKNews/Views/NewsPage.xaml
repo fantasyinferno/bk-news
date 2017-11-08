@@ -7,7 +7,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Reload" Command="{Binding ScrapeCommand}">
             <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_black_24dp.png" />
+                <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_white_2x.png" />
             </ToolbarItem.Icon>
         </ToolbarItem>
         <ToolbarItem Text="Facebook" Clicked="FacebookLoginButton_Clicked">
@@ -21,7 +21,11 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
+        
         <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
+            <AbsoluteLayout x:Name="connectivityErrorPage" IsVisible="False" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Label Text="LOL no internet connection. 0/10" FontSize="Large" />
+            </AbsoluteLayout>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

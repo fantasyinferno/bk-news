@@ -3,7 +3,7 @@ using Xamarin.Forms.Xaml;
 using System.Diagnostics;
 using Microsoft.WindowsAzure.MobileServices;
 using System;
-
+using System.Threading.Tasks;
 namespace BKNews
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -40,6 +40,17 @@ namespace BKNews
 		{
 			InitializeComponent ();
             BindingContext = new NewsViewModel();
+            var newsViewModel = (NewsViewModel)BindingContext;
+            if (App.IsConnected)
+            {
+                // scrape if there is a internet connection
+                connectivityErrorPage.IsVisible = false;
+                Task.Run(newsViewModel.ScrapeToCollectionAsync);
+            } else
+            {
+                // don't scrape and display an "Oops!" page
+                connectivityErrorPage.IsVisible = true;
+            }
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

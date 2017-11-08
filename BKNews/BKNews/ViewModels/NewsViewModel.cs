@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using Xamarin.Forms;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace BKNews
 {
@@ -34,6 +35,7 @@ namespace BKNews
 
             }
         }
+        // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -43,7 +45,33 @@ namespace BKNews
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        // Scrape function. Once done, sent the scraped news to NewsCollection.
+        public async Task ScrapeToCollectionAsync()
+        {
+            IsBusy = true;
+            foreach (var scraper in Scrapers)
+            {
+                try
+                {
+                    var list = await scraper.Scrape();
+                    // individually add each item to the list (because we have to use ObservableCollection)
+                    foreach (var item in list)
+                    {
+                        NewsCollection.Add(item);
+                    }
 
+                }
+                catch (Exception e)
+                {
+                    // do nothing
+                    Debug.WriteLine(e);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
+        }
         public NewsViewModel()
         {
             Scrapers = new List<IScrape>
@@ -56,28 +84,7 @@ namespace BKNews
             // command for button
             ScrapeCommand = new Command(async () =>
             {
-                IsBusy = true;
-                foreach (var scraper in Scrapers)
-                {
-                    try
-                    {
-                        var list = await scraper.Scrape();
-                        // individually add each item to the list (because we have to use ObservableCollection)
-                        foreach (var item in list)
-                        {
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
-                            NewsCollection.Add(item);
-                        }
-                        
-                    } catch(Exception e)
-                    {
-                        // do nothing
-                        Debug.WriteLine(e);
-                    } finally
-                    {
-                        IsBusy = false;
-                    }
-                }
+                await ScrapeToCollectionAsync();
             });
         }
     }
