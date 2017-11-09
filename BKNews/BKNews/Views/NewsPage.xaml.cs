@@ -44,12 +44,12 @@ namespace BKNews
             if (App.IsConnected)
             {
                 // scrape if there is a internet connection
-                connectivityErrorPage.IsVisible = false;
+                // connectivityErrorPage.IsVisible = false;
                 Task.Run(newsViewModel.ScrapeToCollectionAsync);
             } else
             {
                 // don't scrape and display an "Oops!" page
-                connectivityErrorPage.IsVisible = true;
+                // connectivityErrorPage.IsVisible = true;
             }
         }
         // Open a browser every time an item is tapped

@@ -159,10 +159,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\ic_signal_wifi_off_48pt.png" />
+    <AndroidResource Include="Resources\Drawable\ic_portable_wifi_off_black_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\ic_replay_white_2x.png" />
+    <AndroidResource Include="Resources\Drawable\ic_replay_white_24dp.png" />
   </ItemGroup>
   <Import Project="..\BKNews\BKNews.projitems" Label="Shared" Condition="Exists('..\BKNews\BKNews.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -2154,10 +2154,10 @@ namespace BKNews.Droid
 			public const int ic_play_light = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int ic_replay_white_2x = 2130837644;
+			public const int ic_portable_wifi_off_black_24dp = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int ic_signal_wifi_off_48pt = 2130837645;
+			public const int ic_replay_white_24dp = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
 			public const int ic_speaker_dark = 2130837646;
