@@ -34,15 +34,11 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-<<<<<<< HEAD
-            MainPage = new NavigationPage(new BKNews.NewsPage());
-=======
             NewsPage = new NewsPage();
             MainPage = new NavigationPage(NewsPage)
             {
                 BarBackgroundColor = Color.Blue
-            };
->>>>>>> 0f422e36cb725586c4345d0c493751c3bf2aaf80
+            };  
         }
 
         protected override void OnStart ()
