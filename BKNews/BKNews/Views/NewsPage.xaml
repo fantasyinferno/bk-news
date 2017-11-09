@@ -7,7 +7,9 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Reload" Command="{Binding ScrapeCommand}">
             <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource" Android="ic_replay_white_24dp.png" iOS="ic_replay_white"/>
+                <FileImageSource>
+                    ic_replay_white_24dp.png
+                </FileImageSource>
             </ToolbarItem.Icon>
         </ToolbarItem>
         <ToolbarItem Text="Facebook" Clicked="FacebookLoginButton_Clicked">

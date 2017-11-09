@@ -44,7 +44,19 @@ namespace BKNews
         protected override void OnStart ()
 		{
             // Handle when your app starts
-		}
+            if (App.IsConnected)
+            {
+                // scrape if there is a internet connection
+                // connectivityErrorPage.IsVisible = false;
+                var newsViewModel = (NewsViewModel)NewsPage.BindingContext;
+                Task.Run(newsViewModel.ScrapeToCollectionAsync);
+            }
+            else
+            {
+                // don't scrape and display an "Oops!" page
+                // connectivityErrorPage.IsVisible = true;
+            }
+        }
 
 		protected override void OnSleep ()
 		{

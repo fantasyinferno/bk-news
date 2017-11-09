@@ -57,7 +57,7 @@ namespace BKNews
                     // individually add each item to the list (because we have to use ObservableCollection)
                     foreach (var item in list)
                     {
-                        NewsCollection.Add(item);
+                        NewsCollection.Insert(0, item);
                     }
 
                 }
