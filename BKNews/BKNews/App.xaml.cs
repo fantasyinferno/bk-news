@@ -11,8 +11,6 @@ namespace BKNews
 		{
 			InitializeComponent();
             MainPage = new NavigationPage(new BKNews.NewsPage());
-
-
         }
 
         protected override void OnStart ()

@@ -34,12 +34,13 @@ namespace BKNews
                 {
                     try
                     {
+                        
                         var list = await scraper.Scrape();
 
                         // individually add each item to the list (because we have to use ObservableCollection)
                         foreach (var item in list)
                         {
-                         
+                        
                             await NewsManager.DefaultManager.SaveTaskAsync(item);
 
                             
@@ -51,6 +52,18 @@ namespace BKNews
                             
                         }
                         
+                        var list2 = await scraper.Scrape(2);
+                        foreach (var item in list2)
+                        {
+                            if (NewsTitle.IndexOf(item.Title) < 0)
+                            {
+                                NewsTitle.Add(item.Title);
+                                NewsCollection.Add(item);
+                                await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            }
+
+                        }
+
                     } catch(Exception e)
                     {
                         // do nothing
