@@ -22,8 +22,8 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="Constants.URLScheme">
-            <uap:DisplayName>Constants.URLScheme</uap:DisplayName>
+          <uap:Protocol Name="bkexpress">
+            <uap:DisplayName>bkexpress</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
       </Extensions>
