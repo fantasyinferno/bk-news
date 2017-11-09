@@ -125,7 +125,7 @@ namespace BKNews
                 createdAtString = createdAtString.Remove(createdAtString.IndexOf("Th"), 6);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
 
-                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, newsDate);
+                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, newsDate, "OISP");
                 list.Add(news);
             }
             return list;
