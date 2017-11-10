@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Threading.Tasks;
 namespace BKNews
-{
+{   
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class NewsPage : ContentPage
 	{
@@ -14,7 +14,6 @@ namespace BKNews
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
             // Refresh items only when authenticated.
             if (authenticated)
             {

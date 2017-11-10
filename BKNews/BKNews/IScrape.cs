@@ -6,5 +6,6 @@ namespace BKNews
     public interface IScrape
     {
         Task<List<News>> Scrape();
+        Task<List<News>> Scrape(int i);
     }
 }
