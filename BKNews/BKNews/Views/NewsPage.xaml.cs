@@ -36,10 +36,10 @@ namespace BKNews
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.LogoutAsync();
         }
-        public NewsPage ()
+        public NewsPage (string category, IScrape scraper)
 		{
 			InitializeComponent ();
-            BindingContext = new NewsViewModel();
+            BindingContext = new NewsViewModel(category, scraper);
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

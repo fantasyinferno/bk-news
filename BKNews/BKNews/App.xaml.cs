@@ -12,7 +12,7 @@ namespace BKNews
     
 	public partial class App : Application
 	{
-        NewsPage NewsPage;
+        CategoryPage CategoryPage;
         // Initialize authenticator
         public static IAuthenticate Authenticator { get; private set; }
         public static void Init(IAuthenticate authenticator)
@@ -34,22 +34,29 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-            NewsPage = new NewsPage();
-            MainPage = new NavigationPage(NewsPage)
+            CategoryPage = new CategoryPage();
+            CategoryPage.Children.Add(new NewsPage("HCMUT", new HCMUTScraper()));
+            CategoryPage.Children.Add(new NewsPage("AAO", new AAOScraper()));
+            CategoryPage.Children.Add(new NewsPage("OISP", new OISPScraper()));
+            MainPage = new NavigationPage(CategoryPage)
             {
-                BarBackgroundColor = Color.Blue
+                BarBackgroundColor = Color.Blue,
+                Title = "BKExpress"
             };
         }
 
-        protected override void OnStart ()
+        protected async override void OnStart ()
 		{
             // Handle when your app starts
             if (App.IsConnected)
             {
                 // scrape if there is a internet connection
                 // connectivityErrorPage.IsVisible = false;
-                var newsViewModel = (NewsViewModel)NewsPage.BindingContext;
-                Task.Run(newsViewModel.ScrapeToCollectionAsync);
+                foreach (var page in CategoryPage.Children)
+                {
+                    var newsViewModel = (NewsViewModel)page.BindingContext;
+                    await newsViewModel.ScrapeToCollectionAsync();
+                }
             }
             else
             {
