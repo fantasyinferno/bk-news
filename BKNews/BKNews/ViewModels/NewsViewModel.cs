@@ -12,6 +12,8 @@ namespace BKNews
 {
     class NewsViewModel : INotifyPropertyChanged
     {
+        // offset
+        public int Offset { get; set; }
         // category's name
         public string Category { get; set; }
         // mixed collection of news
@@ -71,7 +73,6 @@ namespace BKNews
                         NewsCollection.Insert(0, item);
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -98,6 +99,11 @@ namespace BKNews
             {
                 await ScrapeToCollectionAsync(true);
             });
+            LoadNextItems();
+        }
+        public void LoadNextItems(int num = 0)
+        {
+            NewsManager.DefaultManager.GetNewsAsync();
         }
     }
 }

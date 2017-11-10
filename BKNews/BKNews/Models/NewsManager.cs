@@ -72,7 +72,66 @@ namespace BKNews
         {
             get { return NewsTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<News>; }
         }
-
+        /// <summary>
+        /// Get News with a LINQ expression.
+        /// Example: Return all news with type == "AAO"
+        /// GetNewsAsync(news => news.type == "AAO");
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<ObservableCollection<News>> GetNewsAsync(System.Linq.Expressions.Expression<System.Func<BKNews.News, bool>> action)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                IEnumerable<News> items = await NewsTable.Where(action).ToEnumerableAsync();
+                return new ObservableCollection<News>(items);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
+        /// <summary>
+        /// Get news with a specific type
+        /// Example: get all news with type "AAO"
+        /// GetNewsWithTypeAsync("AAO");
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task<ObservableCollection<News>> GetNewsWithTypeAsync(string type)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                IEnumerable<News> items = await NewsTable.Where(news => news.Type == type).ToEnumerableAsync();
+                return new ObservableCollection<News>(items);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
         public async Task<ObservableCollection<News>> GetNewsAsync(bool syncItems = false)
         {
             try

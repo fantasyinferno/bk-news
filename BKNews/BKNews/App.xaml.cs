@@ -35,14 +35,7 @@ namespace BKNews
 		{
 			InitializeComponent();
             CategoryPage = new CategoryPage();
-            CategoryPage.Children.Add(new NewsPage("HCMUT", new HCMUTScraper()));
-            CategoryPage.Children.Add(new NewsPage("AAO", new AAOScraper()));
-            CategoryPage.Children.Add(new NewsPage("OISP", new OISPScraper()));
-            MainPage = new NavigationPage(CategoryPage)
-            {
-                BarBackgroundColor = Color.Blue,
-                Title = "BKExpress"
-            };
+            MainPage = CategoryPage;
         }
 
         protected async override void OnStart ()
