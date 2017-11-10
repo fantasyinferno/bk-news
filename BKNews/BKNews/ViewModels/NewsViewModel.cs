@@ -79,6 +79,7 @@ namespace BKNews
                 new OISPScraper(),
                 new AAOScraper(),
                 new HCMUTScraper()
+//                new VNExScraper()
             };
             NewsCollection = new ObservableCollection<News>();
             // command for button
