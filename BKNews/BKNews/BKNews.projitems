@@ -17,9 +17,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IAuthenticate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
+<<<<<<< HEAD
     <Compile Include="$(MSBuildThisFileDirectory)SideBar.xaml.cs">
       <DependentUpon>SideBar.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -37,6 +39,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)TeaserPage.xaml.cs">
       <DependentUpon>TeaserPage.xaml</DependentUpon>
+=======
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
+>>>>>>> d95577707ecc437b0dd22764f2cd36885d60351c
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml.cs">
@@ -69,6 +75,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)TeaserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -94,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)SideBarDetail.xaml">
+=======
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml">
+>>>>>>> d95577707ecc437b0dd22764f2cd36885d60351c
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

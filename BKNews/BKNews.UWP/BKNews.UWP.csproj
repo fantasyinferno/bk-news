@@ -108,9 +108,13 @@
     <None Include="BKNews.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Content Include="Assets\BachKhoa.jpg" />
     <Content Include="Assets\NavigationArrow.png" />
     <Content Include="Assets\wallpaper.jpg" />
+=======
+    <Content Include="Assets\ic_replay_white_2x.png" />
+>>>>>>> d95577707ecc437b0dd22764f2cd36885d60351c
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

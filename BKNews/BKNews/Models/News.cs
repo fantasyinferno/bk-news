@@ -13,6 +13,7 @@ namespace BKNews
         string author;
         string imageUrl;
         string newsUrl;
+        string type;
         DateTime newsDate;
         // Construct JSON properties for sending to Azure Mobile Services
         [JsonProperty(PropertyName = "id")]
@@ -29,8 +30,10 @@ namespace BKNews
         public string NewsUrl { get { return newsUrl; } set { newsUrl = value; } }
         [JsonProperty(PropertyName = "newsDate")]
         public DateTime NewsDate { get { return newsDate; } set { newsDate = value; } }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get { return type; } set { type = value; } }
 
-        public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime newsDate)
+        public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime newsDate, string type)
         {
             Title = title;
             Desc = desc;
@@ -38,6 +41,7 @@ namespace BKNews
             NewsUrl = newsUrl;
             ImageUrl = imageUrl;
             NewsDate = newsDate;
+            Type = type;
         }
     }
 }

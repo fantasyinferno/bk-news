@@ -5,17 +5,20 @@ using System.Windows.Input;
 using System.Diagnostics;
 using Xamarin.Forms;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace BKNews
 {
-    class NewsViewModel: INotifyPropertyChanged
+    class NewsViewModel : INotifyPropertyChanged
     {
+        // category's name
+        public string Category { get; set; }
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
         // command to bind with button
         public ICommand ScrapeCommand { get; set; }
         // list for storing scrapers
-        public List<IScrape> Scrapers;
+        public IScrape Scraper;
         // IsRefreshing property of ListView
         private bool _isBusy = false;
         public bool IsBusy
@@ -34,6 +37,7 @@ namespace BKNews
 
             }
         }
+        // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -43,39 +47,39 @@ namespace BKNews
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        public NewsViewModel()
+        // Scrape function. Once done, sent the scraped news to NewsCollection.
+        public async Task ScrapeToCollectionAsync()
         {
-            Scrapers = new List<IScrape>
+            IsBusy = true;
+            try
             {
-                new OISPScraper()
-            };
+                var list = await Scraper.Scrape();
+                // individually add each item to the list (because we have to use ObservableCollection)
+                foreach (var item in list)
+                {
+                    NewsCollection.Insert(0, item);
+                }
+
+            }
+            catch (Exception e)
+            {
+                // do nothing
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        public NewsViewModel(String category, IScrape scraper)
+        {
+            Category = category;
+            Scraper = scraper;
             NewsCollection = new ObservableCollection<News>();
             // command for button
             ScrapeCommand = new Command(async () =>
             {
-                IsBusy = true;
-                foreach (var scraper in Scrapers)
-                {
-                    try
-                    {
-                        var list = await scraper.Scrape();
-                        // individually add each item to the list (because we have to use ObservableCollection)
-                        foreach (var item in list)
-                        {
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
-                            NewsCollection.Add(item);
-                        }
-                        
-                    } catch(Exception e)
-                    {
-                        // do nothing
-                        Debug.WriteLine(e);
-                    } finally
-                    {
-                        IsBusy = false;
-                    }
-                }
+                await ScrapeToCollectionAsync();
             });
         }
     }
