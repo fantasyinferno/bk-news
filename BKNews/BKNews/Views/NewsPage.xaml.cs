@@ -35,21 +35,10 @@ namespace BKNews
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.LogoutAsync();
         }
-        public NewsPage ()
+        public NewsPage (string category, IScrape scraper)
 		{
 			InitializeComponent ();
-            BindingContext = new NewsViewModel();
-            var newsViewModel = (NewsViewModel)BindingContext;
-            if (App.IsConnected)
-            {
-                // scrape if there is a internet connection
-                // connectivityErrorPage.IsVisible = false;
-                Task.Run(newsViewModel.ScrapeToCollectionAsync);
-            } else
-            {
-                // don't scrape and display an "Oops!" page
-                // connectivityErrorPage.IsVisible = true;
-            }
+            BindingContext = new NewsViewModel(category, scraper);
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

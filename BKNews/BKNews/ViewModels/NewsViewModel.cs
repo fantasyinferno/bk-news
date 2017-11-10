@@ -11,12 +11,14 @@ namespace BKNews
 {
     class NewsViewModel : INotifyPropertyChanged
     {
+        // category's name
+        public string Category { get; set; }
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
         // command to bind with button
         public ICommand ScrapeCommand { get; set; }
         // list for storing scrapers
-        public List<IScrape> Scrapers;
+        public IScrape Scraper;
         // IsRefreshing property of ListView
         private bool _isBusy = false;
         public bool IsBusy
@@ -49,38 +51,30 @@ namespace BKNews
         public async Task ScrapeToCollectionAsync()
         {
             IsBusy = true;
-            foreach (var scraper in Scrapers)
+            try
             {
-                try
+                var list = await Scraper.Scrape();
+                // individually add each item to the list (because we have to use ObservableCollection)
+                foreach (var item in list)
                 {
-                    var list = await scraper.Scrape();
-                    // individually add each item to the list (because we have to use ObservableCollection)
-                    foreach (var item in list)
-                    {
-                        NewsCollection.Add(item);
-                    }
+                    NewsCollection.Insert(0, item);
+                }
 
-                }
-                catch (Exception e)
-                {
-                    // do nothing
-                    Debug.WriteLine(e);
-                }
-                finally
-                {
-                    IsBusy = false;
-                }
+            }
+            catch (Exception e)
+            {
+                // do nothing
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
-        public NewsViewModel()
+        public NewsViewModel(String category, IScrape scraper)
         {
-            Scrapers = new List<IScrape>
-            {
-                new OISPScraper(),
-                new AAOScraper(),
-                new HCMUTScraper()
-//                new VNExScraper()
-            };
+            Category = category;
+            Scraper = scraper;
             NewsCollection = new ObservableCollection<News>();
             // command for button
             ScrapeCommand = new Command(async () =>

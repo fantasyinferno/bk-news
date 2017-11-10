@@ -17,6 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml.cs">
       <DependentUpon>InAppBrowser.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -42,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

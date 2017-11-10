@@ -59,5 +59,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>XSLaunchImageAssets</key>
+	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>
