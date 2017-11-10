@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.Teaser"
+             BackgroundColor="SkyBlue"
+             Title="WELCOME TO BK NEWS">
+
+    <ContentPage.Content>
+
+        <AbsoluteLayout BackgroundColor="SkyBlue">
+            <Image Source="Team.jpg"   
+                    Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+            <Image Source="Image1.jpg"
+                           Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0.2,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+            <Image Source="Image2.jpg"
+                           Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0.4,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+            <Image Source="Image3.jpg"
+                           Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0.6,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+            <Image Source="Image4.jpg"
+                           Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="0.8,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+            <Image Source="Image5.jpg"
+                           Aspect="Fill"
+                           AbsoluteLayout.LayoutBounds="1,0,0.2,0.2"
+                           AbsoluteLayout.LayoutFlags="All"/>
+
+
+
+
+
+            <Label Text="Hello Guys!"
+                           FontAttributes="Italic"
+                           AbsoluteLayout.LayoutBounds="1,0.8,0.5,0.1" 
+                           AbsoluteLayout.LayoutFlags="All"
+                           TextColor="Maroon"/>
+
+            <Label Text="Login to look what's new recently..."
+                           FontAttributes="Italic"
+                           AbsoluteLayout.LayoutBounds="1,0.9,0.5,0.1" 
+                           AbsoluteLayout.LayoutFlags="All"
+                           TextColor="Maroon"/>
+
+            <Image Source="NavigationArrow.png"
+                           AbsoluteLayout.LayoutBounds="1,1,0.1,0.1" 
+                           AbsoluteLayout.LayoutFlags="All">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped"/>
+                </Image.GestureRecognizers>
+            </Image>
+
+
+
+        </AbsoluteLayout>
+
+
+
+
+
+
+
+
+    </ContentPage.Content>
+</ContentPage>

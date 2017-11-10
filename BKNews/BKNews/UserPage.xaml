@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="App1.UserPage"
+             BackgroundImage="BachKhoa.jpg"
+             Title="AUTHENCIATION">
+
+    <ContentPage.Content>
+
+        <StackLayout VerticalOptions="Center">
+
+            <Entry Placeholder="User Name "
+                   PlaceholderColor="White"
+                   IsPassword="False"
+                   TextColor="White"
+                   VerticalOptions="Center"/>
+
+
+            <Entry Placeholder="Password "
+                   PlaceholderColor="White"
+                   IsPassword="true"
+                   TextColor="White"
+                   VerticalOptions="Center"/>
+            <Button Text="SIGNIN BY FACEBOOK"
+                     BackgroundColor="#3b5998"
+                     Clicked="OnButtonClicked"/>
+
+
+            <Button Text="SIGNIN BY GOOGLE"
+                     BackgroundColor="#d34836"
+                     Clicked="OnButtonClicked0"/>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

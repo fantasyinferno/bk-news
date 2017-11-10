@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BKNews.TeaserPage"
+             BackgroundImage="wallpaper.jpg">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+        <Label Text="Hello Guys!"
+                           FontAttributes="Italic"
+                           AbsoluteLayout.LayoutBounds="1,0.8,0.5,0.1" 
+                           AbsoluteLayout.LayoutFlags="All"
+                           TextColor="Maroon"/>
+
+        <Label Text="Login to look what's new recently..."
+                           FontAttributes="Italic"
+                           AbsoluteLayout.LayoutBounds="1,0.9,0.5,0.1" 
+                           AbsoluteLayout.LayoutFlags="All"
+                           TextColor="Maroon"/>
+        
+        <Image Source="NavigationArrow.png"
+                           AbsoluteLayout.LayoutBounds="1,1,0.1,0.1" 
+                           AbsoluteLayout.LayoutFlags="All">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped"/>
+            </Image.GestureRecognizers>
+        </Image>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

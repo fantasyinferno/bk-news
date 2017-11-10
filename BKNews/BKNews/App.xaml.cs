@@ -12,7 +12,7 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-            MainPage = new NavigationPage(new NewsPage())
+            MainPage = new NavigationPage(new TeaserPage())
             {
                 BarBackgroundColor = Color.Blue
             };
