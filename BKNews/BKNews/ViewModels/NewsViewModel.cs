@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BKNews
 {
-    class NewsViewModel: INotifyPropertyChanged
+    class NewsViewModel : INotifyPropertyChanged
     {
         // category's name
         public string Category { get; set; }
