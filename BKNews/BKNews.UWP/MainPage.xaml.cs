@@ -12,16 +12,59 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using Microsoft.WindowsAzure.MobileServices;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
+using BKNews;
 namespace BKNews.UWP
 {
-    public sealed partial class MainPage
+    public sealed partial class MainPage: IAuthenticate
     {
+        // Define a authenticated user.
+        private MobileServiceUser user;
+
+        public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
+        {
+            string message = string.Empty;
+            var success = false;
+
+            try
+            {
+                // Sign in with Google login using a server-managed flow.
+                if (user == null)
+                {
+                    user = await NewsManager.DefaultManager.CurrentClient
+                        .LoginAsync(provider, Constants.URLScheme);
+                    if (user != null)
+                    {
+                        success = true;
+                        message = string.Format("You are now signed-in as {0}.", user.UserId);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                message = string.Format("Authentication Failed: {0}", ex.Message);
+            }
+
+            // Display the success or failure message.
+            await new MessageDialog(message, "Sign-in result").ShowAsync();
+
+            return success;
+        }
+        public async Task<bool> LogoutAsync()
+        {
+            await NewsManager.DefaultManager.CurrentClient.LogoutAsync();
+            user = null;
+            return true;
+        }
         public MainPage()
         {
             this.InitializeComponent();
-
+            BKNews.App.Init(this);
             LoadApplication(new BKNews.App());
         }
+
     }
 }
