@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Windows.Input;
 using Xamarin.Forms;
-
+using System.Diagnostics;
 namespace BKNews.Behaviors
 {
     public class InfiniteScroll : Behavior<ListView>
@@ -32,6 +32,7 @@ namespace BKNews.Behaviors
             AssociatedObject = bindable;
             bindable.BindingContextChanged += Bindable_BindingContextChanged;
             bindable.ItemAppearing += InfiniteListView_ItemAppearing;
+            bindable.ItemAppearing += CountDown_ItemAppearing;
         }
         private void Bindable_BindingContextChanged(object sender, EventArgs e)
         {
@@ -47,6 +48,7 @@ namespace BKNews.Behaviors
             base.OnDetachingFrom(bindable);
             bindable.BindingContextChanged -= Bindable_BindingContextChanged;
             bindable.ItemAppearing -= InfiniteListView_ItemAppearing;
+            bindable.ItemAppearing -= CountDown_ItemAppearing;
         }
         void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
@@ -55,6 +57,29 @@ namespace BKNews.Behaviors
             {
                 if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null)) LoadMoreCommand.Execute(null);
             }
+        }
+        public DateTime StartDateTime { get; private set; }
+        int count = 0;
+        void CountDown_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            if (count == 0)
+            {
+                StartDateTime = DateTime.Now;
+                count++;
+            }
+            else
+            {
+                var delta = (DateTime.Now - StartDateTime).TotalSeconds;
+                var items = AssociatedObject.ItemsSource as IList;
+                if ((items != null && e.Item == items[items.Count - 1]) || (delta > 10))
+                {
+                    if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null)) LoadMoreCommand.Execute(null);
+                    count--;
+                    delta = 0;
+                }
+                Debug.WriteLine(delta);
+            }
+
         }
     }
 }

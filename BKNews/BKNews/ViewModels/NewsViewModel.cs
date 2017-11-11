@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace BKNews
 {
-    class NewsViewModel: INotifyPropertyChanged
+    class NewsViewModel : INotifyPropertyChanged
     {
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
@@ -48,12 +48,8 @@ namespace BKNews
 
         public NewsViewModel()
         {
-            Scrapers = new List<IScrape>
-            {
-                new OISPScraper(),
-                new HCMUTScraper(),
-                new AAOScraper()
-            };
+            Scrapers = new List<IScrape>();
+            Scrapers.Add(new AAOScraper());
             NewsCollection = new ObservableCollection<News>();
             // command for button
             ScrapeCommand = new Command(async () =>
@@ -69,31 +65,7 @@ namespace BKNews
                         {
                             NewsCollection.Add(item);
                         }
-                        
-                    } catch(Exception e)
-                    {
-                        // do nothing
-                        Debug.WriteLine(e);
-                    } finally
-                    {
-                        IsBusy = false;
-                    }
-                }
-            });
 
-            LoadMore = new Command(async () =>
-            {
-                IsBusy = true;
-                foreach (var scraper in Scrapers)
-                {
-                    try
-                    {
-                        var list = await scraper.Scrape();
-                        // individually add each item to the list (because we have to use ObservableCollection)
-                        foreach (var item in list)
-                        {
-                            NewsCollection.Add(item);
-                        }
                     }
                     catch (Exception e)
                     {
@@ -103,6 +75,28 @@ namespace BKNews
                     finally
                     {
                         IsBusy = false;
+                    }
+                }
+            });
+
+            LoadMore = new Command(async () =>
+            {
+                foreach (var scraper in Scrapers)           //replace all by scraper(2) or something
+                {
+                    try
+                    {
+                        var list = await scraper.Scrape();
+                        // individually add each item to the list (because we have to use ObservableCollection)
+                        foreach (var item in list)
+                        {
+                            NewsCollection.Add(item);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        // do nothing
+                        Debug.WriteLine(e);
                     }
                 }
             });
