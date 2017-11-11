@@ -12,8 +12,9 @@ namespace BKNews
 {
     class NewsViewModel : INotifyPropertyChanged
     {
-        // offset
-        public int Offset { get; set; }
+        // skip & step
+        public int Skip { get; set; } = 0;
+        public int Take { get; set; } = 5;
         // category's name
         public string Category { get; set; }
         // mixed collection of news
@@ -84,12 +85,20 @@ namespace BKNews
                 IsBusy = false;
             }
         }
+        // load items from database with pagination
         public async Task LoadFromDatabaseAsync()
         {
-            var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, 0, 5);
-            foreach(var item in collection)
+            try
             {
-                NewsCollection.Add(item);
+                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
+                foreach (var item in collection)
+                {
+                    NewsCollection.Add(item);
+                }
+                Skip += Take;
+            } catch (Exception e)
+            {
+                Debug.WriteLine(e);
             }
         }
         public NewsViewModel(String category, IScrape scraper)
@@ -107,7 +116,6 @@ namespace BKNews
             {
                 await ScrapeToCollectionAsync(true);
             });
-            LoadNextItems();
         }
     }
 }
