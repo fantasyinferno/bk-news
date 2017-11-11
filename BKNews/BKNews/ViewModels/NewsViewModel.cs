@@ -50,17 +50,27 @@ namespace BKNews
             }
         }
         // Scrape function. Once done, sent the scraped news to NewsCollection.
-        public async Task ScrapeToCollectionAsync()
+        public async Task ScrapeToCollectionAsync(bool append = false)
         {
             IsBusy = true;
             try
             {
                 var list = await Scraper.Scrape();
                 // individually add each item to the list (because we have to use ObservableCollection)
-                foreach (var item in list)
+                if (append)
                 {
-                    NewsCollection.Insert(0, item);
+                    foreach (var item in list)
+                    {
+                        NewsCollection.Add(item);
+                    }
+                } else
+                {
+                    foreach (var item in list)
+                    {
+                        NewsCollection.Insert(0, item);
+                    }
                 }
+                
 
             }
             catch (Exception e)
@@ -86,28 +96,7 @@ namespace BKNews
 
             LoadMore = new Command(async () =>
             {
-                IsBusy = true;
-                foreach (var scraper in Scrapers)
-                {
-                    try
-                    {
-                        var list = await scraper.Scrape();
-                        // individually add each item to the list (because we have to use ObservableCollection)
-                        foreach (var item in list)
-                        {
-                            NewsCollection.Add(item);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        // do nothing
-                        Debug.WriteLine(e);
-                    }
-                    finally
-                    {
-                        IsBusy = false;
-                    }
-                }
+                await ScrapeToCollectionAsync(true);
             });
         }
     }

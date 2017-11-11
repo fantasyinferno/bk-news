@@ -44,7 +44,7 @@ namespace BKNews
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)
         {
             var news = (News)e.Item;
-            this.Navigation.PushAsync(new InAppBrowser(news.NewsUrl));
+            Device.OpenUri(new Uri(news.NewsUrl));
             ((ListView)sender).SelectedItem = null;
         }
     }
