@@ -74,8 +74,6 @@ namespace BKNews
         }
         /// <summary>
         /// Get News with a LINQ expression.
-        /// Example: Return all news with type == "AAO"
-        /// GetNewsAsync(news => news.type == "AAO");
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
@@ -104,12 +102,12 @@ namespace BKNews
         }
         /// <summary>
         /// Get news with a specific type
-        /// Example: get all news with type "AAO"
-        /// GetNewsWithTypeAsync("AAO");
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The type of the parameters</param>
+        /// <param name="skip">The number of items to skip beginning from the newest item (i.e, the item with the highest NewsDate value)</param>
+        /// <param name="take">The number of items to take after the skipped items</param>
         /// <returns></returns>
-        public async Task<ObservableCollection<News>> GetNewsWithTypeAsync(string type)
+        public async Task<ObservableCollection<News>> GetNewsFromCategoryAsync(string type, int skip, int take)
         {
             try
             {
@@ -119,7 +117,7 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<News> items = await NewsTable.Where(news => news.Type == type).ToEnumerableAsync();
+                IEnumerable<News> items = await NewsTable.OrderByDescending(news => news.NewsDate).Where(news => news.Type == type).Skip(skip).Take(take).ToEnumerableAsync();
                 return new ObservableCollection<News>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)

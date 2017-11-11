@@ -84,6 +84,14 @@ namespace BKNews
                 IsBusy = false;
             }
         }
+        public async Task LoadFromDatabaseAsync()
+        {
+            var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, 0, 5);
+            foreach(var item in collection)
+            {
+                NewsCollection.Add(item);
+            }
+        }
         public NewsViewModel(String category, IScrape scraper)
         {
             Category = category;
@@ -100,10 +108,6 @@ namespace BKNews
                 await ScrapeToCollectionAsync(true);
             });
             LoadNextItems();
-        }
-        public void LoadNextItems(int num = 0)
-        {
-            NewsManager.DefaultManager.GetNewsAsync();
         }
     }
 }
