@@ -11,7 +11,7 @@ namespace BKNews
 	{
         // is the user logged in?
         bool authenticated = false;
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             // Refresh items only when authenticated.

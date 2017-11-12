@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BKNews.MainFeedPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Phòng đào tạo ❯"/>
+            <ListView HasUnevenRows="True" ItemsSource="{Binding AAONews}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Margin="0, 5, 0, 5">
+                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
+                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
+                                                </StackLayout>
+                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
+                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="Văn phòng đào tạo quốc tế ❯"/>
+            <ListView HasUnevenRows="True"  ItemsSource="{Binding OISPNews}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Margin="0, 5, 0, 5">
+                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
+                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
+                                                </StackLayout>
+                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
+                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Text="HCMUT ❯"/>
+            <ListView HasUnevenRows="True" ItemsSource="{Binding HCMUTNews}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Margin="0, 5, 0, 5">
+                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
+                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
+                                                </StackLayout>
+                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
+                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

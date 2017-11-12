@@ -13,6 +13,7 @@ namespace BKNews
 	public partial class App : Application
 	{
         CategoryPage CategoryPage;
+        MainFeedPage MainFeedPage;
         // Initialize authenticator
         public static IAuthenticate Authenticator { get; private set; }
         public static void Init(IAuthenticate authenticator)
@@ -35,6 +36,7 @@ namespace BKNews
 		{
 			InitializeComponent();
             CategoryPage = new CategoryPage();
+            MainFeedPage = new MainFeedPage();
             MainPage = CategoryPage;
         }
 
@@ -47,9 +49,13 @@ namespace BKNews
                 // connectivityErrorPage.IsVisible = false;
                 foreach (var page in CategoryPage.Children)
                 {
-                    var newsViewModel = (NewsViewModel)page.BindingContext;
-                    await newsViewModel.ScrapeToCollectionAsync();
+                    if (page.GetType() == typeof(NewsPage)) {
+                        var newsViewModel = (NewsViewModel)page.BindingContext;
+                        await newsViewModel.ScrapeToCollectionAsync();
+                    }
                 }
+                var mainFeedViewModel = (MainFeedPageViewModel)MainFeedPage.BindingContext;
+                mainFeedViewModel.GetLatestNews();
             }
             else
             {

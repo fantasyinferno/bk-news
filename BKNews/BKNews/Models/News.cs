@@ -35,13 +35,13 @@ namespace BKNews
 
         public News(string title, string desc, string author, string newsUrl, string imageUrl, DateTime newsDate, string type)
         {
-            Title = title;
-            Desc = desc;
-            Author = author;
-            NewsUrl = newsUrl;
-            ImageUrl = imageUrl;
-            NewsDate = newsDate;
-            Type = type;
+            this.Title = title;
+            this.Desc = desc;
+            this.Author = author;
+            this.NewsUrl = newsUrl;
+            this.ImageUrl = imageUrl;
+            this.NewsDate = newsDate;
+            this.Type = type;
         }
     }
 }

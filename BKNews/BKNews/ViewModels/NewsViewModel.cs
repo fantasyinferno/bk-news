@@ -114,7 +114,7 @@ namespace BKNews
 
             LoadMore = new Command(async () =>
             {
-                await ScrapeToCollectionAsync(true);
+                await LoadFromDatabaseAsync();
             });
         }
     }
