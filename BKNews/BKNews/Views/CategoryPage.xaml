@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:b="clr-namespace:BKNews.Behaviors"
              x:Class="BKNews.CategoryPage" Title="BKExpress" BarBackgroundColor="Blue" BackgroundColor="#eee">
     <!--Pages can be added as references or inline-->
     <ContentPage x:Name="searchPage" Title="🔎">
@@ -12,6 +13,9 @@
                         <Label Text="{Binding HeaderString, Mode=OneWay}" TextColor="Black" FontFamily="Ubuntu" FontSize="14" HorizontalOptions="Center" />
                     </StackLayout>
                 </ListView.Header>
+                <ListView.Behaviors>
+                    <b:InfiniteScroll LoadMoreCommand="{Binding LoadMoreCommand}" />
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

@@ -51,7 +51,7 @@ namespace BKNews.Behaviors
         void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             var items = AssociatedObject.ItemsSource as IList;
-            if (items != null && e.Item == items[items.Count - 1])
+            if (items != null && items.Count != 0 && e.Item == items[items.Count - 1])
             {
                 if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null)) LoadMoreCommand.Execute(null);
             }
