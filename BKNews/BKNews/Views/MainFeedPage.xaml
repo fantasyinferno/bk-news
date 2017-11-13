@@ -14,36 +14,41 @@
     <ContentPage.Content>
         <ListView x:Name="GroupedView"
         IsGroupingEnabled="true"
+                  HasUnevenRows="True"
                   BackgroundColor="Transparent"
+                  ItemTapped="OnListViewItemTapped"
+                  SeparatorVisibility="None"
                    ItemsSource="{Binding LatestNews}">
             <ListView.Header>
-                <Image Aspect="AspectFill" Source="Assets/logo.png" HeightRequest="128" WidthRequest="128" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+                <Label Text="BKNews" HorizontalOptions="Center" FontSize="Large" TextColor="AliceBlue"/>
             </ListView.Header>
             <ListView.GroupHeaderTemplate>
                 <DataTemplate>
                     <ViewCell>
-                    <ViewCell.View>
-                        <StackLayout Margin="5" Spacing="1">
-                            <Label Text="{Binding Title}" FontSize="Large" FontAttributes="Bold" />
-                            <Grid VerticalOptions="FillAndExpand" BindingContext="{Binding FirstNews}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="240" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="1*" />
-                                </Grid.ColumnDefinitions>
-                                <Image  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImageUrl}" Aspect="AspectFill"  HeightRequest="240" WidthRequest="426"/>
-                                    <Label  Grid.Row="2" Grid.Column="1" Text="{Binding NewsDate}" Margin="5, 0" HorizontalTextAlignment="End" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
-                                    <Label  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Title}" HorizontalTextAlignment="Start" FontAttributes="Bold" TextColor="#0036f9" FontSize="Medium" />
-                            </Grid>
-                        </StackLayout>
-                    </ViewCell.View>
+                        <ViewCell.View>
+                            <StackLayout Margin="0">
+                                <Label Margin="5" Text="{Binding Title}" FontSize="Large" TextColor="Blue" FontAttributes="Bold" />
+                                <Frame HasShadow="True" Padding="5" Margin="5" BackgroundColor="#fff">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GroupHeaderTappedCommand}" />
+                                    </Frame.GestureRecognizers>
+                                    <Grid RowSpacing="0" ColumnSpacing="2" VerticalOptions="Fill" BindingContext="{Binding FirstNews}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="140" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="20" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImageUrl}"  Aspect="AspectFill"  HeightRequest="120" WidthRequest="213"/>
+                                        <Label  Grid.Row="2" Grid.Column="0" Text="{Binding NewsDate}" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
+                                        <Label  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontAttributes="Bold" TextColor="#0036f9" FontSize="Medium" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
             </ListView.GroupHeaderTemplate>
@@ -51,31 +56,30 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            
-                            <StackLayout Margin="5">
-                                <Frame HasShadow="True" Padding="5" Margin="5" HasShadow="True" BackgroundColor="#fff">
-                                    <StackLayout Spacing="0" >
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0, 5">
-                                            <StackLayout HorizontalOptions="Start">
-                                                <Label Text="{Binding Title}" FontSize="22" FontAttributes="Bold" TextColor="Blue"/>
-                                                <StackLayout Margin="0, 5" Orientation="Horizontal" HorizontalOptions="End">
-                                                    <Label Text="{Binding NewsDate}" FontSize="Micro"/>
-                                                    <Label Text="" FontSize="Micro">
-                                                        <Label.FontFamily>
-                                                            <OnPlatform x:TypeArguments="x:String">
-                                                                <On Platform="iOS" Value="FontAwesome" />
-                                                                <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                                <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
-                                                            </OnPlatform>
-                                                        </Label.FontFamily>
-                                                    </Label>
-                                                </StackLayout>
-                                            </StackLayout>
-                                            <Image Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Frame>
-                            </StackLayout>
+                            <Frame HasShadow="True" Padding="5" Margin="5" BackgroundColor="#fff">
+                                <Grid RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="20" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" VerticalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
+                                    <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/> 
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding NewsDate}" FontSize="Micro"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="" FontSize="Medium" HorizontalOptions="End">
+                                        <Label.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="FontAwesome" />
+                                                <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                                <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                            </OnPlatform>
+                                        </Label.FontFamily>
+                                    </Label>
+                                </Grid>
+                            </Frame>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>

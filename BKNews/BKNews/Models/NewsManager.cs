@@ -92,9 +92,15 @@ namespace BKNews
                 }
 #endif
                 IEnumerable<string> newsIds = await NewsUserTable.Where((item) => item.UserId == userId).Select((newsUser) => newsUser.NewsId).ToEnumerableAsync();
-                // lol
-                IEnumerable<News> items = await NewsTable.ToEnumerableAsync();
-                return new ObservableCollection<News>(items.Where(x => newsIds.Contains(x.Id)).ToList());
+                // replace this with something efficient
+                ObservableCollection<News> items = new ObservableCollection<News>();
+                foreach (var newsId in newsIds)
+                {
+                    var news = await NewsTable.LookupAsync(newsId);
+                    items.Add(news);
+                }
+
+                return items;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -190,7 +196,7 @@ namespace BKNews
             return null;
         }
 
-        public async Task SaveTaskAsync(News item)
+        public async Task SaveNewsAsync(News item)
         {
             if (item.Id == null)
             {
@@ -201,7 +207,17 @@ namespace BKNews
                 await NewsTable.UpdateAsync(item);
             }
         }
-
+        public async Task SaveNewsUserAsync(NewsUser item)
+        {
+            if (item.Id == null)
+            {
+                await NewsUserTable.InsertAsync(item);
+            }
+            else
+            {
+                await NewsUserTable.UpdateAsync(item);
+            }
+        }
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
         {

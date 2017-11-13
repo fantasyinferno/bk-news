@@ -68,7 +68,7 @@ namespace BKNews
                         foreach (var item in list)
                         {
                             // should fail on duplicates
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            await NewsManager.DefaultManager.SaveNewsAsync(item);
                             NewsCollection.Add(item);
                         }
                     }
@@ -77,7 +77,7 @@ namespace BKNews
                         foreach (var item in list)
                         {
                             // should fail on duplicates
-                            await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            await NewsManager.DefaultManager.SaveNewsAsync(item);
                             NewsCollection.Insert(0, item);
                         }
                     }
