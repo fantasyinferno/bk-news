@@ -18,6 +18,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NewsUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainFeedPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml.cs">
+      <DependentUpon>MainFeedPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
       <DependentUpon>CategoryPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -46,5 +53,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)NewFolder\" />
   </ItemGroup>
 </Project>

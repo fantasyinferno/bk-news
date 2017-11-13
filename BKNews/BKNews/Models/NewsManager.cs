@@ -25,12 +25,13 @@ namespace BKNews
         static NewsManager defaultInstance = new NewsManager();
         MobileServiceClient client;
 
+        // NewsUser is a table connecting Users and News
 #if OFFLINE_SYNC_ENABLED
         IMobileServiceSyncTable<News> NewsTable;
-
-
+        IMobileServiceSyncTable<NewsUser> NewsUserTable;
 #else
         IMobileServiceTable<News> NewsTable;
+        IMobileServiceTable<NewsUser> NewsUserTable;
 #endif
 
         private NewsManager()
@@ -41,13 +42,16 @@ namespace BKNews
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore("localstore.db");
             store.DefineTable<News>();
+            store.DefineTable<NewsUser>();
 
             //Initializes the SyncContext using the default IMobileServiceSyncHandler.
             this.client.SyncContext.InitializeAsync(store);
 
             this.NewsTable = client.GetSyncTable<News>();
+            this.NewsUserTable = client.GetTable<NewsUser>();
 #else
             this.NewsTable = client.GetTable<News>();
+            this.NewsUserTable = client.GetTable<NewsUser>();
 #endif
         }
 
@@ -73,9 +77,43 @@ namespace BKNews
             get { return NewsTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<News>; }
         }
         /// <summary>
+        /// Get the news that a user has saved.
+        /// </summary>
+        /// <param name="userId">The Id of the user</param>
+        /// <returns></returns>
+        public async Task<ObservableCollection<News>> GetNewsForUser(string userId)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                IEnumerable<string> newsIds = await NewsUserTable.Where((item) => item.UserId == userId).Select((newsUser) => newsUser.NewsId).ToEnumerableAsync();
+                // replace this with something efficient
+                ObservableCollection<News> items = new ObservableCollection<News>();
+                foreach (var newsId in newsIds)
+                {
+                    var news = await NewsTable.LookupAsync(newsId);
+                    items.Add(news);
+                }
+
+                return items;
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
+        /// <summary>
         /// Get News with a LINQ expression.
-        /// Example: Return all news with type == "AAO"
-        /// GetNewsAsync(news => news.type == "AAO");
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
@@ -89,7 +127,7 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<News> items = await NewsTable.Where(action).ToEnumerableAsync();
+                IEnumerable<News> items = await NewsTable.Where(action).OrderByDescending(news => news.NewsDate).ToEnumerableAsync();
                 return new ObservableCollection<News>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
@@ -104,12 +142,12 @@ namespace BKNews
         }
         /// <summary>
         /// Get news with a specific type
-        /// Example: get all news with type "AAO"
-        /// GetNewsWithTypeAsync("AAO");
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The type of the parameters</param>
+        /// <param name="skip">The number of items to skip beginning from the newest item (i.e, the item with the highest NewsDate value)</param>
+        /// <param name="take">The number of items to take after the skipped items</param>
         /// <returns></returns>
-        public async Task<ObservableCollection<News>> GetNewsWithTypeAsync(string type)
+        public async Task<ObservableCollection<News>> GetNewsFromCategoryAsync(string type, int skip, int take)
         {
             try
             {
@@ -119,7 +157,7 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<News> items = await NewsTable.Where(news => news.Type == type).ToEnumerableAsync();
+                IEnumerable<News> items = await NewsTable.OrderByDescending(news => news.NewsDate).Where(news => news.Type == type).Skip(skip).Take(take).ToEnumerableAsync();
                 return new ObservableCollection<News>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
@@ -158,7 +196,7 @@ namespace BKNews
             return null;
         }
 
-        public async Task SaveTaskAsync(News item)
+        public async Task SaveNewsAsync(News item)
         {
             if (item.Id == null)
             {
@@ -169,7 +207,17 @@ namespace BKNews
                 await NewsTable.UpdateAsync(item);
             }
         }
-
+        public async Task SaveNewsUserAsync(NewsUser item)
+        {
+            if (item.Id == null)
+            {
+                await NewsUserTable.InsertAsync(item);
+            }
+            else
+            {
+                await NewsUserTable.UpdateAsync(item);
+            }
+        }
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
         {
