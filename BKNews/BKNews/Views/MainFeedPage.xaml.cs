@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Microsoft.WindowsAzure.MobileServices;
+
 namespace BKNews
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -15,9 +17,22 @@ namespace BKNews
 		public MainFeedPage ()
 		{
 			InitializeComponent ();
-            this.BindingContext = new MainFeedPageViewModel();
-
-            
+            BindingContext = new MainFeedPageViewModel();
 		}
-	}
+        async void FacebookLoginButton_Clicked(object sender, EventArgs e)
+        {
+            if (App.Authenticator != null)
+                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
+        }
+        async void GoogleLoginButton_Clicked(object sender, EventArgs e)
+        {
+            if (App.Authenticator != null)
+                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Google);
+        }
+        async void LogoutButton_Clicked(object sender, EventArgs e)
+        {
+            if (App.Authenticator != null)
+                App.authenticated = await App.Authenticator.LogoutAsync();
+        }
+    }
 }

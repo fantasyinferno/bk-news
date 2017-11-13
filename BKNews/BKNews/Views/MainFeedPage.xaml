@@ -1,93 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BKNews.MainFeedPage">
+             x:Class="BKNews.MainFeedPage"
+        BackgroundColor="#eee">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Facebook" Clicked="FacebookLoginButton_Clicked">
+        </ToolbarItem>
+        <ToolbarItem Text="Google" Clicked="GoogleLoginButton_Clicked">
+        </ToolbarItem>
+        <ToolbarItem Text="Logout" Clicked="LogoutButton_Clicked">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Phòng đào tạo ❯"/>
-            <ListView HasUnevenRows="True" ItemsSource="{Binding AAONews}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Margin="0, 5, 0, 5">
-                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
-                                        <StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <StackLayout>
-                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
-                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
+        <ListView x:Name="GroupedView"
+        IsGroupingEnabled="true"
+                  BackgroundColor="Transparent"
+                   ItemsSource="{Binding LatestNews}">
+            <ListView.Header>
+                <Image Aspect="AspectFill" Source="Assets/logo.png" HeightRequest="128" WidthRequest="128" HorizontalOptions="CenterAndExpand" VerticalOptions="Start"/>
+            </ListView.Header>
+            <ListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                    <ViewCell.View>
+                        <StackLayout Margin="5" Spacing="1">
+                            <Label Text="{Binding Title}" FontSize="Large" FontAttributes="Bold" />
+                            <Grid VerticalOptions="FillAndExpand" BindingContext="{Binding FirstNews}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="240" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Image  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImageUrl}" Aspect="AspectFill"  HeightRequest="240" WidthRequest="426"/>
+                                    <Label  Grid.Row="2" Grid.Column="1" Text="{Binding NewsDate}" Margin="5, 0" HorizontalTextAlignment="End" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
+                                    <Label  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Title}" HorizontalTextAlignment="Start" FontAttributes="Bold" TextColor="#0036f9" FontSize="Medium" />
+                            </Grid>
+                        </StackLayout>
+                    </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.GroupHeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            
+                            <StackLayout Margin="5">
+                                <Frame HasShadow="True" Padding="5" Margin="5" HasShadow="True" BackgroundColor="#fff">
+                                    <StackLayout Spacing="0" >
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0, 5">
+                                            <StackLayout HorizontalOptions="Start">
+                                                <Label Text="{Binding Title}" FontSize="22" FontAttributes="Bold" TextColor="Blue"/>
+                                                <StackLayout Margin="0, 5" Orientation="Horizontal" HorizontalOptions="End">
+                                                    <Label Text="{Binding NewsDate}" FontSize="Micro"/>
+                                                    <Label Text="" FontSize="Micro">
+                                                        <Label.FontFamily>
+                                                            <OnPlatform x:TypeArguments="x:String">
+                                                                <On Platform="iOS" Value="FontAwesome" />
+                                                                <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                                                <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                            </OnPlatform>
+                                                        </Label.FontFamily>
+                                                    </Label>
                                                 </StackLayout>
-                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
                                             </StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
-                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
-                                            </StackLayout>
+                                            <Image Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/>
                                         </StackLayout>
-                                    </Frame>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Label Text="Văn phòng đào tạo quốc tế ❯"/>
-            <ListView HasUnevenRows="True"  ItemsSource="{Binding OISPNews}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Margin="0, 5, 0, 5">
-                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
-                                        <StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <StackLayout>
-                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
-                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
-                                                </StackLayout>
-                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
-                                            </StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
-                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </Frame>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Label Text="HCMUT ❯"/>
-            <ListView HasUnevenRows="True" ItemsSource="{Binding HCMUTNews}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <StackLayout Margin="0, 5, 0, 5">
-                                    <Frame Padding="5"  HasShadow="True" BackgroundColor="#fff">
-                                        <StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <StackLayout>
-                                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" TextColor="Blue"/>
-                                                    <Label Text="{Binding Desc}" FontSize="Small" TextColor="Gray"/>
-                                                </StackLayout>
-                                                <Image Source="{Binding ImageUrl}" HeightRequest="120" WidthRequest="120"/>
-                                            </StackLayout>
-                                            <StackLayout Orientation="Horizontal">
-                                                <Label Text="{Binding Author} - {Binding Type}" FontSize="Micro" />
-                                                <Image Source="ic_bookmark_border_black_24dp" HeightRequest="32" WidthRequest="32" />
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </Frame>
-                                </StackLayout>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>

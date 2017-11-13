@@ -61,5 +61,9 @@
 	</array>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
+	<key>UIAppFonts</key><key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.otf</string>
+	</array>
 </dict>
 </plist>

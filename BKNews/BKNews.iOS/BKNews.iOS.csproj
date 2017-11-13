@@ -92,11 +92,13 @@
     <Compile Include="AppDelegate.cs" />
     <None Include="app.config" />
     <None Include="Entitlements.plist" />
+    <Content Include="FontAwesome.otf" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
+    <BundleResource Include="Resources\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -220,6 +222,12 @@
       <InProject>false</InProject>
     </ImageAsset>
     <ImageAsset Include="Resources\Media.xcassets\LaunchImages.launchimage\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\logo.imageset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Resources\Media.xcassets\logo.imageset\logo.png.png">
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>

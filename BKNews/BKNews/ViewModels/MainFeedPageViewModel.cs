@@ -1,44 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
-
 namespace BKNews
 {
     class MainFeedPageViewModel
     {
-        ObservableCollection<News> AAONews;
-        ObservableCollection<News> OISPNews;
-        ObservableCollection<News> HCMUTNews;
+        public ObservableCollection<MainFeedPageGroup> LatestNews { get; set; }
 
         public MainFeedPageViewModel()
         {
-            AAONews = new ObservableCollection<News>();
-            OISPNews = new ObservableCollection<News>();
-            HCMUTNews = new ObservableCollection<News>();
+            LatestNews = new ObservableCollection<MainFeedPageGroup>()
+            {
+                new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
+                new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
+                new MainFeedPageGroup("HCMUT >", "HCMUT")
+            };
         }
         public async void GetLatestNews()
         {
-            IEnumerable<News> collection;
-            AAONews.Clear();
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
-            foreach (var item in collection)
-            {
-                AAONews.Add(item);
-            }
-            OISPNews.Clear();
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
-            foreach (var item in collection)
-            {
-                OISPNews.Add(item);
-            }
-            HCMUTNews.Clear();
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
-            foreach (var item in collection)
-            {
-                HCMUTNews.Add(item);
-            }
 
+            ObservableCollection<News> collection;
+            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+            for (int i = 1; i < collection.Count; ++i)
+            {
+                LatestNews[0].Add(collection[i]);
+            }
+            LatestNews[0].FirstNews = collection[0];
+            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
+            for (int i = 1; i < collection.Count; ++i)
+            {
+                LatestNews[1].Add(collection[i]);
+            }
+            LatestNews[1].FirstNews = collection[0];
+
+            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+            for (int i = 1; i < collection.Count; ++i)
+            {
+                LatestNews[2].Add(collection[i]);
+            }
+            LatestNews[2].FirstNews = collection[0];
+
+        }
+
+    }
+   
+    public class MainFeedPageGroup : ObservableCollection<News>
+    {
+        public string Title { get; set; }
+        public string ShortName { get; set; } //will be used for jump lists
+        public string Subtitle { get; set; }
+        public News _firstNews;
+        public News FirstNews
+        {
+            get
+            {
+                return _firstNews;
+            }
+            set
+            {
+                if (_firstNews != value)
+                {
+                    _firstNews = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("FirstNews"));
+                }
+            }
+        }
+        public MainFeedPageGroup(string title, string shortName)
+        {
+            Title = title;
+            ShortName = shortName;
+            FirstNews = null;
         }
     }
 }

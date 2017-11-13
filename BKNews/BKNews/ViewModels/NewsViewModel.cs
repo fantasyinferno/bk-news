@@ -58,27 +58,40 @@ namespace BKNews
             IsBusy = true;
             try
             {
-                var list = await Scraper.Scrape();
-                // individually add each item to the list (because we have to use ObservableCollection)
-                if (append)
+                // Scrape first 1000 pages if possible
+                for (int i = 1; i < 1000; ++i)
                 {
-                    foreach (var item in list)
+                    var list = await Scraper.Scrape(i);
+                    // individually add each item to the list (because we have to use ObservableCollection)
+                    if (append)
                     {
-                        NewsCollection.Add(item);
+                        foreach (var item in list)
+                        {
+                            // should fail on duplicates
+                            await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            NewsCollection.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in list)
+                        {
+                            // should fail on duplicates
+                            await NewsManager.DefaultManager.SaveTaskAsync(item);
+                            NewsCollection.Insert(0, item);
+                        }
                     }
                 }
-                else
-                {
-                    foreach (var item in list)
-                    {
-                        NewsCollection.Insert(0, item);
-                    }
-                }
+            }
+            catch (InvalidOperationException e)
+            {
+                // duplicates
+                Debug.WriteLine("Unique key constant fails");
             }
             catch (Exception e)
             {
                 // do nothing
-                Debug.WriteLine(e);
+                Debug.WriteLine("Either an error occured or there are no pages left to scrape.");
             }
             finally
             {
