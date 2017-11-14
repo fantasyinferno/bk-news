@@ -58,6 +58,7 @@ namespace BKNews
             IsBusy = true;
             try
             {
+
                 // Scrape first 1000 pages if possible
                 for (int i = 1; i < 1000; ++i)
                 {
@@ -87,6 +88,7 @@ namespace BKNews
             {
                 // duplicates
                 Debug.WriteLine("Unique key constant fails");
+
             }
             catch (Exception e)
             {
