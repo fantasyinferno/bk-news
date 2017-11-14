@@ -112,6 +112,36 @@ namespace BKNews
             }
             return null;
         }
+        /*addition*/
+        /// <summary>
+        /// Get the latest news from the database
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<ObservableCollection<News>> GetLatestNews(int num = 0)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                IEnumerable<News> items = await NewsTable.OrderByDescending(news => news.NewsDate).Take(num).ToEnumerableAsync();
+                return new ObservableCollection<News>(items);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
+        /*addition*/
         /// <summary>
         /// Get News with a LINQ expression.
         /// </summary>
