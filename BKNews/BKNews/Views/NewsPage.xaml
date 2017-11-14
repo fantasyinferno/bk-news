@@ -6,24 +6,6 @@
              x:Class="BKNews.NewsPage"
              Title="{Binding Category}"
              BackgroundColor="#eee" >
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Reload" Command="{Binding ScrapeCommand}">
-            <ToolbarItem.Icon>
-                <FileImageSource>
-                    ic_replay_white_24dp.png
-                </FileImageSource>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-        <ToolbarItem Text="Facebook" Clicked="FacebookLoginButton_Clicked">
-
-        </ToolbarItem>
-        <ToolbarItem Text="Google" Clicked="GoogleLoginButton_Clicked">
-
-        </ToolbarItem>
-        <ToolbarItem Text="Logout" Clicked="LogoutButton_Clicked">
-
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" 
                   IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
@@ -34,11 +16,11 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            <StackLayout Margin="20">
-                                <Frame Padding="0"  HasShadow="True" BackgroundColor="#fff">
+                                <Frame Margin="5, 20, 5, 20" Padding="0"  HasShadow="True" BackgroundColor="#fff">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="240" />
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
@@ -56,7 +38,6 @@
                                         <Label  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Desc}" FontSize="Small" HorizontalTextAlignment="Center" />
                                     </Grid>
                                 </Frame>
-                            </StackLayout>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>

@@ -18,12 +18,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
-      <DependentUpon>CategoryPage.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NewsUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainFeedPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml.cs">
+      <DependentUpon>MainFeedPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml.cs">
-      <DependentUpon>InAppBrowser.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\NewsPage.xaml.cs">
@@ -46,15 +49,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\InAppBrowser.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)NewFolder\" />
   </ItemGroup>
 </Project>

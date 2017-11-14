@@ -16,6 +16,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using BKNews;
+using System.Diagnostics;
 namespace BKNews.UWP
 {
     public sealed partial class MainPage: IAuthenticate
@@ -39,6 +40,7 @@ namespace BKNews.UWP
                     {
                         success = true;
                         message = string.Format("You are now signed-in as {0}.", user.UserId);
+                        Debug.WriteLine(user.MobileServiceAuthenticationToken);
                     }
                 }
 
