@@ -246,59 +246,44 @@ namespace BKNews
                 var docNode = webNode.Load(newsUrl);
                 var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
                 string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
-                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
+         //       DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
+                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, DateTime.Now, "HCMUT");
                 list.Add(news);
             }
             return list;
         }
     }
 
-    class VNExScraper : IScrape
+    class PGSScraper : IScrape
     {
         public async Task<List<News>> Scrape()
         {
-            var url = @"https://vnexpress.net/";
+            var url = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao";
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
-            var nodes = doc.DocumentNode.SelectNodes("//article[@class=\"list_news\"]");
+            var nodes = doc.DocumentNode.SelectNodes("//li[@class=\"item-thongbao\"]");
 
             List<News> list = new List<News>();
             foreach (var node in nodes)
             {
                 // get title
-                var title = node.SelectSingleNode("//h3//a").InnerText;
-  /*              title = title.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
-                while (title.IndexOf("&nbsp;") != -1)
-                {
-                    title = title.Insert(title.IndexOf("&nbsp;"), " ");
-                    title = title.Remove(title.IndexOf("&nbsp;"), 6);
-                }
-  */      //      var title = "Tổng thống Mỹ Trump chiều nay phát biểu tại tuần lễ cấp cao APEC";
+                var title = node.SelectSingleNode(".//h3//a").InnerText;
+         //       var title = "LỊCH THU HỌC PHÍ HK1/2017-2018 LẦN 2";
                 // get desc
-                var desc = node.SelectSingleNode(xpath: "//h4[@class=\"description\"]").InnerText;
-                desc = desc.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
-                while (desc.IndexOf("&nbsp;") != -1)
-                {
-                    desc = desc.Insert(desc.IndexOf("&nbsp;"), " ");
-                    desc = desc.Remove(desc.IndexOf("&nbsp;"), 6);
-                }
-               
-          //      var desc = "Tổng thống Mỹ Donald Trump chiều nay có bài phát biểu tại Hội nghị Thượng đỉnh Doanh nghiệp APEC tổ chức tại Đà Nẵng, Việt Nam.";
+                var desc = "";
+
                 // get url
-                //              var imageUrl = node.SelectSingleNode(".//img").Attributes["src"].Value;
-                var imageUrl = @"https://i-vnexpress.vnecdn.net/2017/11/10/download-1-8291-1510289516_140x84.jpg";
-                //            var newsUrl = node.SelectSingleNode(".//a[@class=\"thumb thumb_5x3\"]").Attributes["href"].Value;
-                var newsUrl = @"https://vnexpress.net/tuong-thuat/the-gioi/tong-thong-my-trump-chieu-nay-phat-bieu-tai-tuan-le-cap-cao-apec-3668427.html";
+                var imageUrl = @"http://www.pgs.hcmut.edu.vn/media/k2/items/cache/8c65de010bd08c28dd62a66cc800ec57_L.jpg";
+                var newsUrl = node.SelectSingleNode(".//h3//a").Attributes["href"].Value;
+         //       var newsUrl = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao/thong-tin-chung/item/1848-lich-thu-hoc-phi-hk1-2017-2018-lan-2";
+                newsUrl = "http://www.pgs.hcmut.edu.vn" + newsUrl;
                 // Get DateTime
-                /*   var webNode = new HtmlWeb();
-                   var docNode = webNode.Load(newsUrl);
-                   var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
-                   string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
-                   DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);*/
+                var createdAtString = node.SelectSingleNode(".//span[@class=\"date\"]").InnerText;
+                createdAtString = createdAtString.Remove(0, 5);
+                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc, "HCMUT", newsUrl, imageUrl, DateTime.Now, "HCMUT");
+                News news = new News(title, desc, "PGS", newsUrl, imageUrl, newsDate, "PGS");
                 list.Add(news);
             }
             return list;
@@ -306,41 +291,31 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            var url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/" + (3 * (i - 1)).ToString();
+            var url = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao?start=" + ((i)*10).ToString();
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
-            var nodes = doc.DocumentNode.SelectNodes("//div[@class=\"panel_1_content\"]");
+            var nodes = doc.DocumentNode.SelectNodes("//li[@class=\"item-thongbao\"]");
 
             List<News> list = new List<News>();
             foreach (var node in nodes)
             {
                 // get title
-                var title = node.SelectSingleNode(".//h3").InnerText;
-                title = title.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
-                while (title.IndexOf("&nbsp;") != -1)
-                {
-                    title = title.Insert(title.IndexOf("&nbsp;"), " ");
-                    title = title.Remove(title.IndexOf("&nbsp;"), 6);
-                }
+                var title = node.SelectSingleNode(".//h3//a").InnerText;
+             //   var title = "LỊCH THU HỌC PHÍ HK1/2017-2018 LẦN 2";
                 // get desc
-                var desc = node.SelectSingleNode(".//p").InnerText;
-                desc = desc.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
-                while (desc.IndexOf("&nbsp;") != -1)
-                {
-                    desc = desc.Insert(desc.IndexOf("&nbsp;"), " ");
-                    desc = desc.Remove(desc.IndexOf("&nbsp;"), 6);
-                }
+                var desc = "";
+
                 // get url
-                var imageUrl = node.SelectSingleNode(".//a//img").Attributes["src"].Value;
-                var newsUrl = node.SelectSingleNode(".//a").Attributes["href"].Value;
+                var imageUrl = @"http://www.pgs.hcmut.edu.vn/media/k2/items/cache/8c65de010bd08c28dd62a66cc800ec57_L.jpg";
+                var newsUrl = node.SelectSingleNode(".//h3//a").Attributes["href"].Value;
+             //   var newsUrl = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao/thong-tin-chung/item/1848-lich-thu-hoc-phi-hk1-2017-2018-lan-2";
+                newsUrl = "http://www.pgs.hcmut.edu.vn" + newsUrl;
                 // Get DateTime
-                var webNode = new HtmlWeb();
-                var docNode = webNode.Load(newsUrl);
-                var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
-                string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
+                var createdAtString = node.SelectSingleNode(".//span[@class=\"date\"]").InnerText;
+                createdAtString = createdAtString.Remove(0, 5);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
+                News news = new News(title, desc, "PGS", newsUrl, imageUrl, newsDate, "PGS");
                 list.Add(news);
             }
             return list;

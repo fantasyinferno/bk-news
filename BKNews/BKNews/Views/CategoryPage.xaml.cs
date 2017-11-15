@@ -18,6 +18,7 @@ namespace BKNews
             this.Children.Add(new NewsPage("HCMUT", new HCMUTScraper()));
             this.Children.Add(new NewsPage("AAO", new AAOScraper()));
             this.Children.Add(new NewsPage("OISP", new OISPScraper()));
+            this.Children.Add(new NewsPage("PGS", new PGSScraper()));
             searchPage.BindingContext = new SearchPageViewModel();
             this.CurrentPage = this.Children[1];
         }
