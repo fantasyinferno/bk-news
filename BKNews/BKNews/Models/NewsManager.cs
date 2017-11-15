@@ -248,6 +248,11 @@ namespace BKNews
                 await NewsUserTable.UpdateAsync(item);
             }
         }
+        public async Task CleanNewsAsync(string type)
+        {
+            var arguments = new Dictionary<string, string> { { "type", type } };
+            await client.InvokeApiAsync<News>("delete_all_news", System.Net.Http.HttpMethod.Delete, arguments);
+        }
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
         {

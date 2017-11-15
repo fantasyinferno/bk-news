@@ -7,7 +7,7 @@
     <ContentPage x:Name="searchPage" Title="🔎">
         <StackLayout Margin="20">
             <SearchBar x:Name="searchBar" Placeholder="Enter your search term here" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
-            <ListView ItemsSource="{Binding SearchCollection}">
+            <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding SearchCollection}">
                 <ListView.Header>
                     <StackLayout Padding="0,16,0,14">
                         <Label Text="{Binding HeaderString, Mode=OneWay}" TextColor="Black" FontFamily="Ubuntu" FontSize="14" HorizontalOptions="Center" />

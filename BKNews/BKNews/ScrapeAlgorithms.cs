@@ -45,7 +45,7 @@ namespace BKNews
             {
                 // get title, url and createdAt
                 var title = node.SelectSingleNode(".//h3").InnerHtml;
-                var newsUrl = node.SelectSingleNode(".//a").Attributes["href"].Value;
+                var newsUrl = node.SelectSingleNode(".//a").Attributes["href"].DeEntitizeValue;
                 // delete parenthesises at the beginning and end of date
                 var createdAtString = node.SelectSingleNode(".//span").InnerHtml.Trim(new char[] { '(', ')' });
                 var imageUrl = node.SelectSingleNode(".//div[@class=\"img-box-item\"]//img").Attributes["src"].Value;

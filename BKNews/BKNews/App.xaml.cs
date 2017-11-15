@@ -15,6 +15,7 @@ namespace BKNews
         // is the user logged in?
         public static bool authenticated = false;
         MainFeedPage MainFeedPage;
+        CategoryPage CategoryPage;
         // Initialize authenticator
         public static IAuthenticate Authenticator { get; private set; }
         public static void Init(IAuthenticate authenticator)
@@ -37,12 +38,14 @@ namespace BKNews
 		{
 			InitializeComponent();
             MainFeedPage = new MainFeedPage();
-            MainPage = new NavigationPage(MainFeedPage)
-            {
-                Title = "BKExpress",
-                BarBackgroundColor=Color.Blue,
-                Icon="Assets/logo.png"
-            };
+            CategoryPage = new CategoryPage();
+            //MainPage = new NavigationPage(MainFeedPage)
+            //{
+            //    Title = "BKExpress",
+            //    BarBackgroundColor=Color.Blue,
+            //    Icon="Assets/logo.png"
+            //};
+            MainPage = CategoryPage;
         }
 
         protected async override void OnStart ()
@@ -54,7 +57,16 @@ namespace BKNews
             {
                 // scrape if there is a internet connection
                 // connectivityErrorPage.IsVisible = false;
-                    await mainFeedViewModel.GetLatestNews();
+                foreach (var page in CategoryPage.Children)
+                {
+                    if (page.GetType() == typeof(NewsPage))
+                    {
+                        var newsViewModel = (NewsViewModel)page.BindingContext;
+                        await newsViewModel.ScrapeToCollectionAsync();
+                        await newsViewModel.LoadFromDatabaseAsync();
+                    }
+                }
+                await mainFeedViewModel.GetLatestNews();
             }
             else
             {
