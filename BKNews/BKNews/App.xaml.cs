@@ -54,7 +54,7 @@ namespace BKNews
             {
                 // scrape if there is a internet connection
                 // connectivityErrorPage.IsVisible = false;
-                await mainFeedViewModel.GetLatestNews();
+                    await mainFeedViewModel.GetLatestNews();
             }
             else
             {

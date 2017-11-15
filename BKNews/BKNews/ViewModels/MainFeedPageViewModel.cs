@@ -35,20 +35,20 @@ namespace BKNews
             {
                 LatestNews[0].Add(collection[i]);
             }
-            LatestNews[0].FirstNews = collection[0];
+            LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
             collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
             for (int i = 1; i < collection.Count; ++i)
             {
                 LatestNews[1].Add(collection[i]);
             }
-            LatestNews[1].FirstNews = collection[0];
+            LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
 
             collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
             for (int i = 1; i < collection.Count; ++i)
             {
                 LatestNews[2].Add(collection[i]);
             }
-            LatestNews[2].FirstNews = collection[0];
+            LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
 
         }
 
