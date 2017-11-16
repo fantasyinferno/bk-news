@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BookmarkViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainFeedPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml.cs">
       <DependentUpon>MainFeedPage.xaml</DependentUpon>

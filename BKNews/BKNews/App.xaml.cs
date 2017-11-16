@@ -39,12 +39,12 @@ namespace BKNews
 			InitializeComponent();
             MainFeedPage = new MainFeedPage();
             CategoryPage = new CategoryPage();
-            //MainPage = new NavigationPage(MainFeedPage)
-            //{
-            //    Title = "BKExpress",
-            //    BarBackgroundColor=Color.Blue,
-            //    Icon="Assets/logo.png"
-            //};
+         /*   MainPage = new NavigationPage(MainFeedPage)
+            {
+                Title = "BKExpress",
+                BarBackgroundColor=Color.Blue,
+                Icon="Assets/logo.png"
+            };*/
             MainPage = CategoryPage;
         }
 
