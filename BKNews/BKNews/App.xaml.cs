@@ -34,18 +34,19 @@ namespace BKNews
                 return CrossConnectivity.Current.IsConnected;
             }
         }
+
 		public App ()
 		{
 			InitializeComponent();
             MainFeedPage = new MainFeedPage();
             CategoryPage = new CategoryPage();
-         /*   MainPage = new NavigationPage(MainFeedPage)
+            MainPage = new NavigationPage(MainFeedPage)
             {
                 Title = "BKExpress",
                 BarBackgroundColor=Color.Blue,
                 Icon="Assets/logo.png"
-            };*/
-            MainPage = CategoryPage;
+            };
+           // MainPage = CategoryPage;
         }
 
         protected async override void OnStart ()
