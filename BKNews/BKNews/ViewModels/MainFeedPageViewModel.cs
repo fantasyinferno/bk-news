@@ -21,12 +21,10 @@ namespace BKNews
                 new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
                 new MainFeedPageGroup("HCMUT >", "HCMUT")
             };
-            RefreshCommand = new Command(async () =>
-            {
-                await GetLatestNews();
-            });
+            RefreshCommand = new Command(GetLatestNews);
+            GetLatestNews();
         }
-        public async Task GetLatestNews()
+        public async void GetLatestNews()
         {
 
             ObservableCollection<News> collection;

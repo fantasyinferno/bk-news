@@ -23,7 +23,6 @@ namespace BKNews
         public ICommand ScrapeCommand { get; set; }
         public ICommand LoadMore { get; set; }
         // list for storing scrapers
-        public IScrape Scraper;
         // IsRefreshing property of ListView
         private bool _isBusy = false;
         public bool IsBusy
@@ -78,10 +77,9 @@ namespace BKNews
                 Debug.WriteLine(e);
             }
         }
-        public NewsViewModel(String category, IScrape scraper)
+        public NewsViewModel(String category)
         {
             Category = category;
-            Scraper = scraper;
             NewsCollection = new ObservableCollection<News>();
             // load more when pull to refresh
             ScrapeCommand = new Command(ScrapeToCollectionAsync);

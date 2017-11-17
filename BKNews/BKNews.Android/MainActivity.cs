@@ -9,6 +9,12 @@ using Android.OS;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using Android.Webkit;
+using BKNews;
+using System.Collections.Generic;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace BKNews.Droid
 {
@@ -44,8 +50,20 @@ namespace BKNews.Droid
             builder.SetMessage(message);
             builder.SetTitle("Sign-in result");
             builder.Create().Show();
-
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.GetAsync(Constants.ApplicationURL + @"/.auth/me");
+                var responseString = await response.Content.ReadAsStringAsync();
+                JToken token = JToken.Parse(responseString);
+            } catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
             return success;
+
         }
         public async Task<bool> LogoutAsync()
         {

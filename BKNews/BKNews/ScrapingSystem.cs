@@ -49,7 +49,7 @@ namespace BKNews
         {
             foreach(var key in Scrapers.Keys)
             {
-                Scrape(key);
+                await Scrape(key);
             }
         }
     }

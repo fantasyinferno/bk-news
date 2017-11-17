@@ -15,10 +15,10 @@ namespace BKNews
         public CategoryPage ()
         {
             InitializeComponent();
-            this.Children.Add(new NewsPage("HCMUT", new HCMUTScraper()));
-            this.Children.Add(new NewsPage("AAO", new AAOScraper()));
-            this.Children.Add(new NewsPage("OISP", new OISPScraper()));
-            this.Children.Add(new NewsPage("PGS", new PGSScraper()));
+            this.Children.Add(new NewsPage("HCMUT"));
+            this.Children.Add(new NewsPage("AAO"));
+            this.Children.Add(new NewsPage("OISP"));
+            this.Children.Add(new NewsPage("PGS"));
             searchPage.BindingContext = new SearchPageViewModel();
             this.CurrentPage = this.Children[1];
         }

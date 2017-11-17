@@ -12,6 +12,8 @@ namespace BKNews
 	
 	public partial class App : Application
 	{
+        // currentUser contains the CurrentUser information
+        CurrentUser currentUser = null;
 		// is the user logged in?
 		public static bool authenticated = false;
 		MainFeedPage MainFeedPage;
@@ -39,7 +41,6 @@ namespace BKNews
 		{
 			InitializeComponent();
 			MainFeedPage = new MainFeedPage();
-			CategoryPage = new CategoryPage();
 			NotificationPage = new NotificationPage();
 			//MainPage = new NavigationPage(MainFeedPage)
 			//{
@@ -47,7 +48,7 @@ namespace BKNews
 			//    BarBackgroundColor=Color.Blue,
 			//    Icon="Assets/logo.png"
 			//};
-			MainPage = CategoryPage;
+			MainPage = new SidebarPage();
 		}
 
 		protected async override void OnStart ()
