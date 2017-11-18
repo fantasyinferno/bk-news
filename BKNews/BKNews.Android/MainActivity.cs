@@ -12,11 +12,12 @@ using Android.Webkit;
 
 namespace BKNews.Droid
 {
-	[Activity (Label = "BKNews", Icon = "@drawable/icon", Theme="@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation) ]
+    [Activity(Label = "BKNews", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IAuthenticate
     {
         // Define an authenticated user.
         private MobileServiceUser user;
+
         public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
         {
             var success = false;
@@ -30,6 +31,8 @@ namespace BKNews.Droid
                 {
                     message = string.Format("You are now signed-in as {0}.",
                         user.UserId);
+                    // Add UserId to bookmark
+                    BookmarkViewModel.UserId = user.UserId;
                     success = true;
                 }
             }
@@ -57,19 +60,23 @@ namespace BKNews.Droid
             user = null;
             return true;
         }
-        protected override void OnCreate (Bundle bundle)
-		{
-			TabLayoutResource = Resource.Layout.Tabbar;
-			ToolbarResource = Resource.Layout.Toolbar; 
+        protected override void OnCreate(Bundle bundle)
+        {
+            TabLayoutResource = Resource.Layout.Tabbar;
+            ToolbarResource = Resource.Layout.Toolbar;
 
-			base.OnCreate (bundle);
+            base.OnCreate(bundle);
 
-			global::Xamarin.Forms.Forms.Init (this, bundle);
+            global::Xamarin.Forms.Forms.Init(this, bundle);
 
             // authenticate signin form
             App.Init((IAuthenticate)this);
-            LoadApplication (new BKNews.App ());
-		}
+            LoadApplication(new BKNews.App());
+        }
+        public string getId()
+        {
+            return user.UserId;
+        }
 	}
 }
 

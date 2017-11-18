@@ -27,6 +27,15 @@
                                         <StackLayout>
                                             <Label Text="{Binding Title}" FontSize="Medium" TextColor="Blue"/>
                                             <Label Text="{Binding NewsDate}" FontSize="Micro" TextColor="Gray"/>
+                                            <Label Grid.Row="1" Grid.Column="1" Text="" FontSize="Medium" HorizontalOptions="End">
+                                                <Label.FontFamily>
+                                                    <OnPlatform x:TypeArguments="x:String">
+                                                        <On Platform="iOS" Value="FontAwesome" />
+                                                        <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                                        <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                    </OnPlatform>
+                                                </Label.FontFamily>
+                                            </Label>
                                         </StackLayout>
                                     </StackLayout>
                                     </Frame>
