@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "717346254385",
+    "firebase_url": "https://bknews2017.firebaseio.com",
+    "project_id": "bknews2017",
+    "storage_bucket": "bknews2017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717346254385:android:e1a6fd4d20a48159",
+        "android_client_info": {
+          "package_name": "com.bknews.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717346254385-1lh9g57i9f3f89caseg6lqc5346j5c2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBzxbs4GgwalQhgYn5j8I0R9B1QCRmUn8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

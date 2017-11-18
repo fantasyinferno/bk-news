@@ -17,6 +17,8 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Linq.Expressions;
+using Android.Gms.Common;
+
 namespace BKNews.Droid
 {
     [Activity(Label = "BKNews", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -38,7 +40,7 @@ namespace BKNews.Droid
                 {
                     message = string.Format("You are now signed-in as {0}. Token: {1}",
                         user.UserId, user.MobileServiceAuthenticationToken);
-                    BookmarkViewModel.UserId = user.UserId;
+                    //BookmarkViewModel.UserId = user.UserId;
                     success = true;
                 }
             }
