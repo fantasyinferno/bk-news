@@ -23,7 +23,6 @@ namespace BKNews
         public ICommand ScrapeCommand { get; set; }
         public ICommand LoadMore { get; set; }
         // list for storing scrapers
-        public IScrape Scraper;
         // IsRefreshing property of ListView
         private bool _isBusy = false;
         public bool IsBusy
@@ -53,53 +52,17 @@ namespace BKNews
             }
         }
         // Scrape function. Once done, sent the scraped news to NewsCollection.
-        public async Task ScrapeToCollectionAsync(bool append = false)
+        public async void ScrapeToCollectionAsync()
         {
             IsBusy = true;
-            try
-            {
-                // Scrape first 1000 pages if possible
-                for (int i = 1; i < 1000; ++i)
-                {
-                    var list = await Scraper.Scrape(i);
-                    // individually add each item to the list (because we have to use ObservableCollection)
-                    if (append)
-                    {
-                        foreach (var item in list)
-                        {
-                            // should fail on duplicates
-                            await NewsManager.DefaultManager.SaveNewsAsync(item);
-                            NewsCollection.Add(item);
-                        }
-                    }
-                    else
-                    {
-                        foreach (var item in list)
-                        {
-                            // should fail on duplicates
-                            await NewsManager.DefaultManager.SaveNewsAsync(item);
-                            NewsCollection.Insert(0, item);
-                        }
-                    }
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                // duplicates
-                Debug.WriteLine("Unique key constant fails");
-            }
-            catch (Exception e)
-            {
-                // do nothing
-                Debug.WriteLine("Either an error occured or there are no pages left to scrape.");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            await ScrapingSystem.Scrape(Category);
+            NewsCollection.Clear();
+            LoadFromDatabaseAsync();
+            Skip = 0;
+            IsBusy = false;
         }
         // load items from database with pagination
-        public async Task LoadFromDatabaseAsync()
+        public async void LoadFromDatabaseAsync()
         {
             try
             {
@@ -114,21 +77,16 @@ namespace BKNews
                 Debug.WriteLine(e);
             }
         }
-        public NewsViewModel(String category, IScrape scraper)
+        public NewsViewModel(String category)
         {
             Category = category;
-            Scraper = scraper;
             NewsCollection = new ObservableCollection<News>();
-            // command for button
-            ScrapeCommand = new Command(async () =>
-            {
-                await ScrapeToCollectionAsync();
-            });
-
-            LoadMore = new Command(async () =>
-            {
-                await LoadFromDatabaseAsync();
-            });
+            // load more when pull to refresh
+            ScrapeCommand = new Command(ScrapeToCollectionAsync);
+            // load more at the end of the list
+            LoadMore = new Command(LoadFromDatabaseAsync);
+            // take 5 news from database 
+            LoadFromDatabaseAsync();
         }
     }
 }

@@ -9,10 +9,37 @@ using Xamarin.Forms;
 using System.Diagnostics;
 namespace BKNews
 {
-    class MainFeedPageViewModel
+    class MainFeedPageViewModel: INotifyPropertyChanged
     {
         public ObservableCollection<MainFeedPageGroup> LatestNews { get; set; }
         public ICommand RefreshCommand { get; set; }
+        private bool _isBusy = false;
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                if (_isBusy != value)
+                {
+                    _isBusy = value;
+                    OnPropertyChanged("IsBusy");
+                }
+
+            }
+        }
+        // propagate property changes
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            var changed = PropertyChanged;
+            if (changed != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
         public MainFeedPageViewModel()
         {
             LatestNews = new ObservableCollection<MainFeedPageGroup>()
@@ -21,34 +48,41 @@ namespace BKNews
                 new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
                 new MainFeedPageGroup("HCMUT >", "HCMUT")
             };
-            RefreshCommand = new Command(async () =>
-            {
-                await GetLatestNews();
-            });
+            RefreshCommand = new Command(GetLatestNews);
+            GetLatestNews();
         }
-        public async Task GetLatestNews()
+        public async void GetLatestNews()
         {
+            try
+            {
+                IsBusy = true;
+                ObservableCollection<News> collection;
+                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+                for (int i = 1; i < collection.Count; ++i)
+                {
+                    LatestNews[0].Add(collection[i]);
+                }
+                LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
+                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
+                for (int i = 1; i < collection.Count; ++i)
+                {
+                    LatestNews[1].Add(collection[i]);
+                }
+                LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
 
-            ObservableCollection<News> collection;
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
-            for (int i = 1; i < collection.Count; ++i)
+                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+                for (int i = 1; i < collection.Count; ++i)
+                {
+                    LatestNews[2].Add(collection[i]);
+                }
+                LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
+            } catch(Exception e)
             {
-                LatestNews[0].Add(collection[i]);
-            }
-            LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
-            for (int i = 1; i < collection.Count; ++i)
+                Debug.WriteLine(e.Message);
+            } finally
             {
-                LatestNews[1].Add(collection[i]);
+                IsBusy = false;
             }
-            LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
-
-            collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
-            for (int i = 1; i < collection.Count; ++i)
-            {
-                LatestNews[2].Add(collection[i]);
-            }
-            LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
 
         }
 
@@ -79,7 +113,10 @@ namespace BKNews
         public void OnGroupHeaderTapped()
         {
             Debug.WriteLine("WTF");
-            Device.OpenUri(new Uri(FirstNews.NewsUrl));
+            if (FirstNews != null)
+            {
+                Device.OpenUri(new Uri(FirstNews.NewsUrl));
+            }
         }
         public MainFeedPageGroup(string title, string shortName)
         {

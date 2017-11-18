@@ -14,10 +14,10 @@ namespace BKNews
             // Refresh items only when authenticated.
         }
 
-        public NewsPage (string category, IScrape scraper)
+        public NewsPage (string category)
 		{
 			InitializeComponent ();
-            BindingContext = new NewsViewModel(category, scraper);
+            BindingContext = new NewsViewModel(category);
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

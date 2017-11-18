@@ -9,7 +9,14 @@ using Android.OS;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using Android.Webkit;
-
+using BKNews;
+using System.Collections.Generic;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Linq.Expressions;
 namespace BKNews.Droid
 {
     [Activity(Label = "BKNews", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -29,9 +36,8 @@ namespace BKNews.Droid
                     provider, Constants.URLScheme);
                 if (user != null)
                 {
-                    message = string.Format("You are now signed-in as {0}.",
-                        user.UserId);
-                    // Add UserId to bookmark
+                    message = string.Format("You are now signed-in as {0}. Token: {1}",
+                        user.UserId, user.MobileServiceAuthenticationToken);
                     BookmarkViewModel.UserId = user.UserId;
                     success = true;
                 }
@@ -47,8 +53,40 @@ namespace BKNews.Droid
             builder.SetMessage(message);
             builder.SetTitle("Sign-in result");
             builder.Create().Show();
-
+            System.Diagnostics.Debug.WriteLine(user.MobileServiceAuthenticationToken);
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+                HttpResponseMessage response;
+                response = await client.GetAsync(Constants.ApplicationURL + @"/.auth/me");
+                var responseString = await response.Content.ReadAsStringAsync();
+                JToken token = JToken.Parse(responseString);
+                System.Diagnostics.Debug.WriteLine(token[0]["user_claims"]);
+                var userClaims = token[0]["user_claims"];
+                string avatarUrl = null;
+                string name = null;
+                List<Info> yourInfo = JsonConvert.DeserializeObject<List<Info>>(userClaims.ToString());
+                if (provider == MobileServiceAuthenticationProvider.Facebook)
+                {
+                    avatarUrl = "http://graph.facebook.com/" + yourInfo.Find(info => info.typ == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").val + "/picture?type=normal";
+                    name = yourInfo.Find(info => info.typ == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").val;
+                }
+                else if (provider == MobileServiceAuthenticationProvider.Google)
+                {
+                    avatarUrl = yourInfo.Find(info => info.typ == "picture").val;
+                    name = yourInfo.Find(info => info.typ == "name").val;
+                }
+                var SidebarPage = (SidebarPage) App.Current.MainPage;
+                var viewModel = (SidebarPageMasterViewModel)SidebarPage.Master.BindingContext;
+                viewModel.CurrentUser = new SidebarPageMasterViewModel.UserInformation(name, avatarUrl);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
             return success;
+
         }
         public async Task<bool> LogoutAsync()
         {

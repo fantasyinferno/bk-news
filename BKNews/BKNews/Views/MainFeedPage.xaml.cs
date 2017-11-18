@@ -19,21 +19,6 @@ namespace BKNews
 			InitializeComponent ();
             BindingContext = new MainFeedPageViewModel();
 		}
-        async void FacebookLoginButton_Clicked(object sender, EventArgs e)
-        {
-            if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
-        }
-        async void GoogleLoginButton_Clicked(object sender, EventArgs e)
-        {
-            if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Google);
-        }
-        async void LogoutButton_Clicked(object sender, EventArgs e)
-        {
-            if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.LogoutAsync();
-        }
 
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

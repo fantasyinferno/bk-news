@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BKNews.SidebarPageMaster"
+             Title="Master">
+    <StackLayout>
+        <ListView x:Name="MenuItemsListView"
+              HasUnevenRows="true"
+                  BackgroundColor="#eee"
+              ItemsSource="{Binding MenuItems}">
+            <ListView.Header>
+                <Grid BackgroundColor="#03A9F4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="240"/>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalOptions="Start" Grid.Row="1" Grid.Column="1"  Aspect="AspectFill" Source="{Binding Path=CurrentUser.AvatarUrl, Mode=OneWay}" HeightRequest="80" WidthRequest="80"/>
+                    <Label
+                        TextColor="White"
+                        FontSize="Small"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+              Text="{Binding Path=CurrentUser.Name, Mode=OneWay}"
+              Style="{DynamicResource SubtitleStyle}" />
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand">
+                            <Label VerticalOptions="FillAndExpand" 
+                    VerticalTextAlignment="Center" 
+                    Text="{Binding Title}" 
+                                   TextColor="#03A9F4"
+                    FontSize="24"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView >
+        <Grid VerticalOptions="End">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Text="Facebook" Clicked="FacebookLoginButton_Clicked" />
+            <Button Grid.Column="1" Text="Google" Clicked="GoogleLoginButton_Clicked" />
+        </Grid>
+  </StackLayout>
+</ContentPage>
