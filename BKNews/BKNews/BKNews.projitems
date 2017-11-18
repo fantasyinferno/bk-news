@@ -15,14 +15,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\InfiniteScroll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IAuthenticate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IScrape.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\CurrentUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\News.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScrapingSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainFeedPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NotificationPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SidebarPageMasterViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml.cs">
       <DependentUpon>MainFeedPage.xaml</DependentUpon>
       <SubType>Code</SubType>

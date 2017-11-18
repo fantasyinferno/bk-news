@@ -49,7 +49,11 @@ namespace BKNews
         // Scrape function. Once done, sent the scraped news to NewsCollection.
         public NotificationPageViewModel()
         {
-            NewsCollection = ScrapingSystem.Updates;
+            NewsCollection = new ObservableCollection<News>();
+            foreach(var news in ScrapingSystem.Updates)
+            {
+                NewsCollection.Add(news);
+            }
             // command for button
         }
     }

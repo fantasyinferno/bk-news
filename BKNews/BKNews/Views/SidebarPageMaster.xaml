@@ -5,29 +5,33 @@
              Title="Master">
     <StackLayout>
         <ListView x:Name="MenuItemsListView"
-              SeparatorVisibility="None"
               HasUnevenRows="true"
+                  BackgroundColor="#eee"
               ItemsSource="{Binding MenuItems}">
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="240"/>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalOptions="Start" Grid.Row="1" Grid.Column="1"  Aspect="AspectFill" Source="{Binding Path=CurrentUser.AvatarUrl, Mode=OneWay}" HeightRequest="80" WidthRequest="80"/>
                     <Label
-              Grid.Column="1"
-              Grid.Row="2"
-              Text="BKNews"
+                        TextColor="White"
+                        FontSize="Small"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+              Text="{Binding Path=CurrentUser.Name, Mode=OneWay}"
               Style="{DynamicResource SubtitleStyle}" />
-
-                    </Grid>
+                </Grid>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -36,6 +40,7 @@
                             <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
+                                   TextColor="#03A9F4"
                     FontSize="24"/>
                         </StackLayout>
                     </ViewCell>

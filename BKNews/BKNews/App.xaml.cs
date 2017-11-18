@@ -12,13 +12,14 @@ namespace BKNews
 	
 	public partial class App : Application
 	{
-        // currentUser contains the CurrentUser information
-        CurrentUser currentUser = null;
+        public class CurrentUser
+        {
+            public string Name { get; set; }
+            public string AvatarURL { get; set; }
+        }
+        CurrentUser currentUser = new CurrentUser();
 		// is the user logged in?
 		public static bool authenticated = false;
-		MainFeedPage MainFeedPage;
-		CategoryPage CategoryPage;
-		NotificationPage NotificationPage;
 		// Initialize authenticator
 		public static IAuthenticate Authenticator { get; private set; }
 		public static void Init(IAuthenticate authenticator)
@@ -40,8 +41,6 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-			MainFeedPage = new MainFeedPage();
-			NotificationPage = new NotificationPage();
 			//MainPage = new NavigationPage(MainFeedPage)
 			//{
 			//    Title = "BKExpress",
@@ -53,17 +52,7 @@ namespace BKNews
 
 		protected async override void OnStart ()
 		{
-			if (App.IsConnected)
-			{
-				// scrape if there is a internet connection
-				// connectivityErrorPage.IsVisible = false;
-				await ScrapingSystem.ScrapeAll();
-			}
-			else
-			{
-				// don't scrape and display an "Oops!" page
-				// connectivityErrorPage.IsVisible = true;
-			}
+            await ScrapingSystem.ScrapeAll();
 		}
 
 		protected override void OnSleep ()
