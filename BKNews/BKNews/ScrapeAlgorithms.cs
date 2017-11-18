@@ -246,9 +246,9 @@ namespace BKNews
                 var docNode = webNode.Load(newsUrl);
                 var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
                 string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
-         //       DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
+                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, DateTime.Now, "HCMUT");
+                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
                 list.Add(news);
             }
             return list;
@@ -301,14 +301,12 @@ namespace BKNews
             {
                 // get title
                 var title = node.SelectSingleNode(".//h3//a").InnerText;
-             //   var title = "LỊCH THU HỌC PHÍ HK1/2017-2018 LẦN 2";
                 // get desc
                 var desc = "";
 
                 // get url
                 var imageUrl = @"http://www.pgs.hcmut.edu.vn/media/k2/items/cache/8c65de010bd08c28dd62a66cc800ec57_L.jpg";
                 var newsUrl = node.SelectSingleNode(".//h3//a").Attributes["href"].Value;
-             //   var newsUrl = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao/thong-tin-chung/item/1848-lich-thu-hoc-phi-hk1-2017-2018-lan-2";
                 newsUrl = "http://www.pgs.hcmut.edu.vn" + newsUrl;
                 // Get DateTime
                 var createdAtString = node.SelectSingleNode(".//span[@class=\"date\"]").InnerText;

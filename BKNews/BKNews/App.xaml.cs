@@ -50,6 +50,7 @@ namespace BKNews
 			MainPage = new SidebarPage();
 		}
 
+
 		protected async override void OnStart ()
 		{
             await ScrapingSystem.ScrapeAll();

@@ -86,9 +86,8 @@ namespace BKNews
 
         }
 
-
     }
-   
+    
     public class MainFeedPageGroup : ObservableCollection<News>
     {
         public string Title { get; set; }

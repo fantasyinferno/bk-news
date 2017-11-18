@@ -61,15 +61,7 @@
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" VerticalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="#03A9F4"/>
                                     <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/> 
                                     <Label Grid.Row="1" Grid.Column="0" Text="{Binding NewsDate}" FontSize="Micro"/>
-                                    <Label Grid.Row="1" Grid.Column="1" Text="" FontSize="Medium" HorizontalOptions="End">
-                                        <Label.FontFamily>
-                                            <OnPlatform x:TypeArguments="x:String">
-                                                <On Platform="iOS" Value="FontAwesome" />
-                                                <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
-                                            </OnPlatform>
-                                        </Label.FontFamily>
-                                    </Label>
+                                    
                                 </Grid>
                             </Frame>
                         </ViewCell.View>
