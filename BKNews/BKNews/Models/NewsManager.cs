@@ -268,6 +268,7 @@ namespace BKNews
             await client.InvokeApiAsync<News>("delete_all_news", System.Net.Http.HttpMethod.Delete, arguments);
         }
 
+
         
 
 #if OFFLINE_SYNC_ENABLED

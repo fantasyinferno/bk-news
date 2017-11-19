@@ -69,6 +69,11 @@ namespace BKNews
                 var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
                 foreach (var item in collection)
                 {
+                    Debug.WriteLine("chichdemkhuya xxx");
+                    Debug.WriteLine(item.Id);
+                    NewsUser s = new NewsUser("cdk1", "cdk2");
+                    await NewsManager.DefaultManager.SaveNewsUserAsync(s);
+                    Debug.WriteLine("chichdemkhuya");
                     NewsCollection.Add(item);
                 }
                 Skip += Take;
