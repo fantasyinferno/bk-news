@@ -38,7 +38,7 @@ namespace BKNews.Droid
                 {
                     message = string.Format("You are now signed-in as {0}. Token: {1}",
                         user.UserId, user.MobileServiceAuthenticationToken);
-                    BookmarkViewModel.UserId = user.UserId;
+                    //BookmarkViewModel.UserId = user.UserId;
                     success = true;
                 }
             }

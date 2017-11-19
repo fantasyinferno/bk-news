@@ -51,6 +51,9 @@ namespace BKNews
             RefreshCommand = new Command(GetLatestNews);
             GetLatestNews();
         }
+        /// <summary>
+        /// Get the 5 latest news from all the sources. This function returns void instead of Task for use in a Command.
+        /// </summary>
         public async void GetLatestNews()
         {
             try
@@ -58,24 +61,27 @@ namespace BKNews
                 IsBusy = true;
                 ObservableCollection<News> collection;
                 collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+                LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
+
                 for (int i = 1; i < collection.Count; ++i)
                 {
                     LatestNews[0].Add(collection[i]);
                 }
-                LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
                 collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
+                LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
+
                 for (int i = 1; i < collection.Count; ++i)
                 {
                     LatestNews[1].Add(collection[i]);
                 }
-                LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
 
                 collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+                LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
+
                 for (int i = 1; i < collection.Count; ++i)
                 {
                     LatestNews[2].Add(collection[i]);
                 }
-                LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
             } catch(Exception e)
             {
                 Debug.WriteLine(e.Message);

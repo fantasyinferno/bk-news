@@ -51,14 +51,16 @@ namespace BKNews
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        // Scrape function. Once done, sent the scraped news to NewsCollection.
-        public async void ScrapeToCollectionAsync()
+        /// <summary>
+        /// Refresh the entire list and scrape from the database at the start
+        /// </summary>
+        public async void RefreshAsync()
         {
             IsBusy = true;
-            await ScrapingSystem.Scrape(Category);
+            // await ScrapingSystem.ScrapeAsync(Category);
             NewsCollection.Clear();
-            LoadFromDatabaseAsync();
             Skip = 0;
+            LoadFromDatabaseAsync();
             IsBusy = false;
         }
         // load items from database with pagination
@@ -66,7 +68,8 @@ namespace BKNews
         {
             try
             {
-                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
+                var actualAmountToSkip = ScrapingSystem.Updates.Count + Skip;
+                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, actualAmountToSkip, Take);
                 foreach (var item in collection)
                 {
                     NewsCollection.Add(item);
@@ -82,7 +85,7 @@ namespace BKNews
             Category = category;
             NewsCollection = new ObservableCollection<News>();
             // load more when pull to refresh
-            ScrapeCommand = new Command(ScrapeToCollectionAsync);
+            ScrapeCommand = new Command(RefreshAsync);
             // load more at the end of the list
             LoadMore = new Command(LoadFromDatabaseAsync);
             // take 5 news from database 
