@@ -3,15 +3,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:b="clr-namespace:BKNews.Behaviors"
-             x:Class="BKNews.BookPage"
+             x:Class="BKNews.NewsPage"
              Title="ABC"
              BackgroundColor="#eee" >
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" 
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
-            <ListView.Behaviors>
-                <b:InfiniteScroll LoadMoreCommand="{Binding LoadMore}" />
-            </ListView.Behaviors>
+        <ListView ItemsSource="{Binding NewsBookmark}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" 
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding Load}" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

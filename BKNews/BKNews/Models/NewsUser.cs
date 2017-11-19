@@ -16,9 +16,9 @@ namespace BKNews
         [JsonProperty(PropertyName = "id")]
         public string Id { get { return id; } set { id = value; } }
         [JsonProperty(PropertyName = "newsId")]
-        public string NewsId { get { return id; } set { id = value; } }
+        public string NewsId { get { return newsId; } set { newsId = value; } }
         [JsonProperty(PropertyName = "userId")]
-        public string UserId { get { return id; } set { id = value; } }
+        public string UserId { get { return userId; } set { userId = value; } }
         
         public NewsUser(string newsId, string userId)
         {

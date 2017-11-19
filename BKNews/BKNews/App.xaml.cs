@@ -50,10 +50,8 @@ namespace BKNews
             //};
             //MainPage = new SidebarPage();
             //MainPage = new BookmarkPage("");
-            Debug.WriteLine("chichdemkhuya");
-            MainPage = new NewsPage("OISP");
-            Debug.WriteLine("chichdemkhuya");
-            //MainPage = new BookPage("HCMUT");
+            //MainPage = new BookPage("chich");
+            MainPage = new NewsPage("HCMUT");
         }
 
 

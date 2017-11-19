@@ -13,17 +13,8 @@ namespace BKNews
     class Bookmark
     {
         // UserId
-        public static string UserId
-        {
-            get
-            {
-                return UserId;
-            }
-            set
-            {
-                UserId = value;
-            }
-        }
+        public string _UserId;
+        public string Category = "abc";
         // mixed collection of news
         public ObservableCollection<News> NewsBookmark { get; private set; }
         // command to bind with button
@@ -61,11 +52,14 @@ namespace BKNews
         {
             try
             {
-                //var collection = await NewsManager.DefaultManager.GetNewsForUser(UserId);
-                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+                // Get Id from Droid, IOS, UWP
+                //
+                //_UserId = BKNews.Droid.MainActivity.getId();
+                //
+
+                var collection = await NewsManager.DefaultManager.GetNewsForUser(_UserId);
                 foreach (var item in collection)
                 {
-
                     NewsBookmark.Add(item);
                 }
             }
@@ -75,14 +69,14 @@ namespace BKNews
             }
         }
 
-        public Bookmark(String userId)
+        public Bookmark(string userId)
         {
-            UserId = userId;
+            _UserId = userId;
             NewsBookmark = new ObservableCollection<News>();
             // load bookmark from database
-      //      Load = new Command(LoadFromDatabaseAsync);
-      //      if (userId != "")
-      //          LoadFromDatabaseAsync();
+            Load = new Command(LoadFromDatabaseAsync);
+            Debug.WriteLine(_UserId);
+            LoadFromDatabaseAsync();
         }
     }
 }

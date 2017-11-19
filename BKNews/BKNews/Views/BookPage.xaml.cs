@@ -14,10 +14,11 @@ namespace BKNews
             // Refresh items only when authenticated.
         }
 
-        public BookPage(string category)
+        public BookPage(string UserId)
         {
-//            InitializeComponent();
-            BindingContext = new NewsViewModel(category);
+            //            InitializeComponent();
+            BindingContext = new Bookmark(UserId);
+
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

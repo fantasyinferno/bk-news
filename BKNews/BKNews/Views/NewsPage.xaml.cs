@@ -16,11 +16,8 @@ namespace BKNews
 
         public NewsPage (string category)
 		{
-            Debug.WriteLine("chichdemkhuya1");
             InitializeComponent();
-            Debug.WriteLine("chichdemkhuya2");
             BindingContext = new NewsViewModel(category);
-            Debug.WriteLine("chichdemkhuya3");
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)
