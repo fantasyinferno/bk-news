@@ -36,10 +36,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SearchPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml.cs">
-      <DependentUpon>CategoryPage.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -47,6 +43,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NewsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScrapeAlgorithms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\NotificationPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SidebarPage.xaml.cs">
@@ -73,12 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\NewsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\CategoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -113,13 +107,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Views\BookmarkPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SearchPage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Views\BookPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

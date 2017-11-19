@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-
 namespace BKNews
 {
     static class ScrapingSystem
@@ -13,10 +14,10 @@ namespace BKNews
         public static ObservableCollection<News> Updates;
         static ScrapingSystem()
         {
-            Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() } };
+            Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() }, { "PGS", new PGSScraper() } };
             Updates = new ObservableCollection<News>();
         }
-        public async static Task Scrape(string category)
+        public async static Task ScrapeAsync(string category)
         {
             try
             {
@@ -45,11 +46,29 @@ namespace BKNews
                 // do nothing 
             }
         }
-        public static async Task ScrapeAll()
+        public static async Task ScrapeAllAsync()
         {
             foreach(var key in Scrapers.Keys)
             {
-                await Scrape(key);
+                await ScrapeAsync(key);
+            }
+        }
+        /// <summary>
+        /// Scrape tasks periodically with a specified period.
+        /// </summary>
+        /// <param name="period">The period after with to scrape</param>
+        /// <param name="cancellationToken">The cancellation token which can be used to stop the task</param>
+        /// <returns></returns>
+        public static async Task StartPeriodicScrapeJobAsync(TimeSpan period, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(period, cancellationToken);
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    Debug.WriteLine("Job started at {0}.", DateTime.Now);
+                    await ScrapeAllAsync();
+                }
             }
         }
     }

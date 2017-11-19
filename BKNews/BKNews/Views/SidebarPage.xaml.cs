@@ -31,7 +31,7 @@ namespace BKNews
                 page = (Page)Activator.CreateInstance(item.TargetType);
             }
             page.Title = item.Title;
-
+            // navigation with search and notification buttons
             Detail = new NavigationPage(page);
             IsPresented = false;
     
