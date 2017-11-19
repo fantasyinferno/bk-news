@@ -21,9 +21,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\NewsUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScrapingSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Bookmark.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainFeedPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NotificationPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SidebarPageMasterViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BookmarkPage.xaml.cs">
+      <DependentUpon>BookmarkPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\BookPage.xaml.cs">
+      <DependentUpon>BookPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainFeedPage.xaml.cs">
       <DependentUpon>MainFeedPage.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -4,20 +4,21 @@ using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
 namespace BKNews
-{   
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NewsPage : ContentPage
-	{
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class BookPage : ContentPage
+    {
         protected override void OnAppearing()
         {
             base.OnAppearing();
             // Refresh items only when authenticated.
         }
 
-        public NewsPage (string category)
-		{
-            InitializeComponent();
-            BindingContext = new NewsViewModel(category);
+        public BookPage(string UserId)
+        {
+            //            InitializeComponent();
+            BindingContext = new Bookmark(UserId);
+
         }
         // Open a browser every time an item is tapped
         public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)

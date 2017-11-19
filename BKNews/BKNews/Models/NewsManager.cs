@@ -93,6 +93,7 @@ namespace BKNews
 #endif
                 IEnumerable<string> newsIds = await NewsUserTable.Where((item) => item.UserId == userId).Select((newsUser) => newsUser.NewsId).ToEnumerableAsync();
                 // replace this with something efficient
+                Debug.WriteLine(newsIds.Count());
                 ObservableCollection<News> items = new ObservableCollection<News>();
                 foreach (var newsId in newsIds)
                 {
@@ -267,6 +268,7 @@ namespace BKNews
             var arguments = new Dictionary<string, string> { { "type", type } };
             await client.InvokeApiAsync<News>("delete_all_news", System.Net.Http.HttpMethod.Delete, arguments);
         }
+
 
         
 

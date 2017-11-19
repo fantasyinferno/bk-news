@@ -35,7 +35,15 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            var url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao&page="+i.ToString();
+            string url;
+            if (i < 2)
+            {
+                url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao";
+            }
+            else
+            {
+                url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao&page=" + i.ToString();
+            }
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class=\"slider-items slider-line-1\"]/li");
@@ -97,7 +105,15 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            var url = @"http://oisp.hcmut.edu.vn/tin-tuc.html?start=" + ((i-1)*10).ToString();
+            string url;
+            if (i<2)
+            {
+                url = @"http://oisp.hcmut.edu.vn/tin-tuc.html";
+            }
+            else
+            {
+                url = @"http://oisp.hcmut.edu.vn/tin-tuc.html?start=" + ((i - 1) * 10).ToString();
+            }
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@id=\"itemListPrimary\"]//div[@class=\"catItemBody\"]");
@@ -214,7 +230,15 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            var url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/" + (3*(i-1)).ToString();
+            string url;
+            if (i<2)
+            {
+                url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/";
+            }
+            else
+            {
+                url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/" + (3 * (i - 1)).ToString();
+            }
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@class=\"panel_1_content\"]");

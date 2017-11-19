@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Plugin.Connectivity;
 using System.Threading;
+using System.Diagnostics;
 
 namespace BKNews
 {
@@ -42,14 +43,17 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-			//MainPage = new NavigationPage(MainFeedPage)
-			//{
-			//    Title = "BKExpress",
-			//    BarBackgroundColor=Color.Blue,
-			//    Icon="Assets/logo.png"
-			//};
-			MainPage = new SidebarPage();
-		}
+            //MainPage = new NavigationPage(MainFeedPage)
+            //{
+            //    Title = "BKExpress",
+            //    BarBackgroundColor=Color.Blue,
+            //    Icon="Assets/logo.png"
+            //};
+            //MainPage = new SidebarPage();
+            //MainPage = new BookmarkPage("");
+            //MainPage = new BookPage("chich");
+            MainPage = new NewsPage("HCMUT");
+        }
 
 
         protected override void OnStart()

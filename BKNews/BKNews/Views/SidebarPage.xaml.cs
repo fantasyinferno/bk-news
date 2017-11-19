@@ -34,7 +34,7 @@ namespace BKNews
             // navigation with search and notification buttons
             Detail = new NavigationPage(page);
             IsPresented = false;
-
+    
             MasterPage.ListView.SelectedItem = null;
         }
     }

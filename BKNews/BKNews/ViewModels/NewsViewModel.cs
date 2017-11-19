@@ -72,6 +72,8 @@ namespace BKNews
                 var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, actualAmountToSkip, Take);
                 foreach (var item in collection)
                 {
+                    NewsUser s = new NewsUser(item.Id, "chich");
+                    await NewsManager.DefaultManager.SaveNewsUserAsync(s);
                     NewsCollection.Add(item);
                 }
                 Skip += Take;
@@ -81,6 +83,7 @@ namespace BKNews
                 Debug.WriteLine(e);
             }
         }
+
         public NewsViewModel(String category)
         {
             Category = category;
