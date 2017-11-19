@@ -17,6 +17,8 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Linq.Expressions;
+using Android.Gms.Common;
+
 namespace BKNews.Droid
 {
     [Activity(Label = "BKNews", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
