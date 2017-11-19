@@ -50,7 +50,7 @@ namespace BKNews
                 var createdAtString = node.SelectSingleNode(".//span").InnerHtml.Trim(new char[] { '(', ')' });
                 var imageUrl = node.SelectSingleNode(".//div[@class=\"img-box-item\"]//img").Attributes["src"].Value;
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
-                News news = new News(title, "Click to see more details", "Phòng đào tạo", newsUrl, imageUrl, newsDate, "AAO");
+                News news = new News(title, null, "Phòng đào tạo", newsUrl, imageUrl, newsDate, "AAO");
                 list.Add(news);
             }
             return list;
@@ -126,7 +126,7 @@ namespace BKNews
                 createdAtString = createdAtString.Remove(createdAtString.IndexOf("Th"), 6);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
 
-                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, newsDate, "OISP");
+                News news = new News(title, desc, "OISP", newsUrl, imageUrl, newsDate, "OISP");
                 list.Add(news);
             }
             return list;
@@ -248,7 +248,7 @@ namespace BKNews
                 string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
+                News news = new News(title, desc, "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
                 list.Add(news);
             }
             return list;

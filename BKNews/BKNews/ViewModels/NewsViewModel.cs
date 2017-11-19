@@ -75,6 +75,7 @@ namespace BKNews
                     NewsCollection.Add(item);
                 }
                 Skip += Take;
+                Debug.WriteLine("NOOOOOOOOOOOOOOOO {0}. Skip: {1}. Take: {2}", DateTime.Now, Skip, Take);
             } catch (Exception e)
             {
                 Debug.WriteLine(e);
@@ -88,8 +89,8 @@ namespace BKNews
             ScrapeCommand = new Command(RefreshAsync);
             // load more at the end of the list
             LoadMore = new Command(LoadFromDatabaseAsync);
+            LoadMore.Execute(null);
             // take 5 news from database 
-            LoadFromDatabaseAsync();
         }
     }
 }

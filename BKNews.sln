@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BKNews", "BKNews\BKNews\BKNews.shproj", "{3A9228E4-2A59-4677-B474-D3DB29E430C4}"
 EndProject
@@ -214,6 +214,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B0D9A212-D118-439D-9614-E014F7537EFF}
+		SolutionGuid = {563C8728-D7F5-4A53-B0AC-E8546F18DFB0}
 	EndGlobalSection
 EndGlobal

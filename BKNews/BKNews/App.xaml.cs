@@ -52,10 +52,13 @@ namespace BKNews
 		}
 
 
-		protected override void OnStart ()
-		{
+        protected override void OnStart()
+        {
+            Task.Run(ScrapingSystem.ScrapeAllAsync);
             // Scrape job, only runs in the foreground (not a background service)
-            ScrapingSystem.StartPeriodicScrapeJobAsync(TimeSpan.FromMinutes(1), CancellationToken.None);
+            Task.Run(async () => {
+                await (ScrapingSystem.StartPeriodicScrapeJobAsync(TimeSpan.FromMinutes(10), CancellationToken.None));
+            });
 		}
 
 		protected override void OnSleep ()
