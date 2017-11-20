@@ -5,6 +5,9 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using System;
 using System.ComponentModel;
+using Plugin.Share;
+using Plugin.Share.Abstractions;
+
 namespace BKNews
 {
     class SearchPageViewModel: INotifyPropertyChanged
@@ -33,13 +36,29 @@ namespace BKNews
         }
         public ICommand SearchCommand { get; private set; }
         public ICommand LoadMoreCommand { get; private set; }
+        public ICommand ShareCommand { get; set; }
         public SearchPageViewModel()
         {
             SearchCollection = new ObservableCollection<News>();
             LoadMoreCommand = new Command(LoadMore);
             SearchCommand = new Command<string>(async (text) => await Search(text));
+            ShareCommand = new Command<News>(ShareAsync);
         }
 
+        public async void ShareAsync(News news)
+        {
+            Debug.WriteLine("ShareAsync tapped");
+            if (!CrossShare.IsSupported)
+            {
+                return;
+            }
+            await CrossShare.Current.Share(new ShareMessage
+            {
+                Title = news.Title,
+                Text = news.Desc,
+                Url = news.NewsUrl
+            });
+        }
         async Task Search(string text)
         {
             step = 0;

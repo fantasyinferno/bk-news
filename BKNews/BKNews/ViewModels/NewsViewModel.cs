@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using System.ComponentModel;
 //adb connect 169.254.138.177 
 using System.Threading.Tasks;
+using Plugin.Share;
+using Plugin.Share.Abstractions;
 
 namespace BKNews
 {
@@ -22,6 +24,7 @@ namespace BKNews
         // command to bind with button
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMore { get; set; }
+        public ICommand ShareCommand { get; set; }
         // list for storing scrapers
         // IsRefreshing property of ListView
         private bool _isBusy = false;
@@ -73,6 +76,20 @@ namespace BKNews
             Skip = 0;
             LoadMore.Execute(null);
         }
+        public async void ShareAsync(News news)
+        {
+            Debug.WriteLine("ShareAsync tapped");
+            if (!CrossShare.IsSupported)
+            {
+                return;
+            }
+            await CrossShare.Current.Share(new ShareMessage
+            {
+                Title = news.Title,
+                Text = news.Desc,
+                Url = news.NewsUrl
+            });
+        }
         public NewsViewModel(String category)
         {
             Category = category;
@@ -83,6 +100,7 @@ namespace BKNews
             LoadMore = new Command(LoadFromDatabaseAsync);
             // take 5 news from database 
             LoadFromDatabaseAsync();
+            ShareCommand = new Command<News>(ShareAsync);
         }
     }
 }

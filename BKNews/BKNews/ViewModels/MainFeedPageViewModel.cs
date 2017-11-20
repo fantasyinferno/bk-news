@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Diagnostics;
+using Plugin.Share;
+using Plugin.Share.Abstractions;
+
 namespace BKNews
 {
     class MainFeedPageViewModel: INotifyPropertyChanged
     {
         public ObservableCollection<MainFeedPageGroup> LatestNews { get; set; }
         public ICommand RefreshCommand { get; set; }
+        public ICommand ShareCommand { get; set; }
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -30,6 +34,21 @@ namespace BKNews
 
             }
         }
+
+        public async void ShareAsync(News news)
+        {
+            Debug.WriteLine("ShareAsync tapped");
+            if (!CrossShare.IsSupported)
+            {
+                return;
+            }
+            await CrossShare.Current.Share(new ShareMessage
+            {
+                Title = news.Title,
+                Text = news.Desc,
+                Url = news.NewsUrl
+            });
+        }
         // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -44,12 +63,13 @@ namespace BKNews
         {
             LatestNews = new ObservableCollection<MainFeedPageGroup>()
             {
-                new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
+                new MainFeedPageGroup("HCMUT >", "HCMUT"),
                 new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
-                new MainFeedPageGroup("HCMUT >", "HCMUT")
+                new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
             };
             RefreshCommand = new Command(GetLatestNews);
             RefreshCommand.Execute(null);
+            ShareCommand = new Command<News>(ShareAsync);
         }
         public void GetLatestNews()
         {
@@ -61,7 +81,7 @@ namespace BKNews
                     Task.Run(async () =>
                     {
                          ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
                             LatestNews[0].Add(collection[i]);
@@ -81,7 +101,7 @@ namespace BKNews
                     Task.Run(async () =>
                     {
                         ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
                             LatestNews[2].Add(collection[i]);
