@@ -17,5 +17,12 @@ namespace BKNews
 			InitializeComponent ();
             BindingContext = new SearchPageViewModel();
 		}
-	}
+        void OnItemTapped(object sender, ItemTappedEventArgs args)
+        {
+            var news = (News)args.Item;
+            Device.OpenUri(new Uri(news.NewsUrl));
+            ((ListView)sender).SelectedItem = null;
+        }
+
+    }
 }
