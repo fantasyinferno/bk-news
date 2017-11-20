@@ -16,7 +16,7 @@ namespace BKNews
 
         public NewsPage (string category)
 		{
-            InitializeComponent();
+			InitializeComponent ();
             BindingContext = new NewsViewModel(category);
         }
         // Open a browser every time an item is tapped

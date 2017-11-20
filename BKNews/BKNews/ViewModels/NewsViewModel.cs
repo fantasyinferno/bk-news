@@ -51,16 +51,14 @@ namespace BKNews
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        /// <summary>
-        /// Refresh the entire list and scrape from the database at the start
-        /// </summary>
-        public async void RefreshAsync()
+        // Scrape function. Once done, sent the scraped news to NewsCollection.
+        public async void ScrapeToCollectionAsync()
         {
             IsBusy = true;
-            // await ScrapingSystem.ScrapeAsync(Category);
+            await ScrapingSystem.Scrape(Category);
             NewsCollection.Clear();
-            Skip = 0;
             LoadFromDatabaseAsync();
+            Skip = 0;
             IsBusy = false;
         }
         // load items from database with pagination
@@ -68,32 +66,27 @@ namespace BKNews
         {
             try
             {
-                var actualAmountToSkip = ScrapingSystem.Updates.Count + Skip;
-                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, actualAmountToSkip, Take);
+                var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
                 foreach (var item in collection)
                 {
-                    NewsUser s = new NewsUser(item.Id, "chich");
-                    await NewsManager.DefaultManager.SaveNewsUserAsync(s);
                     NewsCollection.Add(item);
                 }
                 Skip += Take;
-                Debug.WriteLine("NOOOOOOOOOOOOOOOO {0}. Skip: {1}. Take: {2}", DateTime.Now, Skip, Take);
             } catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
         }
-
         public NewsViewModel(String category)
         {
             Category = category;
             NewsCollection = new ObservableCollection<News>();
             // load more when pull to refresh
-            ScrapeCommand = new Command(RefreshAsync);
+            ScrapeCommand = new Command(ScrapeToCollectionAsync);
             // load more at the end of the list
             LoadMore = new Command(LoadFromDatabaseAsync);
-            LoadMore.Execute(null);
             // take 5 news from database 
+            LoadFromDatabaseAsync();
         }
     }
 }

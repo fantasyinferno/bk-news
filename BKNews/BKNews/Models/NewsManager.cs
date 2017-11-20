@@ -93,7 +93,6 @@ namespace BKNews
 #endif
                 IEnumerable<string> newsIds = await NewsUserTable.Where((item) => item.UserId == userId).Select((newsUser) => newsUser.NewsId).ToEnumerableAsync();
                 // replace this with something efficient
-                Debug.WriteLine(newsIds.Count());
                 ObservableCollection<News> items = new ObservableCollection<News>();
                 foreach (var newsId in newsIds)
                 {
@@ -238,7 +237,6 @@ namespace BKNews
                 await NewsTable.UpdateAsync(item);
             }
         }
-
         public async Task SaveNewsUserAsync(NewsUser item)
         {
             if (item.Id == null)
@@ -250,28 +248,11 @@ namespace BKNews
                 await NewsUserTable.UpdateAsync(item);
             }
         }
-
-        public async Task DeleteNewsUserAsync(NewsUser item)
-        {
-            if (item.Id == null)
-            {
-                return;
-            }
-            else
-            {
-                await NewsUserTable.DeleteAsync(item);
-            }
-        }
-
         public async Task CleanNewsAsync(string type)
         {
             var arguments = new Dictionary<string, string> { { "type", type } };
             await client.InvokeApiAsync<News>("delete_all_news", System.Net.Http.HttpMethod.Delete, arguments);
         }
-
-
-        
-
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
         {

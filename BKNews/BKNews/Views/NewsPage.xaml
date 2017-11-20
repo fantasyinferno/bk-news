@@ -36,27 +36,7 @@
                                         <Label  Grid.Row="2" Grid.Column="1" Text="{Binding NewsDate}" Margin="5, 0" HorizontalTextAlignment="End" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
                                     <Label  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Title}" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="##03A9F4" FontSize="Medium" />
                                         <Label  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Desc}" FontSize="Small" HorizontalTextAlignment="Center" />
-
-                                        <Button  Grid.Row="5" Grid.Column="0" Text="" FontSize="Medium" HorizontalOptions="End">
-                                            <Button.FontFamily>
-                                                <OnPlatform x:TypeArguments="x:String">
-                                                    <On Platform="iOS" Value="FontAwesome" />
-                                                    <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
-                                                </OnPlatform>
-                                            </Button.FontFamily>
-                                        </Button>
-
-                                        <Button  Grid.Row="5" Grid.Column="1" Text="" FontSize="Medium" HorizontalOptions="End">
-                                            <Button.FontFamily>
-                                                <OnPlatform x:TypeArguments="x:String">
-                                                    <On Platform="iOS" Value="FontAwesome" />
-                                                    <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
-                                                </OnPlatform>
-                                            </Button.FontFamily>
-                                        </Button>
-                                </Grid>
+                                    </Grid>
                                 </Frame>
                         </ViewCell.View>
                     </ViewCell>

@@ -35,15 +35,7 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            string url;
-            if (i < 2)
-            {
-                url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao";
-            }
-            else
-            {
-                url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao&page=" + i.ToString();
-            }
+            var url = @"http://www.aao.hcmut.edu.vn/index.php?route=catalog/thongbao&page="+i.ToString();
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class=\"slider-items slider-line-1\"]/li");
@@ -58,7 +50,7 @@ namespace BKNews
                 var createdAtString = node.SelectSingleNode(".//span").InnerHtml.Trim(new char[] { '(', ')' });
                 var imageUrl = node.SelectSingleNode(".//div[@class=\"img-box-item\"]//img").Attributes["src"].Value;
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
-                News news = new News(title, null, "Phòng đào tạo", newsUrl, imageUrl, newsDate, "AAO");
+                News news = new News(title, "Click to see more details", "Phòng đào tạo", newsUrl, imageUrl, newsDate, "AAO");
                 list.Add(news);
             }
             return list;
@@ -105,15 +97,7 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            string url;
-            if (i<2)
-            {
-                url = @"http://oisp.hcmut.edu.vn/tin-tuc.html";
-            }
-            else
-            {
-                url = @"http://oisp.hcmut.edu.vn/tin-tuc.html?start=" + ((i - 1) * 10).ToString();
-            }
+            var url = @"http://oisp.hcmut.edu.vn/tin-tuc.html?start=" + ((i-1)*10).ToString();
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@id=\"itemListPrimary\"]//div[@class=\"catItemBody\"]");
@@ -142,7 +126,7 @@ namespace BKNews
                 createdAtString = createdAtString.Remove(createdAtString.IndexOf("Th"), 6);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
 
-                News news = new News(title, desc, "OISP", newsUrl, imageUrl, newsDate, "OISP");
+                News news = new News(title, desc + "\nClick to see more details", "OISP", newsUrl, imageUrl, newsDate, "OISP");
                 list.Add(news);
             }
             return list;
@@ -230,15 +214,7 @@ namespace BKNews
 
         public async Task<List<News>> Scrape(int i)
         {
-            string url;
-            if (i<2)
-            {
-                url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/";
-            }
-            else
-            {
-                url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/" + (3 * (i - 1)).ToString();
-            }
+            var url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/" + (3*(i-1)).ToString();
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@class=\"panel_1_content\"]");
@@ -270,9 +246,9 @@ namespace BKNews
                 var docNode = webNode.Load(newsUrl);
                 var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
                 string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
-                DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
+         //       DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
-                News news = new News(title, desc, "HCMUT", newsUrl, imageUrl, newsDate, "HCMUT");
+                News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, DateTime.Now, "HCMUT");
                 list.Add(news);
             }
             return list;
@@ -325,12 +301,14 @@ namespace BKNews
             {
                 // get title
                 var title = node.SelectSingleNode(".//h3//a").InnerText;
+             //   var title = "LỊCH THU HỌC PHÍ HK1/2017-2018 LẦN 2";
                 // get desc
                 var desc = "";
 
                 // get url
                 var imageUrl = @"http://www.pgs.hcmut.edu.vn/media/k2/items/cache/8c65de010bd08c28dd62a66cc800ec57_L.jpg";
                 var newsUrl = node.SelectSingleNode(".//h3//a").Attributes["href"].Value;
+             //   var newsUrl = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao/thong-tin-chung/item/1848-lich-thu-hoc-phi-hk1-2017-2018-lan-2";
                 newsUrl = "http://www.pgs.hcmut.edu.vn" + newsUrl;
                 // Get DateTime
                 var createdAtString = node.SelectSingleNode(".//span[@class=\"date\"]").InnerText;
