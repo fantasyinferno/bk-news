@@ -50,10 +50,6 @@ namespace BKNews
         public NotificationPageViewModel()
         {
             NewsCollection = new ObservableCollection<News>();
-            foreach(var news in ScrapingSystem.Updates)
-            {
-                NewsCollection.Add(news);
-            }
             // command for button
         }
     }

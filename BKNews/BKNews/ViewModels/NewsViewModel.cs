@@ -20,7 +20,7 @@ namespace BKNews
         // mixed collection of news
         public ObservableCollection<News> NewsCollection { get; private set; }
         // command to bind with button
-        public ICommand ScrapeCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
         public ICommand LoadMore { get; set; }
         // list for storing scrapers
         // IsRefreshing property of ListView
@@ -51,16 +51,6 @@ namespace BKNews
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        // Scrape function. Once done, sent the scraped news to NewsCollection.
-        public async void ScrapeToCollectionAsync()
-        {
-            IsBusy = true;
-            await ScrapingSystem.Scrape(Category);
-            NewsCollection.Clear();
-            LoadFromDatabaseAsync();
-            Skip = 0;
-            IsBusy = false;
-        }
         // load items from database with pagination
         public async void LoadFromDatabaseAsync()
         {
@@ -77,12 +67,18 @@ namespace BKNews
                 Debug.WriteLine(e);
             }
         }
+        public async void RefreshAsync()
+        {
+            NewsCollection.Clear();
+            Skip = 0;
+            LoadMore.Execute(null);
+        }
         public NewsViewModel(String category)
         {
             Category = category;
             NewsCollection = new ObservableCollection<News>();
             // load more when pull to refresh
-            ScrapeCommand = new Command(ScrapeToCollectionAsync);
+            RefreshCommand = new Command(RefreshAsync);
             // load more at the end of the list
             LoadMore = new Command(LoadFromDatabaseAsync);
             // take 5 news from database 

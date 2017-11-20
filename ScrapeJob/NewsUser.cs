@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
-namespace BKNews
+namespace ScrapeJob
 {
     // News class for abstracting news (obviously)
     public class NewsUser
@@ -14,9 +14,9 @@ namespace BKNews
         [JsonProperty(PropertyName = "id")]
         public string Id { get { return id; } set { id = value; } }
         [JsonProperty(PropertyName = "newsId")]
-        public string NewsId { get { return newsId; } set { newsId = value; } }
+        public string NewsId { get { return id; } set { id = value; } }
         [JsonProperty(PropertyName = "userId")]
-        public string UserId { get { return userId; } set { userId = value; } }
+        public string UserId { get { return id; } set { id = value; } }
 
         public NewsUser(string newsId, string userId)
         {

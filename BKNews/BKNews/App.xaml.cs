@@ -41,18 +41,12 @@ namespace BKNews
 		public App ()
 		{
 			InitializeComponent();
-			//MainPage = new NavigationPage(MainFeedPage)
-			//{
-			//    Title = "BKExpress",
-			//    BarBackgroundColor=Color.Blue,
-			//    Icon="Assets/logo.png"
-			//};
 			MainPage = new SidebarPage();
 		}
 
-		protected async override void OnStart ()
+		protected override void OnStart ()
 		{
-            await ScrapingSystem.ScrapeAll();
+
 		}
 
 		protected override void OnSleep ()

@@ -49,33 +49,47 @@ namespace BKNews
                 new MainFeedPageGroup("HCMUT >", "HCMUT")
             };
             RefreshCommand = new Command(GetLatestNews);
-            GetLatestNews();
+            RefreshCommand.Execute(null);
         }
-        public async void GetLatestNews()
+        public void GetLatestNews()
         {
             try
             {
                 IsBusy = true;
-                ObservableCollection<News> collection;
-                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
-                for (int i = 1; i < collection.Count; ++i)
+                List<Task> tasks = new List<Task>()
                 {
-                    LatestNews[0].Add(collection[i]);
-                }
-                LatestNews[0].FirstNews = collection.Count > 0 ? collection[0] : null;
-                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
-                for (int i = 1; i < collection.Count; ++i)
-                {
-                    LatestNews[1].Add(collection[i]);
-                }
-                LatestNews[1].FirstNews = collection.Count > 0 ? collection[1] : null;
-
-                collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
-                for (int i = 1; i < collection.Count; ++i)
-                {
-                    LatestNews[2].Add(collection[i]);
-                }
-                LatestNews[2].FirstNews = collection.Count > 0 ? collection[2] : null;
+                    Task.Run(async () =>
+                    {
+                         ObservableCollection<News> collection;
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+                        for (int i = 1; i < collection.Count; ++i)
+                        {
+                            LatestNews[0].Add(collection[i]);
+                        }
+                        LatestNews[0].FirstNews = (collection != null && collection.Count > 0) ? collection[0] : null;
+                    }),
+                    Task.Run(async () =>
+                    {
+                        ObservableCollection<News> collection;
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
+                        for (int i = 1; i < collection.Count; ++i)
+                        {
+                            LatestNews[1].Add(collection[i]);
+                        }
+                        LatestNews[1].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
+                    }),
+                    Task.Run(async () =>
+                    {
+                        ObservableCollection<News> collection;
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
+                        for (int i = 1; i < collection.Count; ++i)
+                        {
+                            LatestNews[2].Add(collection[i]);
+                        }
+                        LatestNews[2].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
+                    })
+                };
+                Task.WaitAll(tasks.ToArray());
             } catch(Exception e)
             {
                 Debug.WriteLine(e.Message);

@@ -9,10 +9,6 @@ namespace BKNews
 
     public class SidebarPageMenuItem
     {
-        public SidebarPageMenuItem()
-        {
-            TargetType = typeof(SidebarPageDetail);
-        }
         public int Id { get; set; }
         public string Title { get; set; }
 
