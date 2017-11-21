@@ -39,6 +39,12 @@
                                                         <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
                                                     </OnPlatform>
                                                 </Button.FontFamily>
+                                                <Button.Triggers>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding IsBookmarkedByUser}" Value="True">
+                                                        <Setter Property="TextColor" Value="#03A9F4"  />
+                                                        <Setter Property="Text" Value=""  />
+                                                    </DataTrigger>
+                                                </Button.Triggers>
                                             </Button>
                                             <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.ShareCommand}" CommandParameter="{Binding}">
                                                 <Button.FontFamily>

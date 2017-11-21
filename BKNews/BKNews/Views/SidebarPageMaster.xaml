@@ -53,8 +53,20 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Text="Facebook" Clicked="FacebookLoginButton_Clicked" />
-            <Button Grid.Column="1" Text="Google" Clicked="GoogleLoginButton_Clicked" />
+            <Button Grid.Column="0" Text="Facebook" Clicked="FacebookLoginButton_Clicked">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Grid.Column="1" Text="Google" Clicked="GoogleLoginButton_Clicked" >
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
   </StackLayout>
 </ContentPage>
