@@ -61,7 +61,22 @@ namespace BKNews
                 }
             }
         }
-        public ObservableCollection<News> Bookmarks { get; set; } = new ObservableCollection<News>();
+        private HashSet<News> _bookmarks { get; set; } = new HashSet<News>();
+        public HashSet<News> Bookmarks
+        {
+            get
+            {
+                return _bookmarks;
+            }
+            set
+            {
+                if (_bookmarks != value)
+                {
+                    _bookmarks = value;
+                    OnPropertyChanged("Bookmarks");
+                }
+            }
+        }
         // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

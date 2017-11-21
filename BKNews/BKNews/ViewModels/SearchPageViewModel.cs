@@ -37,12 +37,14 @@ namespace BKNews
         public ICommand SearchCommand { get; private set; }
         public ICommand LoadMoreCommand { get; private set; }
         public ICommand ShareCommand { get; set; }
+        public ICommand BookmarkCommand { get; set; }
         public SearchPageViewModel()
         {
             SearchCollection = new ObservableCollection<News>();
             LoadMoreCommand = new Command(LoadMore);
             SearchCommand = new Command<string>(async (text) => await Search(text));
             ShareCommand = new Command<News>(ShareAsync);
+            BookmarkCommand = new Command<News>(BookmarkAsync);
         }
 
         public async void ShareAsync(News news)
@@ -58,6 +60,35 @@ namespace BKNews
                 Text = news.Desc,
                 Url = news.NewsUrl
             });
+        }
+        public async void BookmarkAsync(News news)
+        {
+            try
+            {
+                if (User.CurrentUser.Authenticated)
+                {
+                    // bookmark or unbookmark if the user is authenticated
+                    NewsUser newsUser = new NewsUser(news.Id, User.CurrentUser.Id);
+
+                    if (!User.CurrentUser.Bookmarks.Contains(news))
+                    {
+                        await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                        news.IsBookmarkedByUser = true;
+                    }
+                    else
+                    {
+                        // remove from the database
+                        await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        news.IsBookmarkedByUser = false;
+                        // remove from the Bookmarks property of CurrentUser
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
         async Task Search(string text)
         {

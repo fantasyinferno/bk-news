@@ -25,6 +25,36 @@ namespace BKNews
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMore { get; set; }
         public ICommand ShareCommand { get; set; }
+        public ICommand BookmarkCommand { get; set; }
+        public async void BookmarkAsync(News news)
+        {
+            try
+            {
+                if (User.CurrentUser.Authenticated)
+                {
+                    // bookmark or unbookmark if the user is authenticated
+                    NewsUser newsUser = new NewsUser(news.Id, User.CurrentUser.Id);
+
+                    if (!User.CurrentUser.Bookmarks.Contains(news))
+                    {
+                        await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                        news.IsBookmarkedByUser = true;
+                    }
+                    else
+                    {
+                        // remove from the database
+                        await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        news.IsBookmarkedByUser = false;
+                        // remove from the Bookmarks property of CurrentUser
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
         // list for storing scrapers
         // IsRefreshing property of ListView
         private bool _isBusy = false;
@@ -101,6 +131,7 @@ namespace BKNews
             // take 5 news from database 
             LoadFromDatabaseAsync();
             ShareCommand = new Command<News>(ShareAsync);
+            BookmarkCommand = new Command<News>(BookmarkAsync);
         }
     }
 }

@@ -1,28 +1,25 @@
-﻿using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using System.Diagnostics;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
 namespace BKNews
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public sealed partial class BookmarkPage : ContentPage
-    {
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            // Refresh items only when authenticated.
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class BookmarkPage : ContentPage
+	{
+		public BookmarkPage ()
+		{
+			InitializeComponent ();
+            BindingContext = new BookmarkViewModel();
         }
-
-        public BookmarkPage(string userId)
+        void OnItemTapped(object sender, ItemTappedEventArgs args)
         {
-//            InitializeComponent();
-            BindingContext = new Bookmark(userId);
-        }
-        // Open a browser every time an item is tapped
-        public void OnListViewItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            var news = (News)e.Item;
+            var news = (News)args.Item;
             Device.OpenUri(new Uri(news.NewsUrl));
             ((ListView)sender).SelectedItem = null;
         }

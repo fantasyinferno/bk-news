@@ -17,10 +17,11 @@ namespace BKNews
             {
                     new SidebarPageMenuItem { Id = 0, Title = "BKExpress", TargetType = typeof(MainFeedPage) },
                     new SidebarPageMenuItem { Id = 1, Title ="Tìm kiếm", TargetType = typeof(SearchPage)},
-                    new SidebarPageMenuItem { Id = 2, Title = "Thông báo", TargetType = typeof(NotificationPage) },
-                    new SidebarPageMenuItem { Id = 3, Title = "HCMUT", TargetType = typeof(NewsPage) },
-                    new SidebarPageMenuItem { Id = 4, Title = "AAO", TargetType = typeof(NewsPage) },
-                    new SidebarPageMenuItem { Id = 5, Title = "OISP", TargetType = typeof(NewsPage) },
+                    new SidebarPageMenuItem { Id = 2, Title ="Bookmarks", TargetType = typeof(BookmarkPage)},
+                    new SidebarPageMenuItem { Id = 3, Title = "Thông báo", TargetType = typeof(NotificationPage) },
+                    new SidebarPageMenuItem { Id = 4, Title = "HCMUT", TargetType = typeof(NewsPage) },
+                    new SidebarPageMenuItem { Id = 5, Title = "AAO", TargetType = typeof(NewsPage) },
+                    new SidebarPageMenuItem { Id = 6, Title = "OISP", TargetType = typeof(NewsPage) },
                 });
         }
 

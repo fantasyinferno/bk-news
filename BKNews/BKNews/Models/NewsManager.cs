@@ -77,6 +77,32 @@ namespace BKNews
             get { return NewsTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<News>; }
         }
         /// <summary>
+        /// Delete a NewsUser
+        /// </summary>
+        /// <param name="newsUser">The NewsUser to be deletedr</param>
+        /// <returns></returns>
+        public async Task DeleteNewsUserAsync(NewsUser newsUser)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                await NewsUserTable.DeleteAsync(newsUser);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+        }
+        /// <summary>
         /// Get the news that a user has saved.
         /// </summary>
         /// <param name="userId">The Id of the user</param>
@@ -91,16 +117,10 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<string> newsIds = await NewsUserTable.Where((item) => item.UserId == userId).Select((newsUser) => newsUser.NewsId).ToEnumerableAsync();
-                // replace this with something efficient
-                ObservableCollection<News> items = new ObservableCollection<News>();
-                foreach (var newsId in newsIds)
-                {
-                    var news = await NewsTable.LookupAsync(newsId);
-                    items.Add(news);
-                }
 
-                return items;
+                var arguments = new Dictionary<string, string> { { "userId", userId } };
+                var results = await client.InvokeApiAsync<ObservableCollection<News>>("bookmarks", System.Net.Http.HttpMethod.Get, arguments);
+                return results;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
