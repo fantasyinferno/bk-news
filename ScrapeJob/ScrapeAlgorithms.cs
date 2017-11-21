@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ScrapeJob
 {
@@ -58,18 +59,20 @@ namespace ScrapeJob
             {
                 url = @"http://oisp.hcmut.edu.vn/tin-tuc.html?start=" + ((i - 1) * 10).ToString();
             }
+            //Console.WriteLine(url);
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@id=\"itemListPrimary\"]//div[@class=\"catItemBody\"]");
-
+            //Console.WriteLine("Scrape nodes");
             List<News> list = new List<News>();
             foreach (var node in nodes)
             {
                 // get title, url and createdAt
 
                 var title = node.SelectSingleNode(".//div[@class=\"catItemTitle\"]//a").InnerText.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
-
+            //    Console.WriteLine(title);
                 var desc = node.SelectSingleNode(".//div[@class=\"catItemIntroText\"]").InnerText;
+            //    Console.WriteLine(desc);
                 desc = desc.Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
                 while (desc.IndexOf("&nbsp;") != -1)
                 {
@@ -79,12 +82,23 @@ namespace ScrapeJob
                 // prepend rootUrl to the scraped urls (because the website uses relative urls)
                 string rootUrl = "http://oisp.hcmut.edu.vn";
                 var imageUrl = rootUrl + node.SelectSingleNode(".//span[@class=\"catItemImage\"]//img").Attributes["src"].Value;
+            //    Console.WriteLine(imageUrl);
                 var newsUrl = rootUrl + node.SelectSingleNode(".//a").Attributes["href"].Value;
+            //    Console.WriteLine(newsUrl);
                 // TODO: extract date string and convert it to DateTime
                 var timenode = node.SelectSingleNode("//div[@class=\"catItemDateCreated\"]").InnerText;
+            //    Console.WriteLine(timenode);
                 string createdAtString = timenode.Remove(0, timenode.IndexOf(',') + 2).Trim(new char[] { (char)9, (char)10, (char)11, (char)32 });
+            //    Console.WriteLine(createdAtString);
                 createdAtString = createdAtString.Remove(createdAtString.IndexOf("Th"), 6);
+                if (createdAtString.Length==9)
+                {
+                    createdAtString = createdAtString.Insert(3, "0");
+                }
+            //    Console.WriteLine(createdAtString);
+            //    Console.WriteLine(createdAtString.Length);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd MM yyyy", null);
+            //    Console.WriteLine("end scraping");
 
                 News news = new News(title, desc, "OISP", newsUrl, imageUrl, newsDate, "OISP");
                 list.Add(news);
@@ -92,40 +106,7 @@ namespace ScrapeJob
             return list;
         }
     }
-    /*
-        class HCMUTScraper : IScrape
-        {
-            public async Task<List<News>> Scrape()
-            {
-                var url = @"http://www.hcmut.edu.vn/vi/newsletter/category/tin-tuc/";
-                var web = new HtmlWeb();
-                var doc = await web.LoadFromWebAsync(url);
-                var nodes = doc.DocumentNode.SelectNodes("//div[@class=\"panel_1_content\"]");
-                List<News> list = new List<News>();
-                foreach (var node in nodes)
-                {
-                    // get title
-                    var title = node.SelectSingleNode(".//h3").InnerText;
-                    title = title.Remove(title.IndexOf(" &nbsp"));
-                    // get desc
-                    var desc = node.SelectSingleNode(".//p").InnerText;
-                    // get url
-                    var imageUrl = node.SelectSingleNode(".//a//img").Attributes["src"].Value;
-                    var newsUrl = node.SelectSingleNode(".//a").Attributes["href"].Value;
-                    // Get DateTime
-                    var webNode = new HtmlWeb();
-                    var docNode = await webNode.LoadFromWebAsync(newsUrl);
-                    var timenode = docNode.DocumentNode.SelectSingleNode("//p[@class=\"date\"]").InnerText;
-                    string createdAtString = timenode.Remove(timenode.IndexOf(',') - 6).Remove(0, timenode.IndexOf(':') + 2);
-                    DateTime createdAt = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
-                    // Create News
-                    News news = new News(title, desc + "\nClick to see more details", "HCMUT", newsUrl, imageUrl, createdAt, createdAt);
-                    list.Add(news);
-                }
-                return list;
-            }
-        }
-        */
+   
     class HCMUTScraper : IScrape
     {
         
@@ -186,26 +167,44 @@ namespace ScrapeJob
 
         public async Task<List<News>> Scrape(int i)
         {
-            var url = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao?start=" + ((i) * 10).ToString();
+            string url;
+            if (i<2)
+            {
+                url = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao";
+            }
+            else
+            {
+                url = @"http://www.pgs.hcmut.edu.vn/vi/thong-bao?start=" + ((i - 1) * 10).ToString();
+            }
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//li[@class=\"item-thongbao\"]");
+            int count = 0;
 
             List<News> list = new List<News>();
             foreach (var node in nodes)
             {
+                if (count > 9)
+                    break;
+                count++;
                 // get title
                 var title = node.SelectSingleNode(".//h3//a").InnerText;
+            //    Console.WriteLine(title);
                 // get desc
                 var desc = "";
+            //    Console.WriteLine(desc);
 
                 // get url
                 var imageUrl = @"http://www.pgs.hcmut.edu.vn/media/k2/items/cache/8c65de010bd08c28dd62a66cc800ec57_L.jpg";
+            //    Console.WriteLine(imageUrl);
                 var newsUrl = node.SelectSingleNode(".//h3//a").Attributes["href"].Value;
                 newsUrl = "http://www.pgs.hcmut.edu.vn" + newsUrl;
+            //    Console.WriteLine(newsUrl);
                 // Get DateTime
                 var createdAtString = node.SelectSingleNode(".//span[@class=\"date\"]").InnerText;
-                createdAtString = createdAtString.Remove(0, 5);
+            //    Console.WriteLine(createdAtString);
+                createdAtString = createdAtString.Remove(0, 6);
+            //    Console.WriteLine(createdAtString);
                 DateTime newsDate = DateTime.ParseExact(createdAtString, "dd/MM/yyyy", null);
                 // Create News
                 News news = new News(title, desc, "PGS", newsUrl, imageUrl, newsDate, "PGS");

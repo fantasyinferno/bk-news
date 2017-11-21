@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,8 +10,7 @@ namespace ScrapeJob
     class ScrapingSystem
     {
 
-        //Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() } };
-        Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "OISP", new OISPScraper() } };
+        Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() }, { "PGS", new PGSScraper() } };
         public ObservableCollection<News> Updates = new ObservableCollection<News>();
         public static ScrapingSystem System = new ScrapingSystem();
         public async Task Scrape(string category)
@@ -20,7 +20,7 @@ namespace ScrapeJob
                 var Scraper = this.Scrapers[category];
                 List<News> updates = new List<News>();
                 // Scrape first 1000 pages if possible
-                for (int i = 1; i < 1000; ++i)
+                for (int i = 1; i < 100; ++i)
                 {
                     Console.WriteLine("Scraping page {0} of {1}.", i, category);
                     var list = await Scraper.Scrape(i);
