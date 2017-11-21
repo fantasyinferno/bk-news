@@ -17,6 +17,7 @@ namespace BKNews
         public ObservableCollection<MainFeedPageGroup> LatestNews { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand ShareCommand { get; set; }
+        public ICommand BookmarkCommand { get; set; }
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -49,6 +50,21 @@ namespace BKNews
                 Url = news.NewsUrl
             });
         }
+        public async void BookmarkAsync(News news)
+        {
+            try
+            {
+                if (User.CurrentUser.Authenticated)
+                {
+                    NewsUser newsUser = new NewsUser(news.Id, User.CurrentUser.Id);
+                    await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                    news.IsBookmarkedByUser = true;
+                }
+            } catch(Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
         // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -70,6 +86,7 @@ namespace BKNews
             RefreshCommand = new Command(GetLatestNews);
             RefreshCommand.Execute(null);
             ShareCommand = new Command<News>(ShareAsync);
+            BookmarkCommand = new Command<News>(BookmarkAsync);
         }
         public void GetLatestNews()
         {
@@ -84,7 +101,13 @@ namespace BKNews
                         collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
+                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
+                                collection[i].IsBookmarkedByUser = true;
+                            }
                             LatestNews[0].Add(collection[i]);
+                        }
+                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
+                            collection[0].IsBookmarkedByUser = true;
                         }
                         LatestNews[0].FirstNews = (collection != null && collection.Count > 0) ? collection[0] : null;
                     }),
@@ -94,7 +117,13 @@ namespace BKNews
                         collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
+                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
+                                collection[i].IsBookmarkedByUser = true;
+                            }
                             LatestNews[1].Add(collection[i]);
+                        }
+                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
+                            collection[0].IsBookmarkedByUser = true;
                         }
                         LatestNews[1].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
                     }),
@@ -104,7 +133,13 @@ namespace BKNews
                         collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
+                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
+                                collection[i].IsBookmarkedByUser = true;
+                            }
                             LatestNews[2].Add(collection[i]);
+                        }
+                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
+                            collection[0].IsBookmarkedByUser = true;
                         }
                         LatestNews[2].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
                     })

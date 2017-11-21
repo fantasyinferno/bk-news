@@ -11,38 +11,6 @@ namespace BKNews
     public class SidebarPageMasterViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<SidebarPageMenuItem> MenuItems { get; set; }
-        public class UserInformation
-        {
-            public string Name { get; set; }
-            public string AvatarUrl { get; set; }
-            public UserInformation()
-            {
-
-            }
-            public UserInformation(string name, string avatarUrl)
-            {
-                this.Name = name;
-                this.AvatarUrl = avatarUrl;
-            }
-        }
-        private UserInformation currentUser;
-        public UserInformation CurrentUser
-        {
-            get
-            {
-                return currentUser;
-            }
-            set
-            {
-                if (currentUser != value)
-                {
-                    currentUser = value;
-                    OnPropertyChanged("CurrentUser");
-                    Debug.WriteLine(CurrentUser.Name);
-                    Debug.WriteLine(CurrentUser.AvatarUrl);
-                }
-            }
-        }
         public SidebarPageMasterViewModel()
         {
             MenuItems = new ObservableCollection<SidebarPageMenuItem>(new[]

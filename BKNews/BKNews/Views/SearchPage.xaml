@@ -5,7 +5,7 @@
              x:Class="BKNews.SearchPage">
     <ContentPage.Content>
         <StackLayout>
-            <SearchBar x:Name="searchBar" Placeholder="Enter your search term here" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
+            <SearchBar x:Name="searchBar" Placeholder="Tìm kiếm" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
             <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding SearchCollection}"
                       ItemTapped="OnItemTapped">
                 <ListView.Header>

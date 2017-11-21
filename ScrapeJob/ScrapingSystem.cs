@@ -9,7 +9,8 @@ namespace ScrapeJob
     class ScrapingSystem
     {
 
-        Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() } };
+        //Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "AAO", new AAOScraper() }, { "OISP", new OISPScraper() }, { "HCMUT", new HCMUTScraper() } };
+        Dictionary<string, IScrape> Scrapers = new Dictionary<string, IScrape> { { "OISP", new OISPScraper() } };
         public ObservableCollection<News> Updates = new ObservableCollection<News>();
         public static ScrapingSystem System = new ScrapingSystem();
         public async Task Scrape(string category)

@@ -75,9 +75,16 @@ namespace BKNews.Droid
                     avatarUrl = yourInfo.Find(info => info.typ == "picture").val;
                     name = yourInfo.Find(info => info.typ == "name").val;
                 }
-                var SidebarPage = (SidebarPage) App.Current.MainPage;
-                var viewModel = (SidebarPageMasterViewModel)SidebarPage.Master.BindingContext;
-                viewModel.CurrentUser = new SidebarPageMasterViewModel.UserInformation(name, avatarUrl);
+                User.CurrentUser.Id = user.UserId;
+                User.CurrentUser.Name = name;
+                User.CurrentUser.AvatarUrl = avatarUrl;
+                User.CurrentUser.Authenticated = true;
+                // get the users bookmarks from the database
+                var collection = await NewsManager.DefaultManager.GetNewsForUser(User.CurrentUser.Id);
+                foreach(var item in collection)
+                {
+                    User.CurrentUser.Bookmarks.Add(item);
+                }
             }
             catch (Exception e)
             {

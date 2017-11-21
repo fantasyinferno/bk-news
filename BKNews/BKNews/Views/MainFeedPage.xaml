@@ -37,9 +37,9 @@
                                         </Grid.ColumnDefinitions>
                                         <Image  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding ImageUrl}"  Aspect="AspectFill"  HeightRequest="120" WidthRequest="213"/>
                                         <Label  Grid.Row="2" Grid.Column="0" Text="{Binding NewsDate}" FontAttributes="Italic" TextColor="#222" FontSize="Small" />
-                                        <Label  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontAttributes="Bold" TextColor="##03A9F4" FontSize="Medium" />
+                                        <Label  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontAttributes="Bold" TextColor="#03A9F4" FontSize="Medium" />
                                         <StackLayout  Margin="5, 5" Grid.Row="2" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
-                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" >
+                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext. BookmarkCommand}" CommandParameter="{Binding}" >
                                                 <Button.FontFamily>
                                                     <OnPlatform x:TypeArguments="x:String">
                                                         <On Platform="iOS" Value="FontAwesome" />
@@ -47,6 +47,12 @@
                                                         <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
                                                     </OnPlatform>
                                                 </Button.FontFamily>
+                                                <Button.Triggers>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding IsBookmarkedByUser}" Value="True">
+                                                        <Setter Property="TextColor" Value="#03A9F4"  />
+                                                        <Setter Property="Text" Value=""  />
+                                                    </DataTrigger>
+                                                </Button.Triggers>
                                             </Button>
                                             <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.ShareCommand}" CommandParameter="{Binding}">
                                                 <Button.FontFamily>
@@ -91,6 +97,12 @@
                                                     <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
                                                 </OnPlatform>
                                             </Button.FontFamily>
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button" Binding="{Binding IsBookmarkedByUser}" Value="True">
+                                                    <Setter Property="TextColor" Value="#03A9F4"  />
+                                                    <Setter Property="Text" Value=""  />
+                                                </DataTrigger>
+                                            </Button.Triggers>
                                         </Button>
                                         <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.ShareCommand}" CommandParameter="{Binding}">
                                             <Button.FontFamily>

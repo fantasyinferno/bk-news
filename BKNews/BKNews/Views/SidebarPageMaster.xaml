@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BKNews.SidebarPageMaster"
+             xmlns:local="clr-namespace:BKNews"
              Title="Master">
     <StackLayout>
         <ListView x:Name="MenuItemsListView"
@@ -20,7 +21,7 @@
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="240"/>
                     </Grid.ColumnDefinitions>
-                    <Image HorizontalOptions="Start" Grid.Row="1" Grid.Column="1"  Aspect="AspectFill" Source="{Binding Path=CurrentUser.AvatarUrl, Mode=OneWay}" HeightRequest="80" WidthRequest="80"/>
+                    <Image HorizontalOptions="Start" Grid.Row="1" Grid.Column="1"  Aspect="AspectFill" Source="{Binding Source={x:Static local:User.CurrentUser}, Path=AvatarUrl, Mode=OneWay}" HeightRequest="80" WidthRequest="80"/>
                     <Label
                         TextColor="White"
                         FontSize="Small"
@@ -29,7 +30,7 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-              Text="{Binding Path=CurrentUser.Name, Mode=OneWay}"
+              Text="{Binding Source={x:Static local:User.CurrentUser}, Path=Name, Mode=OneWay}"
               Style="{DynamicResource SubtitleStyle}" />
                 </Grid>
             </ListView.Header>
