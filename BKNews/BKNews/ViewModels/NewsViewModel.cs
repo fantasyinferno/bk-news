@@ -90,6 +90,7 @@ namespace BKNews
         {
             try
             {
+                Debug.WriteLine("{0} {1}", Skip, Take);
                 IsBusy = true;
                 var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
                 foreach (var item in collection)
@@ -113,7 +114,7 @@ namespace BKNews
         {
             NewsCollection.Clear();
             Skip = 0;
-            LoadMore.Execute(null);
+            LoadFromDatabaseAsync();
         }
         public async void ShareAsync(News news)
         {
@@ -138,9 +139,9 @@ namespace BKNews
             // load more at the end of the list
             LoadMore = new Command(LoadFromDatabaseAsync);
             // take 5 news from database 
-            LoadFromDatabaseAsync();
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
+            LoadFromDatabaseAsync();
         }
     }
 }

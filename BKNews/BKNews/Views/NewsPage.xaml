@@ -9,7 +9,7 @@
              BackgroundColor="#eee" >
     <ContentPage.Content>
         <ListView ItemsSource="{Binding NewsCollection}" HasUnevenRows="True" ItemTapped="OnListViewItemTapped" 
-                  IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding ScrapeCommand}" SeparatorVisibility="None">
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" SeparatorVisibility="None">
             <ListView.Behaviors>
                 <b:InfiniteScroll LoadMoreCommand="{Binding LoadMore}" />
             </ListView.Behaviors>

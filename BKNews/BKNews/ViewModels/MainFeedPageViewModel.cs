@@ -107,74 +107,22 @@ namespace BKNews
             try
             {
                 IsBusy = true;
-                List<Task> tasks = new List<Task>()
+                var collection = await NewsManager.DefaultManager.GetLatestNews();
+                Debug.WriteLine(collection);
+                for (int i = 0; i < collection.Count; ++i)
                 {
-                    Task.Run(async () =>
+                    if (User.CurrentUser.Bookmarks.Contains(collection[i]))
                     {
-                         ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("HCMUT", 0, 5);
-                        for (int i = 1; i < collection.Count; ++i)
-                        {
-                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
-                                collection[i].IsBookmarkedByUser = true;
-                            }
-                            LatestNews[0].Add(collection[i]);
-                        }
-                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
-                            collection[0].IsBookmarkedByUser = true;
-                        }
-                        LatestNews[0].FirstNews = (collection != null && collection.Count > 0) ? collection[0] : null;
-                    }),
-                    Task.Run(async () =>
+                        collection[i].IsBookmarkedByUser = true;
+                    }
+                    if (i % 5 == 0)
                     {
-                        ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("OISP", 0, 5);
-                        for (int i = 1; i < collection.Count; ++i)
-                        {
-                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
-                                collection[i].IsBookmarkedByUser = true;
-                            }
-                            LatestNews[1].Add(collection[i]);
-                        }
-                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
-                            collection[0].IsBookmarkedByUser = true;
-                        }
-                        LatestNews[1].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
-                    }),
-                    Task.Run(async () =>
+                        LatestNews[i / 5].FirstNews = (collection != null && collection.Count > 0) ? collection[i] : null;
+                    } else
                     {
-                        ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
-                        for (int i = 1; i < collection.Count; ++i)
-                        {
-                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
-                                collection[i].IsBookmarkedByUser = true;
-                            }
-                            LatestNews[2].Add(collection[i]);
-                        }
-                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
-                            collection[0].IsBookmarkedByUser = true;
-                        }
-                        LatestNews[2].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
-                    }),
-                    Task.Run(async () =>
-                    {
-                        ObservableCollection<News> collection;
-                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("PGS", 0, 5);
-                        for (int i = 1; i < collection.Count; ++i)
-                        {
-                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
-                                collection[i].IsBookmarkedByUser = true;
-                            }
-                            LatestNews[3].Add(collection[i]);
-                        }
-                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
-                            collection[0].IsBookmarkedByUser = true;
-                        }
-                        LatestNews[3].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
-                    })
-                };
-                Task.WaitAll(tasks.ToArray());
+                        LatestNews[i / 5].Add(collection[i]);
+                    }
+                }
             } catch(Exception e)
             {
                 Debug.WriteLine(e.Message);

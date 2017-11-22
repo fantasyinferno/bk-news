@@ -93,7 +93,10 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                await NewsUserTable.DeleteAsync(newsUser);
+
+                var arguments = new Dictionary<string, string> { { "newsid", newsUser.NewsId }, { "userid", newsUser.UserId } };
+                await client.InvokeApiAsync("newsuser", System.Net.Http.HttpMethod.Delete, arguments);
+                
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -142,7 +145,7 @@ namespace BKNews
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public async Task<ObservableCollection<News>> GetLatestNews(int num = 0)
+        public async Task<ObservableCollection<News>> GetLatestNews()
         {
             try
             {
@@ -152,8 +155,8 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<News> items = await NewsTable.OrderByDescending(news => news.NewsDate).Take(num).ToEnumerableAsync();
-                return new ObservableCollection<News>(items);
+                ObservableCollection<News> items = await client.InvokeApiAsync<ObservableCollection<News>>("latest_news", System.Net.Http.HttpMethod.Get, null);
+                return items;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -241,8 +244,14 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<News> items = await NewsTable.OrderByDescending(news => news.NewsDate).Where(news => news.Type == type).Skip(skip).Take(take).ToEnumerableAsync();
-                return new ObservableCollection<News>(items);
+                Debug.WriteLine(skip.ToString());
+                Debug.WriteLine(take.ToString());
+                ObservableCollection<News> items = await client.InvokeApiAsync<ObservableCollection<News>>("news_from_category", System.Net.Http.HttpMethod.Get, new Dictionary<string, string> {
+                    { "category", type },
+                    { "skip", skip.ToString() },
+                    { "take", take.ToString() }
+                });
+                return items;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
