@@ -166,12 +166,12 @@ namespace BKNews
                             if (User.CurrentUser.Bookmarks.Contains(collection[i])){
                                 collection[i].IsBookmarkedByUser = true;
                             }
-                            LatestNews[2].Add(collection[i]);
+                            LatestNews[3].Add(collection[i]);
                         }
                         if (User.CurrentUser.Bookmarks.Contains(collection[0])){
                             collection[0].IsBookmarkedByUser = true;
                         }
-                        LatestNews[2].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
+                        LatestNews[3].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
                     })
                 };
                 Task.WaitAll(tasks.ToArray());
