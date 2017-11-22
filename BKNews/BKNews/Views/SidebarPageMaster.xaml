@@ -15,6 +15,7 @@
                         <RowDefinition Height="10"/>
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
@@ -22,16 +23,57 @@
                         <ColumnDefinition Width="240"/>
                     </Grid.ColumnDefinitions>
                     <Image HorizontalOptions="Start" Grid.Row="1" Grid.Column="1"  Aspect="AspectFill" Source="{Binding Source={x:Static local:User.CurrentUser}, Path=AvatarUrl, Mode=OneWay}" HeightRequest="80" WidthRequest="80"/>
-                    <Label
+                    <StackLayout Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Spacing="2"  Orientation="Horizontal">
+                        <Label
                         TextColor="White"
                         FontSize="Small"
                         HorizontalOptions="Start"
                         VerticalOptions="Center"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
               Text="{Binding Source={x:Static local:User.CurrentUser}, Path=Name, Mode=OneWay}"
               Style="{DynamicResource SubtitleStyle}" />
+                        <Button Style="{StaticResource smallButton}" BackgroundColor="White" TextColor="#3b5998" Text="" Clicked="FacebookLoginButton_Clicked">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="FontAwesome" />
+                                    <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </Button>
+                        <Button Style="{StaticResource smallButton}" BackgroundColor="White" TextColor="#dd4b39" Text="" Clicked="GoogleLoginButton_Clicked" >
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="FontAwesome" />
+                                    <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </Button>
+                        <Button Style="{StaticResource smallButton}" BackgroundColor="White"  TextColor="Orange" Text="" Clicked="LogoutButton_Clicked" >
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="False">
+                                    <Setter Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="FontAwesome" />
+                                    <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
+                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </Button>
+                    </StackLayout>
                 </Grid>
             </ListView.Header>
             <ListView.ItemTemplate>
@@ -48,25 +90,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView >
-        <Grid VerticalOptions="End">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Text="Facebook" Clicked="FacebookLoginButton_Clicked">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
-                        <Setter Property="IsVisible" Value="False" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-            <Button Grid.Column="1" Text="Google" Clicked="GoogleLoginButton_Clicked" >
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
-                        <Setter Property="IsVisible" Value="False" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-        </Grid>
+        
   </StackLayout>
 </ContentPage>

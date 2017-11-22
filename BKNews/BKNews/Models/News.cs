@@ -70,5 +70,18 @@ namespace BKNews
             this.NewsDate = newsDate;
             this.Type = type;
         }
+        public override bool Equals(object obj)
+        {
+            if (obj  == null || ! (obj is News))
+            {
+                return false;
+            }
+            var newsObj = (News)obj;
+            return this.Id == newsObj.Id;
+        }
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
     }
 }

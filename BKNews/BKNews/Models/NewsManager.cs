@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
@@ -117,10 +119,12 @@ namespace BKNews
                     await this.SyncAsync();
                 }
 #endif
-
-                var arguments = new Dictionary<string, string> { { "userId", userId } };
-                var results = await client.InvokeApiAsync<ObservableCollection<News>>("bookmarks", System.Net.Http.HttpMethod.Get, arguments);
-                return results;
+                var arguments = new Dictionary<string, string> { { "userID", userId } };
+                var token = await client.InvokeApiAsync("bookmarks", System.Net.Http.HttpMethod.Get, arguments);
+                var results = JsonConvert.DeserializeObject<List<News>>(token.ToString());
+                Debug.WriteLine(token);
+                Debug.WriteLine(results);
+                return new ObservableCollection<News>(results);
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -161,7 +165,6 @@ namespace BKNews
             }
             return null;
         }
-        /*addition*/
         /// <summary>
         /// Get News with a LINQ expression.
         /// </summary>
@@ -179,6 +182,37 @@ namespace BKNews
 #endif
                 IEnumerable<News> items = await NewsTable.Where(action).OrderByDescending(news => news.NewsDate).ToEnumerableAsync();
                 return new ObservableCollection<News>(items);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get News with a LINQ expression.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<IQueryResultEnumerable<News>> GetNewsAsync(System.Linq.Expressions.Expression<System.Func<BKNews.News, bool>> action, int skip, int take)
+        {
+            try
+            {
+#if OFFLINE_SYNC_ENABLED
+                if (syncItems)
+                {
+                    await this.SyncAsync();
+                }
+#endif
+                IMobileServiceTableQuery<News> query = NewsTable.Where(action).OrderByDescending(news => news.NewsDate).Skip(skip).Take(take);
+                query = query.IncludeTotalCount();
+                IQueryResultEnumerable<News> items = (IQueryResultEnumerable<News>) await query.ToListAsync();
+                return items;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {

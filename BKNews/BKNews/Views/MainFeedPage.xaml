@@ -39,7 +39,7 @@
                                         <Label  Grid.Row="2" Grid.Column="0" Text="{Binding NewsDate}" FontAttributes="Italic" TextColor="#222" FontSize="Small" />
                                         <Label  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontAttributes="Bold" TextColor="#03A9F4" FontSize="Medium" />
                                         <StackLayout  Margin="5, 5" Grid.Row="2" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
-                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext. BookmarkCommand}" CommandParameter="{Binding}" >
+                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.BookmarkCommand}" CommandParameter="{Binding}" >
                                                 <Button.FontFamily>
                                                     <OnPlatform x:TypeArguments="x:String">
                                                         <On Platform="iOS" Value="FontAwesome" />
@@ -89,7 +89,8 @@
                                     <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/> 
                                     <Label Grid.Row="1" Grid.Column="0" Text="{Binding NewsDate}" FontSize="Small"/>
                                     <StackLayout  Margin="5, 5" Grid.Row="1" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
-                                        <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" >
+                                        <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text=""
+                                                 Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.BookmarkCommand}" CommandParameter="{Binding}" >
                                             <Button.FontFamily>
                                                 <OnPlatform x:TypeArguments="x:String">
                                                     <On Platform="iOS" Value="FontAwesome" />

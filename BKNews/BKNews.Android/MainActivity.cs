@@ -61,13 +61,15 @@ namespace BKNews.Droid
                     User.CurrentUser.Id = user.UserId;
                     User.CurrentUser.Name = name;
                     User.CurrentUser.AvatarUrl = avatarUrl;
-                    User.CurrentUser.Authenticated = true;
                     // get the users bookmarks from the database
-                    // var collection = await NewsManager.DefaultManager.GetNewsForUser(User.CurrentUser.Id);
-                    //foreach (var item in collection)
-                    //{
-                    //    User.CurrentUser.Bookmarks.Add(item);
-                    //}
+                    var collection = await NewsManager.DefaultManager.GetNewsForUser(User.CurrentUser.Id);
+                    if (collection != null)
+                    {
+                        foreach (var item in collection)
+                        {
+                            User.CurrentUser.Bookmarks.Add(item);
+                        }
+                    }
                     success = true;
                 }
             }

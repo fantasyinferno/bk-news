@@ -14,7 +14,13 @@ namespace BKNews
         private string _name = "Guest";
         private string _avatarUrl = "http://www.hcmut.edu.vn/img/logoBK.png";
         public bool _authenticated = false;
-
+        public void Reset()
+        {
+            Name = "Guest";
+            AvatarUrl = "http://www.hcmut.edu.vn/img/logoBK.png";
+            Authenticated = false;
+            Bookmarks.Clear();
+        }
         public string Id { get; set; }
         public string Name
         {
@@ -61,7 +67,7 @@ namespace BKNews
                 }
             }
         }
-        private HashSet<News> _bookmarks { get; set; } = new HashSet<News>();
+        private HashSet<News> _bookmarks = new HashSet<News>();
         public HashSet<News> Bookmarks
         {
             get

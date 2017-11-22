@@ -18,8 +18,6 @@ namespace BKNews
             public string AvatarURL { get; set; }
         }
         CurrentUser currentUser = new CurrentUser();
-		// is the user logged in?
-		public static bool authenticated = false;
 		// Initialize authenticator
 		public static IAuthenticate Authenticator { get; private set; }
 		public static void Init(IAuthenticate authenticator)

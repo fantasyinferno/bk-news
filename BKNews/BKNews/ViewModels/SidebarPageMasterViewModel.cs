@@ -22,6 +22,7 @@ namespace BKNews
                     new SidebarPageMenuItem { Id = 4, Title = "HCMUT", TargetType = typeof(NewsPage) },
                     new SidebarPageMenuItem { Id = 5, Title = "AAO", TargetType = typeof(NewsPage) },
                     new SidebarPageMenuItem { Id = 6, Title = "OISP", TargetType = typeof(NewsPage) },
+                    new SidebarPageMenuItem { Id = 7, Title = "PGS", TargetType = typeof(NewsPage) }
                 });
         }
 

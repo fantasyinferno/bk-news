@@ -38,15 +38,16 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
                     }
                     else
                     {
                         // remove from the database
                         await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                         news.IsBookmarkedByUser = false;
                         // remove from the Bookmarks property of CurrentUser
-                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                     }
                 }
             }
@@ -89,15 +90,23 @@ namespace BKNews
         {
             try
             {
+                IsBusy = true;
                 var collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync(Category, Skip, Take);
                 foreach (var item in collection)
                 {
+                    if (User.CurrentUser.Bookmarks.Contains(item))
+                    {
+                        item.IsBookmarkedByUser = true;
+                    }
                     NewsCollection.Add(item);
                 }
                 Skip += Take;
             } catch (Exception e)
             {
                 Debug.WriteLine(e);
+            } finally
+            {
+                IsBusy = false;
             }
         }
         public async void RefreshAsync()

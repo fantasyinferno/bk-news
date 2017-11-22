@@ -15,7 +15,7 @@ namespace BKNews
 		public BookmarkPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new BookmarkViewModel();
+            BindingContext = new BookmarkPageViewModel();
         }
         void OnItemTapped(object sender, ItemTappedEventArgs args)
         {

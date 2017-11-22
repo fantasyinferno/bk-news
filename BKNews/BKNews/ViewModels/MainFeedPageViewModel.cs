@@ -62,14 +62,15 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
                     } else
                     {
                         // remove from the database
                         await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                         news.IsBookmarkedByUser = false;
                         // remove from the Bookmarks property of CurrentUser
-                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                     }
                 }
             } catch(Exception e)
@@ -96,11 +97,11 @@ namespace BKNews
                 new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
             };
             RefreshCommand = new Command(GetLatestNews);
-            RefreshCommand.Execute(null);
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
+            GetLatestNews();
         }
-        public void GetLatestNews()
+        public async void GetLatestNews()
         {
             try
             {

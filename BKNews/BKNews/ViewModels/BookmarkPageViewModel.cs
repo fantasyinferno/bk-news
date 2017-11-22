@@ -11,19 +11,23 @@ using System.Collections.Generic;
 
 namespace BKNews
 {
-    class BookmarkViewModel: INotifyPropertyChanged
+    class BookmarkPageViewModel: INotifyPropertyChanged
     {
         // the results that are displayed to the user
-        public HashSet<News> Collection { get; private set; }
+        public ObservableCollection<News> Collection { get; set; }
         // the actual results, to be displayed as the user scrolls down
         public ICommand RefreshCommand { get; set; }
         public ICommand ShareCommand { get; set; }
         public ICommand BookmarkCommand { get; set; }
-        public BookmarkViewModel()
+        public BookmarkPageViewModel()
         {
-            Collection = User.CurrentUser.Bookmarks;
             BookmarkCommand = new Command<News>(BookmarkAsync);
             ShareCommand = new Command<News>(ShareAsync);
+            Collection = new ObservableCollection<News>();
+            foreach(var item in User.CurrentUser.Bookmarks)
+            {
+                Collection.Add(item);
+            }
         }
         public async void BookmarkAsync(News news)
         {
@@ -37,16 +41,16 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
-                        news.IsBookmarkedByUser = true;
                         User.CurrentUser.Bookmarks.Add(news);
+                        news.IsBookmarkedByUser = true;
                     }
                     else
                     {
                         // remove from the database
                         await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                         news.IsBookmarkedByUser = false;
                         // remove from the Bookmarks property of CurrentUser
-                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                     }
                 }
             }

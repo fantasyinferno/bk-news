@@ -37,8 +37,9 @@
                                         <Label  Grid.Row="2" Grid.Column="1" Text="{Binding NewsDate}" Margin="5, 0" HorizontalTextAlignment="End" FontAttributes="Italic" TextColor="#222" FontSize="Micro" />
                                     <Label  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Title}" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="#03A9F4" FontSize="Medium" />
                                         <Label  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5, 0" Text="{Binding Desc}" FontSize="Small" HorizontalTextAlignment="Center" />
-                                    <StackLayout Margin="5, 5" Grid.Row="5" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
-                                        <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" >
+                                    <StackLayout  Margin="5, 5" Grid.Row="5" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
+                                        <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text=""
+                                                 Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.BookmarkCommand}" CommandParameter="{Binding}" >
                                             <Button.FontFamily>
                                                 <OnPlatform x:TypeArguments="x:String">
                                                     <On Platform="iOS" Value="FontAwesome" />

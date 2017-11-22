@@ -29,17 +29,22 @@ namespace BKNews
         async void FacebookLoginButton_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
+                User.CurrentUser.Authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
+
         }
         async void GoogleLoginButton_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Google);
+                User.CurrentUser.Authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Google);
         }
         async void LogoutButton_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                App.authenticated = await App.Authenticator.LogoutAsync();
+            {
+                User.CurrentUser.Authenticated = await App.Authenticator.LogoutAsync();
+                User.CurrentUser.Reset();
+            }
+
         }
     }
 }

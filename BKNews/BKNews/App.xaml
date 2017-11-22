@@ -5,6 +5,13 @@
 	<Application.Resources>
 
 		<!-- Application resource dictionary -->
-
+        <ResourceDictionary>
+            <Style x:Key="smallButton" TargetType="Button">
+                <Setter Property="WidthRequest" Value="35" />
+                <Setter Property="HeightRequest" Value="35" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="BorderColor" Value="Transparent" />
+            </Style>
+        </ResourceDictionary>
 	</Application.Resources>
 </Application>

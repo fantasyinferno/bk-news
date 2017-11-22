@@ -7,6 +7,7 @@ using System;
 using System.ComponentModel;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace BKNews
 {
@@ -14,9 +15,8 @@ namespace BKNews
     {
         // the results that are displayed to the user
         public ObservableCollection<News> SearchCollection { get; private set; }
-        // the actual results, to be displayed as the user scrolls down
-        public ObservableCollection<News> AllResults { get; private set; }
-        int step = 0;
+        private int Skip { get; set; }
+        private string SearchTerm { get; set; }
         string _headerString = "- Kết quả -";
         public string HeaderString
         {
@@ -40,6 +40,7 @@ namespace BKNews
         public ICommand BookmarkCommand { get; set; }
         public SearchPageViewModel()
         {
+            Skip = 0;
             SearchCollection = new ObservableCollection<News>();
             LoadMoreCommand = new Command(LoadMore);
             SearchCommand = new Command<string>(async (text) => await Search(text));
@@ -73,15 +74,16 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
                     }
                     else
                     {
                         // remove from the database
                         await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
+                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                         news.IsBookmarkedByUser = false;
                         // remove from the Bookmarks property of CurrentUser
-                        User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
                     }
                 }
             }
@@ -92,20 +94,20 @@ namespace BKNews
         }
         async Task Search(string text)
         {
-            step = 0;
-            Debug.WriteLine(text);
+            SearchTerm = text;
+            Skip = 0;
             try
             {
                 SearchCollection.Clear();
-                AllResults = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(text.ToLower()));
-                if (AllResults != null)
+                IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()), Skip, 5);
+                if (items != null)
                 {
-                    HeaderString = "- " + AllResults.Count + " kết quả -";
-                    for (int i = 0; i < AllResults.Count && i < 5; ++i)
+                    HeaderString = "- " + items.TotalCount + " kết quả -";
+                    foreach (var item in items)
                     {
-                        SearchCollection.Add(AllResults[i]);
+                        SearchCollection.Add(item);
                     }
-                    step += 5;
+                    Skip += 5;
                 } else
                 {
                     HeaderString = "- Không có kết quả -";
@@ -115,13 +117,14 @@ namespace BKNews
                 Debug.WriteLine(e);
             }
         }
-        public void LoadMore()
+        public async void LoadMore()
         {
-            for (int i = step; i < AllResults.Count && i < step + 5; ++i)
+            Skip += 5;
+            IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()), Skip, 5);
+            foreach(var item in items)
             {
-                SearchCollection.Add(AllResults[i]);
+                SearchCollection.Add(item);
             }
-            step += 5;
         }
         // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;

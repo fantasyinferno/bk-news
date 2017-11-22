@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Name="contentPage"
+             xmlns:b="clr-namespace:BKNews.Behaviors"
              x:Class="BKNews.SearchPage">
     <ContentPage.Content>
         <StackLayout>
@@ -13,6 +14,9 @@
                         <Label Text="{Binding HeaderString, Mode=OneWay}" TextColor="Black" FontFamily="Ubuntu" FontSize="14" HorizontalOptions="Center" />
                     </StackLayout>
                 </ListView.Header>
+                <ListView.Behaviors>
+                    <b:InfiniteScroll LoadMoreCommand="{Binding LoadMoreCommand}"/>
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -31,7 +35,8 @@
                                         <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/>
                                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding NewsDate}" FontSize="Micro"/>
                                         <StackLayout  Margin="5, 5" Grid.Row="1" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
-                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text="" >
+                                            <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text=""
+                                                 Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.BookmarkCommand}" CommandParameter="{Binding}" >
                                                 <Button.FontFamily>
                                                     <OnPlatform x:TypeArguments="x:String">
                                                         <On Platform="iOS" Value="FontAwesome" />
