@@ -74,8 +74,8 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
-                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
+                        User.CurrentUser.Bookmarks.Add(news);
                     }
                     else
                     {
@@ -123,6 +123,10 @@ namespace BKNews
             IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()), Skip, 5);
             foreach(var item in items)
             {
+                if (User.CurrentUser.Bookmarks.Contains(item))
+                {
+                    item.IsBookmarkedByUser = true;
+                }
                 SearchCollection.Add(item);
             }
         }

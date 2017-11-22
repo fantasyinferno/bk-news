@@ -62,8 +62,8 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
-                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
+                        User.CurrentUser.Bookmarks.Add(news);
                     } else
                     {
                         // remove from the database
@@ -95,6 +95,7 @@ namespace BKNews
                 new MainFeedPageGroup("HCMUT >", "HCMUT"),
                 new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
                 new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
+                new MainFeedPageGroup("Phòng Đào Tạo Sau Đại Hội >", "PGS"),
             };
             RefreshCommand = new Command(GetLatestNews);
             ShareCommand = new Command<News>(ShareAsync);
@@ -144,6 +145,22 @@ namespace BKNews
                     {
                         ObservableCollection<News> collection;
                         collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("AAO", 0, 5);
+                        for (int i = 1; i < collection.Count; ++i)
+                        {
+                            if (User.CurrentUser.Bookmarks.Contains(collection[i])){
+                                collection[i].IsBookmarkedByUser = true;
+                            }
+                            LatestNews[2].Add(collection[i]);
+                        }
+                        if (User.CurrentUser.Bookmarks.Contains(collection[0])){
+                            collection[0].IsBookmarkedByUser = true;
+                        }
+                        LatestNews[2].FirstNews =  (collection != null && collection.Count > 0) ? collection[0] : null;
+                    }),
+                    Task.Run(async () =>
+                    {
+                        ObservableCollection<News> collection;
+                        collection = await NewsManager.DefaultManager.GetNewsFromCategoryAsync("PGS", 0, 5);
                         for (int i = 1; i < collection.Count; ++i)
                         {
                             if (User.CurrentUser.Bookmarks.Contains(collection[i])){

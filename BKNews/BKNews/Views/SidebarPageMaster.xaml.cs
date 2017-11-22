@@ -30,7 +30,6 @@ namespace BKNews
         {
             if (App.Authenticator != null)
                 User.CurrentUser.Authenticated = await App.Authenticator.AuthenticateAsync(MobileServiceAuthenticationProvider.Facebook);
-
         }
         async void GoogleLoginButton_Clicked(object sender, EventArgs e)
         {

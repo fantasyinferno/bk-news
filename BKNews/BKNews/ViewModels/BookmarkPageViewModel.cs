@@ -41,14 +41,15 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
-                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
+                        User.CurrentUser.Bookmarks.Add(news);
                     }
                     else
                     {
                         // remove from the database
                         await NewsManager.DefaultManager.DeleteNewsUserAsync(newsUser);
                         User.CurrentUser.Bookmarks.RemoveWhere((n) => n.Id == newsUser.NewsId);
+                        Collection.Remove(news);
                         news.IsBookmarkedByUser = false;
                         // remove from the Bookmarks property of CurrentUser
                     }

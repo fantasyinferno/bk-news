@@ -38,8 +38,8 @@ namespace BKNews
                     if (!User.CurrentUser.Bookmarks.Contains(news))
                     {
                         await NewsManager.DefaultManager.SaveNewsUserAsync(newsUser);
-                        User.CurrentUser.Bookmarks.Add(news);
                         news.IsBookmarkedByUser = true;
+                        User.CurrentUser.Bookmarks.Add(news);
                     }
                     else
                     {
