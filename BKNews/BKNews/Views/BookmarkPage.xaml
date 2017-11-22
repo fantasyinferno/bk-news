@@ -23,7 +23,6 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Text="{Binding Title}" VerticalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="#03A9F4"/>
                                         <Image Grid.Row="0" Grid.Column="1" Margin="0" Source="{Binding ImageUrl}" HorizontalOptions="End" HeightRequest="128" WidthRequest="128"/>
-                                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding NewsDate}" FontSize="Micro"/>
                                         <StackLayout  Margin="5, 5" Grid.Row="1" Grid.Column="1" Spacing="5"  Orientation="Horizontal" HorizontalOptions="End">
                                             <Button WidthRequest="40" HeightRequest="40" BorderRadius="20" BackgroundColor="Transparent" BorderColor="Transparent" Text=""
                                                  Command="{Binding Source={x:Reference Name=contentPage}, Path=BindingContext.BookmarkCommand}" CommandParameter="{Binding}" >
