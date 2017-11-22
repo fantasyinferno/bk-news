@@ -92,9 +92,9 @@ namespace BKNews
         {
             LatestNews = new ObservableCollection<MainFeedPageGroup>()
             {
+                new MainFeedPageGroup("AAO >", "AAO"),
                 new MainFeedPageGroup("HCMUT >", "HCMUT"),
-                new MainFeedPageGroup("Văn phòng đào tạo quốc tế >", "OISP"),
-                new MainFeedPageGroup("Phòng Đào Tạo >", "AAO"),
+                new MainFeedPageGroup("Văn Phòng Đào Tạo Quốc Tế >", "OISP"),
                 new MainFeedPageGroup("Phòng Đào Tạo Sau Đại Hội >", "PGS"),
             };
             RefreshCommand = new Command(GetLatestNews);
