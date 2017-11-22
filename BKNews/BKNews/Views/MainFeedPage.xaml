@@ -44,7 +44,7 @@
                                                     <OnPlatform x:TypeArguments="x:String">
                                                         <On Platform="iOS" Value="FontAwesome" />
                                                         <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                        <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                        <On Platform="UWP, WinRT, WinPhone" Value="Assets/Fonts/FontAwesome.otf#FontAwesome" />
                                                     </OnPlatform>
                                                 </Button.FontFamily>
                                                 <Button.Triggers>
@@ -59,7 +59,7 @@
                                                     <OnPlatform x:TypeArguments="x:String">
                                                         <On Platform="iOS" Value="FontAwesome" />
                                                         <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                        <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                        <On Platform="UWP, WinRT, WinPhone" Value="Assets/Fonts/FontAwesome.otf#FontAwesome" />
                                                     </OnPlatform>
                                                 </Button.FontFamily>
                                             </Button>
@@ -95,7 +95,7 @@
                                                 <OnPlatform x:TypeArguments="x:String">
                                                     <On Platform="iOS" Value="FontAwesome" />
                                                     <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                    <On Platform="UWP, WinRT, WinPhone" Value="Assets/Fonts/FontAwesome.otf#FontAwesome" />
                                                 </OnPlatform>
                                             </Button.FontFamily>
                                             <Button.Triggers>
@@ -110,7 +110,7 @@
                                                 <OnPlatform x:TypeArguments="x:String">
                                                     <On Platform="iOS" Value="FontAwesome" />
                                                     <On Platform="Android" Value="FontAwesome.otf#FontAwesome" />
-                                                    <On Platform="UWP, WinRT, WinPhone" Value="Fonts/FontAwesome.otf#FontAwesome" />
+                                                    <On Platform="UWP, WinRT, WinPhone" Value="Assets/Fonts/FontAwesome.otf#FontAwesome" />
                                                 </OnPlatform>
                                             </Button.FontFamily>
                                         </Button>

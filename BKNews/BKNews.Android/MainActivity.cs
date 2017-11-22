@@ -35,6 +35,7 @@ namespace BKNews.Droid
                     provider, Constants.URLScheme);
                 if (user != null)
                 {
+                    System.Diagnostics.Debug.WriteLine("NOW THE USING IS NOT NULL");
                     message = string.Format("You are now signed-in as {0}.",
                         user.UserId);
                     HttpClient client = new HttpClient();
@@ -67,11 +68,14 @@ namespace BKNews.Droid
                     {
                         foreach (var item in collection)
                         {
+                            item.IsBookmarkedByUser = true;
                             User.CurrentUser.Bookmarks.Add(item);
                         }
                     }
                     success = true;
                 }
+
+                System.Diagnostics.Debug.WriteLine("WE ARE OUT!");
             }
             catch (Exception ex)
             {
@@ -79,12 +83,10 @@ namespace BKNews.Droid
             }
 
             // Display the success or failure message.
-            System.Diagnostics.Debug.WriteLine(message);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.SetMessage(message);
             builder.SetTitle("Sign-in result");
             builder.Create().Show();
-            System.Diagnostics.Debug.WriteLine(user.MobileServiceAuthenticationToken);
             return success;
 
         }
