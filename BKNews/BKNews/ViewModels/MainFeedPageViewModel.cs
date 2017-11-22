@@ -100,7 +100,10 @@ namespace BKNews
             RefreshCommand = new Command(GetLatestNews);
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
-            GetLatestNews();
+            var t = Task.Run(async () => {
+                GetLatestNews();
+             });
+            t.Wait();
         }
         public async void GetLatestNews()
         {
