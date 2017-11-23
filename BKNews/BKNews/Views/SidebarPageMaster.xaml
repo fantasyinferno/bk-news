@@ -31,7 +31,7 @@
                         VerticalOptions="Center"
               Text="{Binding Source={x:Static local:User.CurrentUser}, Path=Name, Mode=OneWay}"
               Style="{DynamicResource SubtitleStyle}" />
-                        <Button Style="{StaticResource smallButton}" BackgroundColor="White" TextColor="#3b5998" Text="" Clicked="FacebookLoginButton_Clicked">
+                        <Button Style="{StaticResource mediumButton}" BackgroundColor="White" TextColor="#3b5998" Text="" Clicked="FacebookLoginButton_Clicked">
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
                                     <Setter Property="IsVisible" Value="False" />
@@ -45,7 +45,7 @@
                                 </OnPlatform>
                             </Button.FontFamily>
                         </Button>
-                        <Button Style="{StaticResource smallButton}" BackgroundColor="White" TextColor="#dd4b39" Text="" Clicked="GoogleLoginButton_Clicked" >
+                        <Button Style="{StaticResource mediumButton}" BackgroundColor="White" TextColor="#dd4b39" Text="" Clicked="GoogleLoginButton_Clicked" >
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="True">
                                     <Setter Property="IsVisible" Value="False" />
@@ -59,7 +59,7 @@
                                 </OnPlatform>
                             </Button.FontFamily>
                         </Button>
-                        <Button Style="{StaticResource smallButton}" BackgroundColor="White"  TextColor="Orange" Text="" Clicked="LogoutButton_Clicked" >
+                        <Button Style="{StaticResource mediumButton}" BackgroundColor="White"  TextColor="Orange" Text="" Clicked="LogoutButton_Clicked" >
                             <Button.Triggers>
                                 <DataTrigger TargetType="Button" Binding="{Binding Source={x:Static local:User.CurrentUser}, Path=Authenticated}" Value="False">
                                     <Setter Property="IsVisible" Value="False" />

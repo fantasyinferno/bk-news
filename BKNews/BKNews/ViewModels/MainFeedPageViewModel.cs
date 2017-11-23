@@ -95,7 +95,7 @@ namespace BKNews
                 new MainFeedPageGroup("AAO >", "AAO"),
                 new MainFeedPageGroup("HCMUT >", "HCMUT"),
                 new MainFeedPageGroup("Văn Phòng Đào Tạo Quốc Tế >", "OISP"),
-                new MainFeedPageGroup("Phòng Đào Tạo Sau Đại Hội >", "PGS"),
+                new MainFeedPageGroup("Phòng Đào Tạo Sau Đại Học >", "PGS"),
             };
             RefreshCommand = new Command(GetLatestNews);
             ShareCommand = new Command<News>(ShareAsync);

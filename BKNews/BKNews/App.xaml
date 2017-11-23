@@ -12,6 +12,12 @@
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="BorderColor" Value="Transparent" />
             </Style>
+            <Style x:Key="mediumButton" TargetType="Button">
+                <Setter Property="WidthRequest" Value="60" />
+                <Setter Property="HeightRequest" Value="60" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="BorderColor" Value="Transparent" />
+            </Style>
         </ResourceDictionary>
 	</Application.Resources>
 </Application>
