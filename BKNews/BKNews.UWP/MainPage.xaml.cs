@@ -17,6 +17,10 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using BKNews;
 using System.Diagnostics;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 namespace BKNews.UWP
 {
     public sealed partial class MainPage: IAuthenticate
@@ -26,28 +30,60 @@ namespace BKNews.UWP
 
         public async Task<bool> AuthenticateAsync(MobileServiceAuthenticationProvider provider)
         {
-            string message = string.Empty;
             var success = false;
-
+            var message = string.Empty;
             try
             {
-                // Sign in with Google login using a server-managed flow.
-                if (user == null)
+                // Sign in with Facebook login using a server-managed flow.
+                user = await NewsManager.DefaultManager.CurrentClient.LoginAsync(
+                    provider, Constants.URLScheme);
+                if (user != null)
                 {
-                    user = await NewsManager.DefaultManager.CurrentClient
-                        .LoginAsync(provider, Constants.URLScheme);
-                    if (user != null)
+                    System.Diagnostics.Debug.WriteLine("NOW THE USING IS NOT NULL");
+                    message = string.Format("You are now signed-in as {0}.",
+                        user.UserId);
+                    HttpClient client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+                    HttpResponseMessage response;
+                    response = await client.GetAsync(Constants.ApplicationURL + @"/.auth/me");
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    JToken token = JToken.Parse(responseString);
+                    System.Diagnostics.Debug.WriteLine(token[0]["user_claims"]);
+                    var userClaims = token[0]["user_claims"];
+                    string avatarUrl = null;
+                    string name = null;
+                    List<Info> yourInfo = JsonConvert.DeserializeObject<List<Info>>(userClaims.ToString());
+                    if (provider == MobileServiceAuthenticationProvider.Facebook)
                     {
-                        success = true;
-                        message = string.Format("You are now signed-in as {0}.", user.UserId);
-                        Debug.WriteLine(user.MobileServiceAuthenticationToken);
+                        avatarUrl = "http://graph.facebook.com/" + yourInfo.Find(info => info.typ == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").val + "/picture?type=normal";
+                        name = yourInfo.Find(info => info.typ == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").val;
                     }
+                    else if (provider == MobileServiceAuthenticationProvider.Google)
+                    {
+                        avatarUrl = yourInfo.Find(info => info.typ == "picture").val;
+                        name = yourInfo.Find(info => info.typ == "name").val;
+                    }
+                    User.CurrentUser.Id = user.UserId;
+                    User.CurrentUser.Name = name;
+                    User.CurrentUser.AvatarUrl = avatarUrl;
+                    // get the users bookmarks from the database
+                    var collection = await NewsManager.DefaultManager.GetNewsForUser(User.CurrentUser.Id);
+                    if (collection != null)
+                    {
+                        foreach (var item in collection)
+                        {
+                            item.IsBookmarkedByUser = true;
+                            User.CurrentUser.Bookmarks.Add(item);
+                        }
+                    }
+                    success = true;
                 }
 
+                System.Diagnostics.Debug.WriteLine("WE ARE OUT!");
             }
             catch (Exception ex)
             {
-                message = string.Format("Authentication Failed: {0}", ex.Message);
+                message = ex.Message;
             }
 
             // Display the success or failure message.
