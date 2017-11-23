@@ -110,6 +110,20 @@ namespace BKNews
                 IsBusy = false;
             }
         }
+        void RecheckNews(object sender, EventArgs args)
+        {
+            foreach(var item in NewsCollection)
+            {
+                if (User.CurrentUser.Bookmarks.Contains(item))
+                {
+                    item.IsBookmarkedByUser = true;
+                }
+                else
+                {
+                    item.IsBookmarkedByUser = false;
+                }
+            }
+        }
         public async void RefreshAsync()
         {
             NewsCollection.Clear();
@@ -141,6 +155,7 @@ namespace BKNews
             // take 5 news from database 
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
+            User.CurrentUser.UserChanged += RecheckNews;
             LoadFromDatabaseAsync();
         }
     }

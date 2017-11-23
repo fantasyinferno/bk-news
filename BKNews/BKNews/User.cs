@@ -10,7 +10,6 @@ namespace BKNews
     {
         private User() { }
         public static User CurrentUser = new User();
-
         private string _name = "Guest";
         private string _avatarUrl = "http://www.hcmut.edu.vn/img/logoBK.png";
         public bool _authenticated = false;
@@ -22,6 +21,7 @@ namespace BKNews
             Bookmarks.Clear();
         }
         public string Id { get; set; }
+
         public string Name
         {
             get
@@ -65,6 +65,8 @@ namespace BKNews
                     _authenticated = value;
                     OnPropertyChanged("Authenticated");
                 }
+                // call UserChanged() whether Authenticated is tampered with
+                OnUserChanged(EventArgs.Empty);
             }
         }
         private HashSet<News> _bookmarks = new HashSet<News>();
@@ -82,6 +84,11 @@ namespace BKNews
                     OnPropertyChanged("Bookmarks");
                 }
             }
+        }
+        public event EventHandler UserChanged;
+        protected virtual void OnUserChanged(EventArgs args)
+        {
+            UserChanged?.Invoke(this, args);
         }
         // propagate property changes
         public event PropertyChangedEventHandler PropertyChanged;

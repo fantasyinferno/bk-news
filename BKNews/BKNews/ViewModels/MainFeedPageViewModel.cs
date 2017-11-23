@@ -109,6 +109,10 @@ namespace BKNews
                 IsBusy = true;
                 var collection = await NewsManager.DefaultManager.GetLatestNews();
                 Debug.WriteLine(collection);
+                foreach(var list in LatestNews)
+                {
+                    list.Clear();
+                }
                 for (int i = 0; i < collection.Count; ++i)
                 {
                     if (User.CurrentUser.Bookmarks.Contains(collection[i]))
@@ -123,6 +127,7 @@ namespace BKNews
                         LatestNews[i / 5].Add(collection[i]);
                     }
                 }
+                User.CurrentUser.UserChanged += RecheckNews;
             } catch(Exception e)
             {
                 Debug.WriteLine(e.Message);
@@ -130,12 +135,25 @@ namespace BKNews
             {
                 IsBusy = false;
             }
-
         }
-
-
+        void RecheckNews(object sender, EventArgs args)
+        {
+            foreach (var list in LatestNews)
+            {
+                foreach (var item in list)
+                {
+                    if (User.CurrentUser.Bookmarks.Contains(item))
+                    {
+                        item.IsBookmarkedByUser = true;
+                    }
+                    else
+                    {
+                        item.IsBookmarkedByUser = false;
+                    }
+                }
+            }
+        }
     }
-   
     public class MainFeedPageGroup : ObservableCollection<News>
     {
         public string Title { get; set; }

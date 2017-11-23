@@ -46,8 +46,21 @@ namespace BKNews
             SearchCommand = new Command<string>(async (text) => await Search(text));
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
+            User.CurrentUser.UserChanged += RecheckNews;
         }
-
+        void RecheckNews(object sender, EventArgs args)
+        {
+            foreach(var item in SearchCollection)
+            {
+                if (User.CurrentUser.Bookmarks.Contains(item))
+                {
+                    item.IsBookmarkedByUser = true;
+                } else
+                {
+                    item.IsBookmarkedByUser = false;
+                }
+            }
+        }
         public async void ShareAsync(News news)
         {
             Debug.WriteLine("ShareAsync tapped");

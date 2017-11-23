@@ -28,6 +28,16 @@ namespace BKNews
             {
                 Collection.Add(item);
             }
+            User.CurrentUser.UserChanged += RecheckNews;
+        }
+        // event to reload when User is changed
+        void RecheckNews(object sender, EventArgs args)
+        {
+            Collection.Clear();
+            foreach (var item in User.CurrentUser.Bookmarks)
+            {
+                Collection.Add(item);
+            }
         }
         public async void BookmarkAsync(News news)
         {

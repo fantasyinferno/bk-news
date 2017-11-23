@@ -40,8 +40,9 @@ namespace BKNews
         {
             if (App.Authenticator != null)
             {
-                User.CurrentUser.Authenticated = await App.Authenticator.LogoutAsync();
+                await App.Authenticator.LogoutAsync();
                 User.CurrentUser.Reset();
+                User.CurrentUser.Authenticated = false;
             }
 
         }
