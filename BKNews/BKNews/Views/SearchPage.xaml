@@ -3,10 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Name="contentPage"
              xmlns:b="clr-namespace:BKNews.Behaviors"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              x:Class="BKNews.SearchPage">
     <ContentPage.Content>
         <StackLayout>
             <SearchBar HeightRequest="50"  x:Name="searchBar" Placeholder="Tìm kiếm" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"/>
+            <Picker  SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" Title="Chọn nguồn tin">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Tất cả</x:String>
+                        <x:String>AAO</x:String>
+                        <x:String>OISP</x:String>
+                        <x:String>HCMUT</x:String>
+                        <x:String>PGS</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <DatePicker VerticalOptions="StartAndExpand" Date="{Binding StartDate, Mode=TwoWay}">
+                <DatePicker.Format>dd-MM-yyyy</DatePicker.Format>
+            </DatePicker>
+            <DatePicker VerticalOptions="StartAndExpand" Date="{Binding EndDate, Mode=TwoWay}">
+                <DatePicker.Format>dd-MM-yyyy</DatePicker.Format>
+            </DatePicker>
             <ListView SeparatorVisibility="None" HasUnevenRows="True" ItemsSource="{Binding SearchCollection}"
                       ItemTapped="OnItemTapped">
                 <ListView.Header>

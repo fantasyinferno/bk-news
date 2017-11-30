@@ -8,6 +8,7 @@ using System.ComponentModel;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using Microsoft.WindowsAzure.MobileServices;
+using System.Linq.Expressions;
 
 namespace BKNews
 {
@@ -15,9 +16,62 @@ namespace BKNews
     {
         // the results that are displayed to the user
         public ObservableCollection<News> SearchCollection { get; private set; }
+        // search task to use with LoadMore and Search. This search task is changed in Search() and used in LoadMore().
+
         private int Skip { get; set; }
         private string SearchTerm { get; set; }
-        string _headerString = "- Kết quả -";
+        private string _selectedCategory = "Tất cả";
+        public string SelectedCategory
+        {
+            get
+            {
+                return _selectedCategory;
+            }
+            set
+            {
+                if (_selectedCategory != value)
+                {
+                    _selectedCategory = value;
+                    OnPropertyChanged("SelectedCategory");
+                }
+            }
+        }
+        private DateTime _startDate = new DateTime(1970, 1, 1);
+        public DateTime StartDate
+        {
+            get
+            {
+                return _startDate;
+            }
+            set
+            {
+                if (_startDate != value)
+                {
+                    _startDate = value;
+                    OnPropertyChanged("StartDate");
+                }
+            }
+        }
+        private DateTime _endDate = DateTime.Now;
+        public DateTime EndDate
+        {
+            get
+            {
+                return _endDate;
+            }
+            set
+            {
+                if (_endDate != value) {
+                    _endDate = value;
+                    OnPropertyChanged("EndDate");
+                }
+            }
+        }
+        // used for load more
+        private DateTime SearchStartDate { get; set; } = new DateTime(1970, 1, 1);
+        private DateTime SearchEndDate { get; set; } = DateTime.Now;
+        private string SearchCategory { get; set; } = "Tất cả";
+        private string _headerString = "- Kết quả -";
         public string HeaderString
         {
             get
@@ -47,6 +101,7 @@ namespace BKNews
             ShareCommand = new Command<News>(ShareAsync);
             BookmarkCommand = new Command<News>(BookmarkAsync);
             User.CurrentUser.UserChanged += RecheckNews;
+            
         }
         void RecheckNews(object sender, EventArgs args)
         {
@@ -112,8 +167,14 @@ namespace BKNews
             try
             {
                 SearchCollection.Clear();
-                IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()), Skip, 5);
-                if (items != null)
+                // update current search options
+                SearchStartDate = StartDate;
+                SearchEndDate = EndDate;
+                SearchCategory = SelectedCategory;
+                // execute searchTask with the specified search keywords for the first time
+                Debug.WriteLine(SearchTerm);
+                IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()) && news.NewsDate >= SearchStartDate && news.NewsDate <= SearchEndDate && (news.Type == SearchCategory || SearchCategory == "Tất cả"), Skip, 5);
+                if (items != null && items.TotalCount > 0)
                 {
                     HeaderString = "- " + items.TotalCount + " kết quả -";
                     foreach (var item in items)
@@ -133,14 +194,17 @@ namespace BKNews
         public async void LoadMore()
         {
             Skip += 5;
-            IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()), Skip, 5);
-            foreach(var item in items)
+            IQueryResultEnumerable<News> items = await NewsManager.DefaultManager.GetNewsAsync((news) => news.Title.ToLower().Contains(SearchTerm.ToLower()) && news.NewsDate >= SearchStartDate && news.NewsDate <= SearchEndDate && (news.Type == SearchCategory || SearchCategory == "Tất cả"), Skip, 5);
+            if (items != null)
             {
-                if (User.CurrentUser.Bookmarks.Contains(item))
+                foreach (var item in items)
                 {
-                    item.IsBookmarkedByUser = true;
+                    if (User.CurrentUser.Bookmarks.Contains(item))
+                    {
+                        item.IsBookmarkedByUser = true;
+                    }
+                    SearchCollection.Add(item);
                 }
-                SearchCollection.Add(item);
             }
         }
         // propagate property changes
